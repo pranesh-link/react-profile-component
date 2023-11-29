@@ -1,0 +1,134 @@
+import styled from "styled-components";
+import { FlexBox, MobilePWAWrapper, PWAWrapper } from "../../common/Elements";
+import {
+  getLocalStorage,
+  getWebUrl,
+  isBannerHidden,
+  isSupportedBrowserAndOS,
+  setLocalStorage,
+} from "../../common/Utils";
+import { useEffect, useMemo } from "react";
+import { IDeviceConfig, IPWA } from "../../store/types";
+
+interface PWABannerProps {
+  pwa: IPWA;
+  isMobile: boolean;
+  hasPWAInstalled: boolean;
+  isInstallPromptSupported: boolean;
+  isInstallBannerOpen: boolean;
+  isStandalone: boolean;
+  isWebWithPWA: boolean;
+  config: IDeviceConfig;
+  environment: string;
+  setIsInstallBannerOpen: (display: boolean) => void;
+  onClickInstall: Function;
+}
+export const PWABanner = (props: PWABannerProps) => {
+  const {
+    isMobile,
+    hasPWAInstalled,
+    onClickInstall,
+    isInstallPromptSupported,
+    isInstallBannerOpen,
+    setIsInstallBannerOpen,
+    isStandalone,
+    environment,
+    isWebWithPWA,
+    pwa: { messages, bannerExpiryTime },
+    config: { osName, browserName, browsers, os },
+  } = props;
+
+  const closeInstallBanner = () => {
+    const expiry = new Date().getTime() + bannerExpiryTime * 1000;
+    setIsInstallBannerOpen(false);
+    setLocalStorage("isInstallBannerOpen", false);
+    setLocalStorage("pwaBannerHideTime", expiry);
+  };
+
+  const NotNowButton = (
+    <button className="not-now" onClick={closeInstallBanner}>
+      {messages.no}
+    </button>
+  );
+
+  const PWAInstallMessage = (
+    <p>{isWebWithPWA ? messages.relatedApp : messages.install}</p>
+  );
+
+  const InstallButton = (
+    <button
+      className="install"
+      onClick={async () => {
+        if (!isWebWithPWA) {
+          await onClickInstall();
+        }
+      }}
+    >
+      {isWebWithPWA ? (
+        <a href={getWebUrl(environment)} target="_blank" rel="noreferrer">
+          {messages.open}
+        </a>
+      ) : (
+        messages.yes
+      )}
+    </button>
+  );
+
+  const hasPWASupport = useMemo(() => {
+    console.log(
+      "isSupportedBrowserAndOS(browsers, os, browserName, osName)",
+      isSupportedBrowserAndOS(browsers, os, browserName, osName),
+    );
+    return isSupportedBrowserAndOS(browsers, os, browserName, osName);
+  }, [browsers, os, browserName, osName]);
+
+  useEffect(() => {
+    // Set install banner based on local storage key availability
+    const openBanner =
+      getLocalStorage("isInstallBannerOpen") === null
+        ? isInstallPromptSupported
+        : (isInstallPromptSupported &&
+            isInstallBannerOpen &&
+            !hasPWAInstalled) ||
+          !isBannerHidden(getLocalStorage("pwaBannerHideTime") || 0);
+    setLocalStorage("isInstallBannerOpen", openBanner);
+    setIsInstallBannerOpen(openBanner);
+  }, [
+    hasPWAInstalled,
+    isInstallBannerOpen,
+    isInstallPromptSupported,
+    setIsInstallBannerOpen,
+  ]);
+
+  return !isStandalone && isInstallPromptSupported && isInstallBannerOpen ? (
+    <>
+      {isMobile && hasPWASupport && (
+        <MobilePWAWrapper
+          bottom="0"
+          direction="column"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          {PWAInstallMessage}
+          <MobilePWAControls justifyContent="flex-end">
+            {NotNowButton}
+            {InstallButton}
+          </MobilePWAControls>
+        </MobilePWAWrapper>
+      )}
+      {!isMobile && (
+        <PWAWrapper top="0" alignItems="center" justifyContent="space-between">
+          {NotNowButton}
+          {PWAInstallMessage}
+          {InstallButton}
+        </PWAWrapper>
+      )}
+    </>
+  ) : null;
+};
+
+const MobilePWAControls = styled(FlexBox)`
+  margin-top: 10px;
+  width: 100%;
+  margin-right: 50px;
+`;

@@ -10,6 +10,7 @@ import css from "rollup-plugin-import-css";
 import { dts } from "rollup-plugin-dts";
 import postcss from "rollup-plugin-postcss";
 import cssOnly from "rollup-plugin-css-only";
+import { uglify } from "rollup-plugin-uglify";
 
 export default [
   {
@@ -31,7 +32,7 @@ export default [
       typescript({ tsconfig: "./tsconfig.json" }),
       external(),
       resolve(),
-      // terser(),
+      terser(),
       svg(),
       image(),
       css({
@@ -43,6 +44,7 @@ export default [
         extract: true,
         minimize: true,
       }),
+      uglify(),
     ],
   },
   {

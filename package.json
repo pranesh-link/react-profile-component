@@ -1,8 +1,9 @@
 {
-  "name": "profile1",
+  "name": "react-profile-component",
   "version": "1.0.0",
-  "description": "profile component library",
+  "description": "Profile components library",
   "main": "dist/index.js",
+  "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
   "style": "dist/index.css",
   "scripts": {

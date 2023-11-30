@@ -8,7 +8,8 @@
   "style": "dist/index.css",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-lib": "rm -rf dist && rollup -c"
+    "build-lib": "rm -rf dist && rollup -c",
+    "prepare": "rm -rf dist && rollup -c"
   },
   "author": "Pranesh",
   "license": "ISC",

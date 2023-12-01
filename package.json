@@ -1,6 +1,6 @@
 {
   "name": "react-profile-component",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Profile components library",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -9,7 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-lib": "rm -rf dist && rollup -c",
-    "prepare": "rm -rf dist && rollup -c"
+    "rollup": "rollup",
+    "prepare": "rm -rf dist && rollup -c && rm -rf src"
   },
   "author": "Pranesh",
   "license": "ISC",

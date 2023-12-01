@@ -13,6 +13,6 @@ jobs:
         with:
           node-version: 16
       - name: Install dependencies
-        run: npm i --legacy-peer-deps
+        run: npm i --legacy-peer-deps --ignore-scripts
       - name: Build
         run: npm run build-lib

@@ -1,0 +1,32 @@
+name: Tag and publish
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  bump_version:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: "Automated Version Bump"
+        uses: "phips28/gh-action-bump-version@master"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          commit-message: "CI version bump to {{version}}"
+          tag-prefix: "v"
+          version-type: "minor"
+  publish:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16
+      #- run: npm ci
+      #- run: npm test
+      - uses: JS-DevTools/npm-publish@v3
+        with:
+          token: ${{ secrets.NPM_TOKEN }}

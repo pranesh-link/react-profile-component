@@ -9,7 +9,7 @@ jobs:
   bump_version:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v1
       - name: "Automated Version Bump"
         uses: "phips28/gh-action-bump-version@master"
         env:

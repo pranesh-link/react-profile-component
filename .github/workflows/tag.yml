@@ -1,4 +1,4 @@
-name: Tag and publish
+name: Tag release
 
 on:
   push:
@@ -18,16 +18,3 @@ jobs:
           commit-message: "CI version bump to {{version}}"
           tag-prefix: "v"
           version-type: "minor"
-  publish:
-    needs: bump_version
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 16
-      #- run: npm ci
-      #- run: npm test
-      - uses: JS-DevTools/npm-publish@v3
-        with:
-          token: ${{ secrets.NPM_TOKEN }}

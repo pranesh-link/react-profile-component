@@ -19,6 +19,7 @@ jobs:
           tag-prefix: "v"
           version-type: "minor"
   publish:
+    needs: bump_version
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2

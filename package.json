@@ -1,6 +1,6 @@
 {
   "name": "react-profile-component",
-  "version": "1.13.0",
+  "version": "1.14.0",
   "description": "Profile components library",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -18,7 +18,12 @@
     "type": "git",
     "url": "https://github.com/prans1991/profile.git"
   },
-  "keywords": ["react", "react-profile", "profile", "profile-component"],
+  "keywords": [
+    "react",
+    "react-profile",
+    "profile",
+    "profile-component"
+  ],
   "devDependencies": {
     "@babel/core": "7.23.3",
     "@babel/preset-react": "7.23.3",

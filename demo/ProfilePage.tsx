@@ -1,7 +1,7 @@
 import React from "react";
 import { Profile } from "react-profile-component";
 
-const ProfilePage = () => {
+export const ProfilePage = () => {
     const [isHamburgerMenuOpen, setIsHamburgerMenuOpen] = useState(false);
     
     const onClickInstall = () => {};

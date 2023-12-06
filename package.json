@@ -18,6 +18,7 @@
     "type": "git",
     "url": "https://github.com/prans1991/profile.git"
   },
+  "keywords": ["react", "react-profile", "profile", "profile-component"],
   "devDependencies": {
     "@babel/core": "7.23.3",
     "@babel/preset-react": "7.23.3",

@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-lib": "rm -rf dist && rollup -c",
     "rollup": "rollup",
-    "prepare": "npm i --legacy-peer-deps --ignore-scripts && rm -rf dist && rollup -c && rm -rf src rollup.config.js .github tsconfig.json"
+    "prepare": "npm i --legacy-peer-deps --ignore-scripts && rm -rf dist && rollup -c && rm -rf src rollup.config.js .github tsconfig.json demo"
   },
   "author": "Pranesh",
   "license": "MIT",

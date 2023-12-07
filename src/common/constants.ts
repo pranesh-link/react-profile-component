@@ -245,11 +245,6 @@ export const CONFIG_REF_INFO = {
   name: "config",
 };
 
-export const ROUTES = {
-  ROUTE_PROFILE: "/profile",
-  ROUTE_MAINTENANCE: "/maintenance",
-};
-
 export const CONFIG_TYPES = {
   APPCONFIG: "appConfig",
   PROFILECONFIG: "profileConfig",

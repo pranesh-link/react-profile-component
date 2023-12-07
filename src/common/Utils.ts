@@ -15,6 +15,10 @@ import {
   IResumeOrg,
   ISkill,
   IPreloadedAsset,
+  IHeader,
+  ISectionInfo,
+  DownloadType,
+  IFormInfo,
 } from "../store/types";
 
 export const valueIsString = (item: InfoType): item is string => {
@@ -186,8 +190,34 @@ export const getIconUrlByExportFlag = (
     ? `${pdfExportIconUrl}?dummy=${Math.floor(Math.random() * 1000)}`
     : getIconUrl(iconUrl || "", env);
 
-export const getPdfUrl = (fileName: string, env: string) =>
+export const getPdfUrl = (env: string, fileName: string) =>
   `${getServerBaseUrl(env)}${SERVER_FILES_LOC}/${fileName}`;
 
 export const getPreloadedAsset = (assets: IPreloadedAsset[], assetId: string) =>
   assets.find(item => item.id === assetId)?.image || "";
+
+export const getJsonResponse = async (
+  env: string,
+  jsonToFetch: string,
+  data?: any,
+) => {
+  const JSON_BASE_URL = getServerBaseUrl(env);
+  let hasError = false;
+  data = data || {};
+  try {
+    const url = `${JSON_BASE_URL}/${jsonToFetch}`;
+    const response = await fetch(url, {
+      mode: CORS_MODE,
+    });
+    data = await response.json();
+  } catch (e) {
+    hasError = true;
+  }
+  return { data, hasError };
+};
+
+export const getProfileJsonResponse = async (
+  env: string,
+  jsonToFetch: string,
+  data: IHeader | ISectionInfo | DownloadType | IFormInfo,
+) => getJsonResponse(env, jsonToFetch, data);

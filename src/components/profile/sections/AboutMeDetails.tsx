@@ -9,10 +9,9 @@ import {
 } from "../../../common/Utils";
 import { ProfileContext } from "../../../store/context";
 import { IDetailInfo, ISectionInfo } from "../../../store/types";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import styled from "styled-components";
 import * as clipboard from "clipboard-polyfill/text";
-import CopyIcon from "../../../assets/copy-icon.svg";
 import { COPIED, COPIED_TEXT, NOT_COPIED } from "../../../common/constants";
 
 interface AboutMeDetailsProps {
@@ -23,8 +22,14 @@ interface AboutMeDetailsProps {
   setCopyState: (copyInfoId: string, state: string) => void;
 }
 export const AboutMeDetails = (props: AboutMeDetailsProps) => {
-  const { isMobile, isExport, environment } = useContext(ProfileContext);
+  const { isMobile, isExport, environment, preloadedAssets } =
+    useContext(ProfileContext);
   const { details, showCopy, copyState, setShowCopy, setCopyState } = props;
+
+  const copyIcon = useMemo(
+    () => preloadedAssets.find(item => item.id === "copyIcon")?.image || "",
+    [preloadedAssets],
+  );
 
   const getCopyButton = (detail: IDetailInfo) => {
     const copied = copyState?.[detail.label]?.state === COPIED;
@@ -47,7 +52,7 @@ export const AboutMeDetails = (props: AboutMeDetailsProps) => {
           copied,
         })}
       >
-        {copied ? COPIED_TEXT : <img alt="" src={CopyIcon} />}
+        {copied ? COPIED_TEXT : <img alt="" src={copyIcon} />}
       </CopyButton>
     );
   };

@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { ActionBtn } from "../../common/Elements";
-import ContactMeImg from "../../assets/contact-me.png";
 import { ProfileContext } from "../../store/context";
-import React from "react";
+import React, { useMemo } from "react";
+import { getPreloadedAsset } from "../../common/Utils";
 
 export const ContactMe = () => {
   const {
@@ -11,10 +11,17 @@ export const ContactMe = () => {
     data: {
       forms: { contactForm },
     },
+    preloadedAssets,
   } = React.useContext(ProfileContext);
+
+  const contactMeIcon = useMemo(
+    () => getPreloadedAsset(preloadedAssets, "contactMeIcon"),
+    [preloadedAssets],
+  );
+
   return (
     <ContactMeButton onClick={() => setIsContactFormOpen(true)}>
-      <img alt="contact-me" height={25} src={ContactMeImg} />
+      <img alt="contact-me" height={25} src={contactMeIcon} />
       {!isMobile && <>{contactForm.actionButtonLabel}</>}
     </ContactMeButton>
   );

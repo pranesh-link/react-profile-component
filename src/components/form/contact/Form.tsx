@@ -20,11 +20,8 @@ import {
 import { FormField } from "../common/FormField";
 import { EMAILJS_CONFIG, CONTACT_FORM_STATUS } from "../../../common/constants";
 import { ProfileContext } from "../../../store/context";
-import { isNetworkOnline } from "../../../common/Utils";
+import { getPreloadedAsset, isNetworkOnline } from "../../../common/Utils";
 import { ModalComponent } from "../../common/Component";
-import SendingAnimation from "../../../assets/loading-animation.gif";
-import SuccessAnimation from "../../../assets/success-animation.gif";
-import ErrorAnimation from "../../../assets/error-animation.gif";
 import {
   getDecryptedConfig,
   getDefaultContactFormData,
@@ -82,12 +79,22 @@ export const ContactForm = (props: IContactFormProps) => {
   const formStatusIconMap = useMemo(
     () => ({
       [CONTACT_FORM_STATUS.FORM_FILL]: "",
-      [CONTACT_FORM_STATUS.SENDING]: SendingAnimation,
-      [CONTACT_FORM_STATUS.SUCCESS]: SuccessAnimation,
-      [CONTACT_FORM_STATUS.ERROR]: ErrorAnimation,
-      [CONTACT_FORM_STATUS.OFFLINE]: preloadedAssets.find(
-        asset => asset.id === "offlineAnimation",
-      )?.image,
+      [CONTACT_FORM_STATUS.SENDING]: getPreloadedAsset(
+        preloadedAssets,
+        "loadingAnimation",
+      ),
+      [CONTACT_FORM_STATUS.SUCCESS]: getPreloadedAsset(
+        preloadedAssets,
+        "successAnimation",
+      ),
+      [CONTACT_FORM_STATUS.ERROR]: getPreloadedAsset(
+        preloadedAssets,
+        "errorAnimation",
+      ),
+      [CONTACT_FORM_STATUS.OFFLINE]: getPreloadedAsset(
+        preloadedAssets,
+        "offlineAnimation",
+      ),
       [CONTACT_FORM_STATUS.REVIEW]: "",
     }),
     [preloadedAssets],

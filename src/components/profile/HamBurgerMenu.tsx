@@ -2,7 +2,6 @@ import classNames from "classnames";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { Transition } from "react-transition-group";
 import styled from "styled-components";
-import HamBurgerIcon from "../../assets/burgericon.svg";
 import {
   ActionBtn,
   FlexBox,
@@ -10,11 +9,9 @@ import {
   Version,
 } from "../../common/Elements";
 import MenuBar from "./MenuBar";
-import CloseIcon from "../../assets/close-icon.svg";
 import { ComponentType } from "react";
 import { TransitionProps } from "react-transition-group/Transition";
-import MobileApplicationIcon from "../../assets/mobile-application-icon.svg";
-import { isSupportedBrowserAndOS } from "../../common/Utils";
+import { getPreloadedAsset, isSupportedBrowserAndOS } from "../../common/Utils";
 import { VersionModal } from "../common/VersionModal";
 import { ProfileContext } from "../../store/context";
 
@@ -35,11 +32,27 @@ export const HamBurgerMenu = (props: IHamburgerMenuProps) => {
   const {
     appVersion: version,
     deviceConfig: { browserName, browsers, os, osName },
+    preloadedAssets,
   } = useContext(ProfileContext);
 
   const hasPWASupport = useMemo(
     () => isSupportedBrowserAndOS(browsers, os, browserName, osName),
     [browsers, os, browserName, osName],
+  );
+
+  const hamburgerIcon = useMemo(
+    () => getPreloadedAsset(preloadedAssets, "burgerIcon"),
+    [preloadedAssets],
+  );
+
+  const closeIcon = useMemo(
+    () => getPreloadedAsset(preloadedAssets, "closeIcon"),
+    [preloadedAssets],
+  );
+
+  const mobileApplicationIcon = useMemo(
+    () => getPreloadedAsset(preloadedAssets, "mobileApplicationIcon"),
+    [preloadedAssets],
   );
 
   const [hamburgerClicked, setHamburgerClicked] = useState<boolean>(false);
@@ -76,7 +89,7 @@ export const HamBurgerMenu = (props: IHamburgerMenuProps) => {
       <IconWrap onTouchMove={() => setIsOpen(true)}>
         <Icon
           alt=""
-          src={HamBurgerIcon}
+          src={hamburgerIcon}
           onClick={() => {
             setIsOpen(true);
             setHamburgerClicked(true);
@@ -98,7 +111,7 @@ export const HamBurgerMenu = (props: IHamburgerMenuProps) => {
               <FlexBox justifyContent="flex-end">
                 <img
                   alt=""
-                  src={CloseIcon}
+                  src={closeIcon}
                   className="close-button"
                   onClick={() => setIsOpen(false)}
                 />
@@ -117,7 +130,7 @@ export const HamBurgerMenu = (props: IHamburgerMenuProps) => {
                     <FlexBox alignItems="center">
                       <img
                         alt=""
-                        src={MobileApplicationIcon}
+                        src={mobileApplicationIcon}
                         className="mobile-application-icon"
                       />
                       <span className="install-app-text">Install app</span>

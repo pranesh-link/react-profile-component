@@ -74,13 +74,10 @@ export const PWABanner = (props: PWABannerProps) => {
     </button>
   );
 
-  const hasPWASupport = useMemo(() => {
-    console.log(
-      "isSupportedBrowserAndOS(browsers, os, browserName, osName)",
-      isSupportedBrowserAndOS(browsers, os, browserName, osName),
-    );
-    return isSupportedBrowserAndOS(browsers, os, browserName, osName);
-  }, [browsers, os, browserName, osName]);
+  const hasPWASupport = useMemo(
+    () => isSupportedBrowserAndOS(browsers, os, browserName, osName),
+    [browsers, os, browserName, osName],
+  );
 
   useEffect(() => {
     // Set install banner based on local storage key availability

@@ -16,9 +16,10 @@ import {
   ContactFormError,
   ContactFormFields,
   ContactFormValid,
+  CONTACT_FORM_STATUS,
 } from "../../../store/types";
 import { FormField } from "../common/FormField";
-import { EMAILJS_CONFIG, CONTACT_FORM_STATUS } from "../../../common/constants";
+import { EMAILJS_CONFIG } from "../../../common/constants";
 import { ProfileContext } from "../../../store/context";
 import { getPreloadedAsset, isNetworkOnline } from "../../../common/Utils";
 import { ModalComponent } from "../../common/Component";

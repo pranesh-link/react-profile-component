@@ -1,5 +1,3 @@
-import { CONTACT_FORM_STATUS } from "../common/constants";
-
 export interface IProfileData {
   header: IHeader;
   sections: SectionsType;
@@ -36,6 +34,15 @@ export interface IFormField {
   childFields?: string[];
   messages?: IFieldErrorMessages;
   values?: ILabelValue[];
+}
+
+export enum CONTACT_FORM_STATUS {
+  FORM_FILL = "form_fill",
+  SENDING = "sending",
+  SUCCESS = "success",
+  ERROR = "error",
+  REVIEW = "review",
+  OFFLINE = "offline",
 }
 
 export type MailStatusType = Record<CONTACT_FORM_STATUS, string>;

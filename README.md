@@ -1,3 +1,4 @@
+# react-profile-component
 
 
 [![Stable Release](https://img.shields.io/npm/v/react-profile-component.svg)](https://npm.im/react-profile-component)
@@ -8,7 +9,6 @@
 
 
 
-# react-profile-component
 
 React profile component can be used to display different sections of your Profile/ Portfolio page.
 

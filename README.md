@@ -1,6 +1,6 @@
 <div align="center">
 
-[![Stable Release](https://img.shields.io/npm/v/react-profile-component.svg)]
+![Stable Release](https://img.shields.io/npm/v/react-profile-component.svg)
 [![Blazing Fast](https://badgen.now.sh/badge/speed/blazing%20%F0%9F%94%A5/green)](https://npm.im/react-profile-component)
 [![gzip size](http://img.badgesize.io/https://unpkg.com/react-profile-component@latest/dist/index.js?compression=gzip)](https://unpkg.com/react-profile-component@latest/dist/index.js)
 [![downloads](https://badgen.net/npm/dt/react-profile-component)](https://npm.im/react-profile-component)

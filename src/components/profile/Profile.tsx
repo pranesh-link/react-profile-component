@@ -1,5 +1,3 @@
-import { PDFExport } from "@progress/kendo-react-pdf";
-import { PROFILE_PDF_NAME } from "../../common/constants";
 import { HamBurgerMenu } from "./HamBurgerMenu";
 import MenuBar from "./MenuBar";
 import ProfileSections from "./ProfileSections";
@@ -51,7 +49,6 @@ export const Profile = (props: ProfileProps) => {
     isInstallBannerOpen,
     isExport,
     hasPWAInstalled,
-    setIsDownloading,
     setIsHamburgerMenuOpen,
     onInstallPWA,
     appVersion,
@@ -61,8 +58,6 @@ export const Profile = (props: ProfileProps) => {
     preloadedAssets,
     deviceConfig,
   } = props;
-  const [hasDownloadedProfile, setHasDownloadedProfile] =
-    useState<boolean>(false);
   const [currentSection, setCurrentSection] = useState<string>("aboutMe");
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
 
@@ -71,10 +66,6 @@ export const Profile = (props: ProfileProps) => {
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  let pdfExportComponent: PDFExport;
-  const {
-    download: { type },
-  } = profileData;
 
   return (
     <>
@@ -96,7 +87,6 @@ export const Profile = (props: ProfileProps) => {
           isDownloading,
           isMobile,
           isInstallBannerOpen,
-          hasDownloadedProfile,
           isContactFormOpen,
           preloadSrcList,
           preloadedFiles,
@@ -129,63 +119,8 @@ export const Profile = (props: ProfileProps) => {
             />
           </>
         )}
-        <ProfileSections
-          exportProfile={() => {
-            setIsDownloading(true);
-            pdfExportComponent.save(() => {
-              setIsDownloading(false);
-              setHasDownloadedProfile(true);
-              timer = setTimeout(() => setHasDownloadedProfile(false), 5000);
-            });
-          }}
-        />
+        <ProfileSections />
       </ProfileProvider>
-      {type !== "static" && (
-        <ProfileProvider
-          value={{
-            data: profileData,
-            refs: {
-              homeRef,
-              skillsRef,
-              experienceRef,
-              educationRef,
-              contactRef,
-            },
-            preloadSrcList,
-            preloadedFiles,
-            preloadedAssets,
-            deviceConfig,
-            appVersion,
-            environment,
-            currentSection,
-            isExport,
-            isDownloading,
-            isMobile,
-            isInstallBannerOpen,
-            hasDownloadedProfile,
-            isContactFormOpen,
-            setIsContactFormOpen,
-          }}
-        >
-          <div className="export-wrapper">
-            <PDFExport
-              scale={0.65}
-              paperSize="A4"
-              creator="Pranesh"
-              author="Pranesh"
-              title="Pranesh_Profile"
-              margin={{ top: "20mm", bottom: "25mm" }}
-              forcePageBreak=".page-break"
-              keepTogether=".keep-together"
-              fileName={PROFILE_PDF_NAME}
-              ref={(component: PDFExport) => (pdfExportComponent = component)}
-            >
-              <MenuBar />
-              <ProfileSections />
-            </PDFExport>
-          </div>
-        </ProfileProvider>
-      )}
     </>
   );
 };

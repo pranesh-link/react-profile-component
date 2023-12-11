@@ -209,15 +209,6 @@ export const FIELD_SUB_TYPES = {
   EMAIL: "email",
 };
 
-export enum CONTACT_FORM_STATUS {
-  FORM_FILL = "form_fill",
-  SENDING = "sending",
-  SUCCESS = "success",
-  ERROR = "error",
-  REVIEW = "review",
-  OFFLINE = "offline",
-}
-
 export const EMAILJS_CONFIG = {
   SERVICE_ID: "U2FsdGVkX1+/Ekcp8WIEIevCcut8R0pL2cDmNPDFEQg=",
   TEMPLATE_ID:

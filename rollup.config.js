@@ -11,6 +11,7 @@ import { dts } from "rollup-plugin-dts";
 import postcss from "rollup-plugin-postcss";
 import cssOnly from "rollup-plugin-css-only";
 import { uglify } from "rollup-plugin-uglify";
+import eslint from "@rollup/plugin-eslint";
 
 export default [
   {
@@ -44,6 +45,7 @@ export default [
         extract: true,
         minimize: true,
       }),
+      eslint({}),
       uglify(),
       typescript({ tsconfig: "./tsconfig.json" }),
     ],

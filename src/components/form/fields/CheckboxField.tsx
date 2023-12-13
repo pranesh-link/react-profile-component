@@ -25,6 +25,7 @@ export const CheckboxField = (props: ICheckboxFieldProps) => {
 
   const icon = useMemo(
     () => getPreloadedAsset(preloadedAssets, "whiteTick"),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 

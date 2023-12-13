@@ -46,6 +46,7 @@ export const About = (_props: IAboutProps) => {
     refs: { homeRef: refObj },
     preloadSrcList,
     preloadedFiles,
+    serverConfig: { cmsServerConfig },
   } = React.useContext(ProfileContext);
 
   const preloadedPdfBlob = preloadedFiles.find(
@@ -88,7 +89,9 @@ export const About = (_props: IAboutProps) => {
   const downloadResume = async () => {
     let url = pdfUrl;
     if (!url) {
-      const blob = await getPdfBlob(getPdfUrl(pdfFileName || "", environment));
+      const blob = await getPdfBlob(
+        getPdfUrl(pdfFileName || "", environment, cmsServerConfig),
+      );
       url = blob.objectUrl;
       downloadFile(url);
     } else {
@@ -130,6 +133,7 @@ export const About = (_props: IAboutProps) => {
                   className="profile-image"
                   src={getIconUrlByExportFlag(
                     environment,
+                    cmsServerConfig,
                     aboutMe.icon,
                     aboutMe.pdfExportIcon,
                     isExport,
@@ -155,6 +159,7 @@ export const About = (_props: IAboutProps) => {
                   className="profile-image"
                   src={getIconUrlByExportFlag(
                     environment,
+                    cmsServerConfig,
                     aboutMe.icon,
                     aboutMe.pdfExportIcon,
                     isExport,
@@ -233,7 +238,11 @@ export const About = (_props: IAboutProps) => {
                         alt="Click here"
                         height="25px"
                         onClick={downloadResume}
-                        src={getIconUrl(download.download.icon, environment)}
+                        src={getIconUrl(
+                          download.download.icon,
+                          environment,
+                          cmsServerConfig,
+                        )}
                         loading="lazy"
                       />
 
@@ -248,7 +257,11 @@ export const About = (_props: IAboutProps) => {
                       className="downloading"
                       alt="Downloading"
                       height="35px"
-                      src={getIconUrl(download.downloading.icon, environment)}
+                      src={getIconUrl(
+                        download.downloading.icon,
+                        environment,
+                        cmsServerConfig,
+                      )}
                       loading="lazy"
                     />
                     <FlexBox alignItems="center" className="downloading-text">
@@ -263,7 +276,11 @@ export const About = (_props: IAboutProps) => {
                       className="downloaded"
                       alt="Downloaded"
                       height="40px"
-                      src={getIconUrl(download.downloaded.icon, environment)}
+                      src={getIconUrl(
+                        download.downloaded.icon,
+                        environment,
+                        cmsServerConfig,
+                      )}
                       loading="lazy"
                     />
                     <span className="downloaded-text">

@@ -1,11 +1,4 @@
-import {
-  CORS_MODE,
-  DEV_JSON_BASE_URL,
-  LOCAL_DEV_URL,
-  PROD_JSON_BASE_URL,
-  PROD_WEB_URL,
-  SERVER_FILES_LOC,
-} from "./constants";
+import { CORS_MODE, SERVER_FILES_LOC } from "./constants";
 import {
   IDetailInfo,
   ILink,
@@ -19,6 +12,8 @@ import {
   ISectionInfo,
   DownloadType,
   IFormInfo,
+  IWebServerConfig,
+  ICMSServerConfig,
 } from "../store/types";
 
 export const valueIsString = (item: InfoType): item is string => {
@@ -171,27 +166,34 @@ export const toDataURL = async (url: string, imageId: string) => {
   });
 };
 
-export const getWebUrl = (env: string) =>
-  env === "development" ? LOCAL_DEV_URL : PROD_WEB_URL;
+export const getWebUrl = (env: string, webConfig: IWebServerConfig) =>
+  env === "development" ? webConfig.devWebUrl : webConfig.prodWebUrl;
 
-export const getServerBaseUrl = (env: string) =>
-  env === "development" ? DEV_JSON_BASE_URL : PROD_JSON_BASE_URL;
+export const getServerBaseUrl = (env: string, cmsConfig: ICMSServerConfig) =>
+  env === "development" ? cmsConfig.devCMSUrl : cmsConfig.prodCMSUrl;
 
-export const getIconUrl = (url: string, env: string) =>
-  `${getServerBaseUrl(env)}/${url}`;
+export const getIconUrl = (
+  url: string,
+  env: string,
+  cmsServerConfig: ICMSServerConfig,
+) => `${getServerBaseUrl(env, cmsServerConfig)}/${url}`;
 
 export const getIconUrlByExportFlag = (
   env: string,
+  cmsServerConfig: ICMSServerConfig,
   iconUrl?: string,
   pdfExportIconUrl?: string,
   isExport?: boolean,
 ) =>
   isExport
     ? `${pdfExportIconUrl}?dummy=${Math.floor(Math.random() * 1000)}`
-    : getIconUrl(iconUrl || "", env);
+    : getIconUrl(iconUrl || "", env, cmsServerConfig);
 
-export const getPdfUrl = (env: string, fileName: string) =>
-  `${getServerBaseUrl(env)}${SERVER_FILES_LOC}/${fileName}`;
+export const getPdfUrl = (
+  env: string,
+  fileName: string,
+  cmsServerConfig: ICMSServerConfig,
+) => `${getServerBaseUrl(env, cmsServerConfig)}${SERVER_FILES_LOC}/${fileName}`;
 
 export const getPreloadedAsset = (assets: IPreloadedAsset[], assetId: string) =>
   assets.find(item => item.id === assetId)?.image || "";
@@ -199,9 +201,10 @@ export const getPreloadedAsset = (assets: IPreloadedAsset[], assetId: string) =>
 export const getJsonResponse = async (
   env: string,
   jsonToFetch: string,
+  cmsServerConfig: ICMSServerConfig,
   data?: any,
 ) => {
-  const JSON_BASE_URL = getServerBaseUrl(env);
+  const JSON_BASE_URL = getServerBaseUrl(env, cmsServerConfig);
   let hasError = false;
   data = data || {};
   try {
@@ -219,5 +222,6 @@ export const getJsonResponse = async (
 export const getProfileJsonResponse = async (
   env: string,
   jsonToFetch: string,
+  cmsServerConfig: ICMSServerConfig,
   data: IHeader | ISectionInfo | DownloadType | IFormInfo,
-) => getJsonResponse(env, jsonToFetch, data);
+) => getJsonResponse(env, jsonToFetch, cmsServerConfig, data);

@@ -26,6 +26,7 @@ export const Contact = (props: IContactProps) => {
     },
     refs: { contactRef: refObj },
     environment,
+    serverConfig: { cmsServerConfig },
   } = useContext(ProfileContext);
   if (propsLinks && propsRefObj) {
     links = propsLinks;
@@ -60,7 +61,7 @@ export const Contact = (props: IContactProps) => {
                   <img
                     alt={link.label}
                     className={link.label}
-                    src={getIconUrl(link.icon, environment)}
+                    src={getIconUrl(link.icon, environment, cmsServerConfig)}
                   />
                 </a>
               )}

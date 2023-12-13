@@ -4,10 +4,12 @@ import ProfileSections from "./ProfileSections";
 import { ProfileProvider } from "../../store/context";
 import {
   IDeviceConfig,
+  IEmailJsConfig,
   IPreloadSrc,
   IPreloadedAsset,
   IPreloadedFile,
   IProfileData,
+  IServerConfig,
 } from "../../store/types";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
@@ -25,6 +27,8 @@ interface ProfileProps {
   preloadSrcList: IPreloadSrc[];
   preloadedFiles: IPreloadedFile[];
   preloadedAssets: IPreloadedAsset[];
+  serverConfig: IServerConfig;
+  emailJsConfig: IEmailJsConfig;
   appVersion: string;
   environment: string;
   isDownloading: boolean;
@@ -57,6 +61,8 @@ export const Profile = (props: ProfileProps) => {
     preloadedFiles,
     preloadedAssets,
     deviceConfig,
+    serverConfig,
+    emailJsConfig,
   } = props;
   const [currentSection, setCurrentSection] = useState<string>("aboutMe");
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
@@ -91,6 +97,8 @@ export const Profile = (props: ProfileProps) => {
           preloadSrcList,
           preloadedFiles,
           preloadedAssets,
+          serverConfig,
+          emailJsConfig,
           setIsContactFormOpen,
         }}
       >

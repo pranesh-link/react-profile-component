@@ -22,8 +22,13 @@ interface AboutMeDetailsProps {
   setCopyState: (copyInfoId: string, state: string) => void;
 }
 export const AboutMeDetails = (props: AboutMeDetailsProps) => {
-  const { isMobile, isExport, environment, preloadedAssets } =
-    useContext(ProfileContext);
+  const {
+    isMobile,
+    isExport,
+    environment,
+    preloadedAssets,
+    serverConfig: { cmsServerConfig },
+  } = useContext(ProfileContext);
   const { details, showCopy, copyState, setShowCopy, setCopyState } = props;
 
   const copyIcon = useMemo(
@@ -86,6 +91,7 @@ export const AboutMeDetails = (props: AboutMeDetailsProps) => {
               })}
               src={getIconUrlByExportFlag(
                 environment,
+                cmsServerConfig,
                 detail.icon,
                 detail.pdfExportIcon,
                 isExport,

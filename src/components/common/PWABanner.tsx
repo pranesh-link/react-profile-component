@@ -8,7 +8,7 @@ import {
   setLocalStorage,
 } from "../../common/Utils";
 import { useEffect, useMemo } from "react";
-import { IDeviceConfig, IPWA } from "../../store/types";
+import { IDeviceConfig, IPWA, IWebServerConfig } from "../../store/types";
 
 interface PWABannerProps {
   pwa: IPWA;
@@ -20,6 +20,7 @@ interface PWABannerProps {
   isWebWithPWA: boolean;
   config: IDeviceConfig;
   environment: string;
+  webServerConfig: IWebServerConfig;
   setIsInstallBannerOpen: (display: boolean) => void;
   onClickInstall: Function;
 }
@@ -36,6 +37,7 @@ export const PWABanner = (props: PWABannerProps) => {
     isWebWithPWA,
     pwa: { messages, bannerExpiryTime },
     config: { osName, browserName, browsers, os },
+    webServerConfig,
   } = props;
 
   const closeInstallBanner = () => {
@@ -65,7 +67,11 @@ export const PWABanner = (props: PWABannerProps) => {
       }}
     >
       {isWebWithPWA ? (
-        <a href={getWebUrl(environment)} target="_blank" rel="noreferrer">
+        <a
+          href={getWebUrl(environment, webServerConfig)}
+          target="_blank"
+          rel="noreferrer"
+        >
           {messages.open}
         </a>
       ) : (

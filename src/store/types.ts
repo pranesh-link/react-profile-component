@@ -222,6 +222,27 @@ export interface IPreloadedAsset {
   id: string;
   image: string;
 }
+
+export interface IWebServerConfig {
+  devWebUrl: string;
+  prodWebUrl: string;
+}
+
+export interface ICMSServerConfig {
+  devCMSUrl: string;
+  prodCMSUrl: string;
+}
+
+export interface IServerConfig {
+  webServerConfig: IWebServerConfig;
+  cmsServerConfig: ICMSServerConfig;
+}
+
+export interface IEmailJsConfig {
+  serviceId: string;
+  templateId: string;
+  publicKey: string;
+}
 export interface IProfileContext {
   data: IProfileData;
   refs: {
@@ -241,6 +262,8 @@ export interface IProfileContext {
   hasDownloadedProfile?: boolean;
   isContactFormOpen: boolean;
   setIsContactFormOpen: Function;
+  serverConfig: IServerConfig;
+  emailJsConfig: IEmailJsConfig;
 }
 
 export type ContactFormFields =

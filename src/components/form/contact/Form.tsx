@@ -19,7 +19,6 @@ import {
   CONTACT_FORM_STATUS,
 } from "../../../store/types";
 import { FormField } from "../common/FormField";
-import { EMAILJS_CONFIG } from "../../../common/constants";
 import { ProfileContext } from "../../../store/context";
 import { getPreloadedAsset, isNetworkOnline } from "../../../common/Utils";
 import { ModalComponent } from "../../common/Component";
@@ -40,6 +39,7 @@ export const ContactForm = (props: IContactFormProps) => {
     data: {
       forms: { contactForm: form },
     },
+    emailJsConfig,
   } = useContext(ProfileContext);
   const { preloadedAssets } = useContext(ProfileContext);
 
@@ -106,9 +106,9 @@ export const ContactForm = (props: IContactFormProps) => {
     setAllowRetry(false);
     const [serviceId, templateId, publicKey] = getDecryptedConfig(
       [
-        EMAILJS_CONFIG.SERVICE_ID,
-        EMAILJS_CONFIG.TEMPLATE_ID,
-        EMAILJS_CONFIG.PUBLIC_KEY,
+        emailJsConfig.serviceId,
+        emailJsConfig.templateId,
+        emailJsConfig.publicKey,
       ],
       form.key,
     );

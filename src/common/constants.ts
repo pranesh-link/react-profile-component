@@ -7,15 +7,10 @@ import {
 } from "../store/types";
 
 export const CORS_MODE = "cors";
-export const DEV_JSON_BASE_URL = "http://localhost:7373";
-export const PROD_JSON_BASE_URL = "https://profile-jsons.pranesh.link";
 export const TOAST_POSITION = "top-center";
-export const PROFILE_PDF_NAME = "Pranesh_Profile";
 export const MESSAGES = {
   genericError: "Something went wrong!",
 };
-export const PROD_WEB_URL = "https://pranesh.link/profile";
-export const LOCAL_DEV_URL = "http://localhost:3000";
 
 export const SHORT_INFOS: ShortInfosType[] = [
   "client",
@@ -139,6 +134,21 @@ export const DEFAULT_PROFILE_CONTEXT: IProfileContext = {
   hasDownloadedProfile: false,
   isContactFormOpen: false,
   setIsContactFormOpen: () => {},
+  serverConfig: {
+    webServerConfig: {
+      devWebUrl: "",
+      prodWebUrl: "",
+    },
+    cmsServerConfig: {
+      devCMSUrl: "",
+      prodCMSUrl: "",
+    },
+  },
+  emailJsConfig: {
+    serviceId: "",
+    templateId: "",
+    publicKey: "",
+  },
 };
 
 export const LABEL_TEXT: Record<string, string> = {
@@ -207,14 +217,6 @@ export const FIELD_TYPES = {
 
 export const FIELD_SUB_TYPES = {
   EMAIL: "email",
-};
-
-export const EMAILJS_CONFIG = {
-  SERVICE_ID: "U2FsdGVkX1+/Ekcp8WIEIevCcut8R0pL2cDmNPDFEQg=",
-  TEMPLATE_ID:
-    "U2FsdGVkX1+WVTFxJh0xy9cHz88fqnR1GURfEw0qLwV60o1uRo6hB12u8pNe5ody",
-  PUBLIC_KEY:
-    "U2FsdGVkX1/M46+97vn9sj2D3LbKO9dKmwqIO+Zh21fONTOa8xN+aMKg0/zeLgj6",
 };
 
 export const DEFAULT_PROFILE_CONFIG_DATA = {

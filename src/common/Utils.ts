@@ -14,6 +14,7 @@ import {
   IFormInfo,
   IWebServerConfig,
   ICMSServerConfig,
+  Environment,
 } from "../store/types";
 
 export const valueIsString = (item: InfoType): item is string => {
@@ -166,20 +167,22 @@ export const toDataURL = async (url: string, imageId: string) => {
   });
 };
 
-export const getWebUrl = (env: string, webConfig: IWebServerConfig) =>
+export const getWebUrl = (env: Environment, webConfig: IWebServerConfig) =>
   env === "development" ? webConfig.devWebUrl : webConfig.prodWebUrl;
 
-export const getServerBaseUrl = (env: string, cmsConfig: ICMSServerConfig) =>
-  env === "development" ? cmsConfig.devCMSUrl : cmsConfig.prodCMSUrl;
+export const getServerBaseUrl = (
+  env: Environment,
+  cmsConfig: ICMSServerConfig,
+) => (env === "development" ? cmsConfig.devCMSUrl : cmsConfig.prodCMSUrl);
 
 export const getIconUrl = (
   url: string,
-  env: string,
+  env: Environment,
   cmsServerConfig: ICMSServerConfig,
 ) => `${getServerBaseUrl(env, cmsServerConfig)}/${url}`;
 
 export const getIconUrlByExportFlag = (
-  env: string,
+  env: Environment,
   cmsServerConfig: ICMSServerConfig,
   iconUrl?: string,
   pdfExportIconUrl?: string,
@@ -190,7 +193,7 @@ export const getIconUrlByExportFlag = (
     : getIconUrl(iconUrl || "", env, cmsServerConfig);
 
 export const getPdfUrl = (
-  env: string,
+  env: Environment,
   fileName: string,
   cmsServerConfig: ICMSServerConfig,
 ) => `${getServerBaseUrl(env, cmsServerConfig)}${SERVER_FILES_LOC}/${fileName}`;
@@ -199,7 +202,7 @@ export const getPreloadedAsset = (assets: IPreloadedAsset[], assetId: string) =>
   assets.find(item => item.id === assetId)?.image || "";
 
 export const getJsonResponse = async (
-  env: string,
+  env: Environment,
   jsonToFetch: string,
   cmsServerConfig: ICMSServerConfig,
   data?: any,
@@ -220,7 +223,7 @@ export const getJsonResponse = async (
 };
 
 export const getProfileJsonResponse = async (
-  env: string,
+  env: Environment,
   jsonToFetch: string,
   cmsServerConfig: ICMSServerConfig,
   data: IHeader | ISectionInfo | DownloadType | IFormInfo,

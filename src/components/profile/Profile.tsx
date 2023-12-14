@@ -3,6 +3,7 @@ import MenuBar from "./MenuBar";
 import ProfileSections from "./ProfileSections";
 import { ProfileProvider } from "../../store/context";
 import {
+  Environment,
   IDeviceConfig,
   IEmailJsConfig,
   IPreloadSrc,
@@ -30,7 +31,7 @@ interface ProfileProps {
   serverConfig: IServerConfig;
   emailJsConfig: IEmailJsConfig;
   appVersion: string;
-  environment: string;
+  environment: Environment;
   isDownloading: boolean;
   isMobile: boolean;
   isHamburgerMenuOpen: boolean;

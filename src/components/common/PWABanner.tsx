@@ -8,7 +8,12 @@ import {
   setLocalStorage,
 } from "../../common/Utils";
 import { useEffect, useMemo } from "react";
-import { IDeviceConfig, IPWA, IWebServerConfig } from "../../store/types";
+import {
+  Environment,
+  IDeviceConfig,
+  IPWA,
+  IWebServerConfig,
+} from "../../store/types";
 
 interface PWABannerProps {
   pwa: IPWA;
@@ -19,7 +24,7 @@ interface PWABannerProps {
   isStandalone: boolean;
   isWebWithPWA: boolean;
   config: IDeviceConfig;
-  environment: string;
+  environment: Environment;
   webServerConfig: IWebServerConfig;
   setIsInstallBannerOpen: (display: boolean) => void;
   onClickInstall: Function;

@@ -88,9 +88,10 @@ export const About = (_props: IAboutProps) => {
 
   const downloadResume = async () => {
     let url = pdfUrl;
+    console.log("download resume", url);
     if (!url) {
       const blob = await getPdfBlob(
-        getPdfUrl(pdfFileName || "", environment, cmsServerConfig),
+        getPdfUrl(environment, pdfFileName || "", cmsServerConfig),
       );
       url = blob.objectUrl;
       downloadFile(url);

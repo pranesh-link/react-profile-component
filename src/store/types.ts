@@ -254,7 +254,7 @@ export interface IProfileContext {
   preloadedAssets: IPreloadedAsset[];
   currentSection: string;
   appVersion: string;
-  environment: string;
+  environment: Environment;
   isExport?: boolean;
   isDownloading?: boolean;
   isMobile: boolean;
@@ -280,3 +280,4 @@ export type ContactFormValid = Record<string, boolean>;
 export type ContactFormError = Record<string, string>;
 
 export type ContactFormFieldData = string | Record<string, boolean>;
+export type Environment = "development" | "production" | "test";

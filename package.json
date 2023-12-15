@@ -5,12 +5,14 @@
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
-  "style": "dist/index.css",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-lib": "rm -rf dist && rollup -c && rm -rf dist/assets dist/types",
+    "build-lib": "rm -rf dist && rollup -c && npm run minify-js && npm run remove-assets-types",
+    "remove-assets-types": "rm -rf dist/assets dist/types dist/index.css",
     "rollup": "rollup",
-    "prepare": "npm i --legacy-peer-deps --ignore-scripts && npm run build-lib && rm -rf src rollup.config.js .github tsconfig.json demo"
+    "remove-sources": "rm -rf src rollup.config.js .github tsconfig.json demo",
+    "prepare": "npm i --legacy-peer-deps --ignore-scripts && npm run build-lib && npm run minify-js && npm run remove-sources",
+    "minify-js": "jsmin -o dist/index.d.ts dist/index.d.ts"
   },
   "author": "Pranesh",
   "license": "MIT",
@@ -56,6 +58,7 @@
     "eslint-plugin-jsx-a11y": "6.8.0",
     "eslint-plugin-react": "7.33.2",
     "eslint-plugin-react-hooks": "4.6.0",
+    "jsmin": "1.0.1",
     "postcss": "8.4.20",
     "react-device-detect": "2.2.3",
     "react-modal": "3.16.1",

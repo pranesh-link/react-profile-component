@@ -86,10 +86,6 @@ export const PWABanner = (props: PWABannerProps) => {
   );
 
   const hasPWASupport = useMemo(() => {
-    console.log(
-      "isSupportedBrowserAndOS(browsers, os, browserName, osName)",
-      isSupportedBrowserAndOS(browsers, os, browserName, osName),
-    );
     return isSupportedBrowserAndOS(browsers, os, browserName, osName);
   }, [browsers, os, browserName, osName]);
 

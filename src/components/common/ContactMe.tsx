@@ -2,7 +2,8 @@ import styled from "styled-components";
 import { ActionBtn } from "../../common/Elements";
 import { ProfileContext } from "../../store/context";
 import React, { useMemo } from "react";
-import { getPreloadedAsset } from "../../common/Utils";
+import { getPreloadedAsset, isSupportedBrowserAndOS } from "../../common/Utils";
+import classNames from "classnames";
 
 export const ContactMe = () => {
   const {
@@ -12,6 +13,7 @@ export const ContactMe = () => {
       forms: { contactForm },
     },
     preloadedAssets,
+    deviceConfig: { os, osName, browserName, browsers },
   } = React.useContext(ProfileContext);
 
   const contactMeIcon = useMemo(
@@ -19,8 +21,15 @@ export const ContactMe = () => {
     [preloadedAssets],
   );
 
+  const hasPWASupport = useMemo(() => {
+    return isSupportedBrowserAndOS(browsers, os, browserName, osName);
+  }, [browsers, os, browserName, osName]);
+
   return (
-    <ContactMeButton onClick={() => setIsContactFormOpen(true)}>
+    <ContactMeButton
+      className={classNames({ "has-pwa-banner": isMobile && hasPWASupport })}
+      onClick={() => setIsContactFormOpen(true)}
+    >
       <img alt="contact-me" height={25} src={contactMeIcon} />
       {!isMobile && <>{contactForm.actionButtonLabel}</>}
     </ContactMeButton>
@@ -40,6 +49,10 @@ const ContactMeButton = styled(ActionBtn)`
   bottom: 100px;
   text-transform: uppercase;
   font-weight: bold;
+  height: fit-content;
+
+  &.has-pwa-banner {
+  }
 
   img {
     background: #f0f0f0;
@@ -59,6 +72,9 @@ const ContactMeButton = styled(ActionBtn)`
     animation: blinker 5s linear infinite;
     box-shadow: rgb(0 0 0 / 20%) 0 -1px 0px 1px, inset #304701 0 -1px 0px,
       #3f9c35 0 2px 12px;
+    &.has-pwa-banner {
+      bottom: 150px;
+    }
     &:hover {
       border: none;
       background: #3fc935;

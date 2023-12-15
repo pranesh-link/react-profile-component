@@ -1,0 +1,18 @@
+name: Build
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  pull_request:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16
+      - name: Install dependencies
+        run: npm i --legacy-peer-deps --ignore-scripts
+      - name: Build
+        run: npm run build-lib

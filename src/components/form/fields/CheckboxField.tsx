@@ -1,8 +1,5 @@
 import classNames from "classnames";
-import {
-  getPreloadedAsset,
-  isStringBooleanRecord,
-} from "../../../common/Utils";
+import { isStringBooleanRecord } from "../../../common/Utils";
 import { IFormField } from "../../../store/types";
 import {
   CheckboxInput,
@@ -10,8 +7,7 @@ import {
   CheckboxInputWrap,
   CheckboxTick,
 } from "../common/Elements";
-import { useContext, useMemo } from "react";
-import { ProfileContext } from "../../../store/context";
+import TickIcon from "../../svg/TickIcon";
 
 interface ICheckboxFieldProps {
   field: IFormField;
@@ -21,13 +17,6 @@ interface ICheckboxFieldProps {
 
 export const CheckboxField = (props: ICheckboxFieldProps) => {
   const { field, fieldValue, handleCheckboxChange } = props;
-  const { preloadedAssets } = useContext(ProfileContext);
-
-  const icon = useMemo(
-    () => getPreloadedAsset(preloadedAssets, "whiteTick"),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
 
   return (
     <>
@@ -52,11 +41,12 @@ export const CheckboxField = (props: ICheckboxFieldProps) => {
             {isChecked && (
               <CheckboxTick
                 id={item.value}
-                src={icon}
                 onClick={() => {
                   handleCheckboxChange(item.value);
                 }}
-              />
+              >
+                <TickIcon />
+              </CheckboxTick>
             )}
             <CheckboxInputLabel className={classNames({ checked: isChecked })}>
               {item.label}

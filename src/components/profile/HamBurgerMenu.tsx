@@ -11,9 +11,12 @@ import {
 import MenuBar from "./MenuBar";
 import { ComponentType } from "react";
 import { TransitionProps } from "react-transition-group/Transition";
-import { getPreloadedAsset, isSupportedBrowserAndOS } from "../../common/Utils";
+import { isSupportedBrowserAndOS } from "../../common/Utils";
 import { VersionModal } from "../common/VersionModal";
 import { ProfileContext } from "../../store/context";
+import CloseIcon from "../svg/CloseIcon";
+import HamburgerIcon from "../svg/HamburgerIcon";
+import MobileApplicationIcon from "../svg/MobileApplicationIcon";
 
 const TransitionComponent = Transition as ComponentType<TransitionProps>;
 
@@ -32,27 +35,11 @@ export const HamBurgerMenu = (props: IHamburgerMenuProps) => {
   const {
     appVersion: version,
     deviceConfig: { browserName, browsers, os, osName },
-    preloadedAssets,
   } = useContext(ProfileContext);
 
   const hasPWASupport = useMemo(
     () => isSupportedBrowserAndOS(browsers, os, browserName, osName),
     [browsers, os, browserName, osName],
-  );
-
-  const hamburgerIcon = useMemo(
-    () => getPreloadedAsset(preloadedAssets, "burgerIcon"),
-    [preloadedAssets],
-  );
-
-  const closeIcon = useMemo(
-    () => getPreloadedAsset(preloadedAssets, "closeIcon"),
-    [preloadedAssets],
-  );
-
-  const mobileApplicationIcon = useMemo(
-    () => getPreloadedAsset(preloadedAssets, "mobileApplicationIcon"),
-    [preloadedAssets],
   );
 
   const [hamburgerClicked, setHamburgerClicked] = useState<boolean>(false);
@@ -87,15 +74,17 @@ export const HamBurgerMenu = (props: IHamburgerMenuProps) => {
         setDisplayVersionModal={setDisplayVersionModal}
       />
       <IconWrap onTouchMove={() => setIsOpen(true)}>
-        <Icon
-          alt=""
-          src={hamburgerIcon}
+        <ActionBtn
           onClick={() => {
             setIsOpen(true);
             setHamburgerClicked(true);
           }}
-          className={classNames({ clicked: hamburgerClicked })}
-        />
+          className={classNames("hamburger-icon", {
+            clicked: hamburgerClicked,
+          })}
+        >
+          <HamburgerIcon />
+        </ActionBtn>
       </IconWrap>
       <TransitionComponent
         in={isOpen}
@@ -109,12 +98,12 @@ export const HamBurgerMenu = (props: IHamburgerMenuProps) => {
           <Menu className={state}>
             <ContentSection direction="column" justifyContent="space-around">
               <FlexBox justifyContent="flex-end">
-                <img
-                  alt=""
-                  src={closeIcon}
+                <ActionBtn
                   className="close-button"
                   onClick={() => setIsOpen(false)}
-                />
+                >
+                  <CloseIcon />
+                </ActionBtn>
               </FlexBox>
               <MenuBar
                 isMobileMenu={true}
@@ -128,11 +117,9 @@ export const HamBurgerMenu = (props: IHamburgerMenuProps) => {
                     onClick={onInstallPWA}
                   >
                     <FlexBox alignItems="center">
-                      <img
-                        alt=""
-                        src={mobileApplicationIcon}
-                        className="mobile-application-icon"
-                      />
+                      <ActionBtn className="mobile-application-icon">
+                        <MobileApplicationIcon />
+                      </ActionBtn>
                       <span className="install-app-text">Install app</span>
                     </FlexBox>
                   </ActionBtn>
@@ -165,6 +152,25 @@ const IconWrap = styled.div`
   z-index: 20;
   background-color: #f0f0f0;
   padding: 20px 0;
+
+  .hamburger-icon {
+    margin-right: 10px;
+    cursor: pointer;
+    padding: 10px;
+    animation: blinker 5s linear infinite;
+    box-shadow: rgb(0 0 0 / 20%) 0 -1px 0px 1px, inset #304701 0 -1px 0px,
+      #3f9c35 0 2px 12px;
+    &.clicked {
+      animation: none;
+      box-shadow: none;
+      @keyframes blinker {
+        50% {
+          opacity: 0.5;
+          box-shadow: none;
+        }
+      }
+    }
+  }
 
   @media screen and (min-width: 768px) {
     display: none;
@@ -215,6 +221,7 @@ const ContentSection = styled(FlexBoxSection)`
   .mobile-application-icon {
     cursor: pointer;
     height: 25px;
+    padding: 0;
   }
 
   .install-app-text {
@@ -224,22 +231,4 @@ const ContentSection = styled(FlexBoxSection)`
 `;
 const RightSection = styled.div`
   flex-basis: 50%;
-`;
-const Icon = styled.img`
-  margin-right: 10px;
-  cursor: pointer;
-  padding: 10px;
-  animation: blinker 5s linear infinite;
-  box-shadow: rgb(0 0 0 / 20%) 0 -1px 0px 1px, inset #304701 0 -1px 0px,
-    #3f9c35 0 2px 12px;
-  &.clicked {
-    animation: none;
-    box-shadow: none;
-    @keyframes blinker {
-      50% {
-        opacity: 0.5;
-        box-shadow: none;
-      }
-    }
-  }
 `;

@@ -255,6 +255,7 @@ export interface IProfileContext {
   currentSection: string;
   appVersion: string;
   environment: Environment;
+  isDarkMode: boolean;
   isExport?: boolean;
   isDownloading?: boolean;
   isMobile: boolean;

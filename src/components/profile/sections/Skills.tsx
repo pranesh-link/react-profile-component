@@ -1,11 +1,7 @@
 import styled from "styled-components";
 import { memo, useContext } from "react";
 import { ISkill } from "../../../store/types";
-import {
-  getPreloadedAsset,
-  valueIsArray,
-  valueIsSkillInfo,
-} from "../../../common/Utils";
+import { valueIsArray, valueIsSkillInfo } from "../../../common/Utils";
 import {
   FlexBox,
   FlexBoxSection,
@@ -15,6 +11,8 @@ import {
 import classNames from "classnames";
 import { ProfileContext } from "../../../store/context";
 import { SECTIONS } from "../../../common/constants";
+import StarIcon from "../../svg/StarIcon";
+import StarUnfilledIcon from "../../svg/StarUnfilledIcon";
 
 export const Skills = () => {
   const {
@@ -24,27 +22,18 @@ export const Skills = () => {
     data: {
       sections: { skills },
     },
-    preloadedAssets,
   } = useContext(ProfileContext);
 
   const SKILL_ICON_TEXT_MAP = {
     filled: {
-      icon: getPreloadedAsset(preloadedAssets, "star"),
+      icon: <StarIcon />,
       text: "Star filled",
     },
     unfilled: {
-      icon: getPreloadedAsset(preloadedAssets, "starUnfilled"),
+      icon: <StarUnfilledIcon />,
       text: "Star unfilled",
     },
   };
-
-  const SkillStars = memo(
-    ({ skillParams }: { skillParams: { text: string; icon: string } }) => {
-      return (
-        <img alt={skillParams.text} className="star" src={skillParams.icon} />
-      );
-    },
-  );
 
   const SkillWithStars = memo(({ starNum }: { starNum: number }) => {
     const { filled, unfilled } = SKILL_ICON_TEXT_MAP;
@@ -54,7 +43,11 @@ export const Skills = () => {
           .fill(null)
           .map((_item, index) => {
             const skillParams = index + 1 <= starNum ? filled : unfilled;
-            return <SkillStars skillParams={skillParams} key={index} />;
+            return (
+              <div key={index} className="star">
+                {skillParams.icon}
+              </div>
+            );
           })}
       </FlexBox>
     );

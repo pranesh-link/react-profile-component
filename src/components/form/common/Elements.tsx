@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FlexBoxSection, FlexBox } from "../../../common/Elements";
+import { FlexBoxSection, FlexBox, ActionBtn } from "../../../common/Elements";
 
 const FieldLabel = styled.label<{ isMobile: boolean }>`
   flex-basis: 30%;
@@ -143,13 +143,12 @@ const CheckboxInputLabel = styled.label`
   }
 `;
 
-const CheckboxTick = styled.img`
+const CheckboxTick = styled(ActionBtn)`
+  padding: 0;
   position: absolute;
-  left: 3px;
-  bottom: 4px;
+  left: 4px;
+  top: 0px;
   height: 13px;
-  transform: rotate(10deg);
-  cursor: pointer;
 `;
 
 const CheckboxInputWrap = styled(FlexBox)`

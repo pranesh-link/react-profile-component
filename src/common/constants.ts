@@ -108,6 +108,7 @@ export const DEFAULT_PROFILE_CONTEXT: IProfileContext = {
       },
     },
   },
+  isDarkMode: false,
   refs: {
     homeRef: React.createRef(),
     skillsRef: React.createRef(),

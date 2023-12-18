@@ -32,6 +32,7 @@ interface ProfileProps {
   emailJsConfig: IEmailJsConfig;
   appVersion: string;
   environment: Environment;
+  isDarkMode: boolean;
   isDownloading: boolean;
   isMobile: boolean;
   isHamburgerMenuOpen: boolean;
@@ -64,6 +65,7 @@ export const Profile = (props: ProfileProps) => {
     deviceConfig,
     serverConfig,
     emailJsConfig,
+    isDarkMode,
   } = props;
   const [currentSection, setCurrentSection] = useState<string>("aboutMe");
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
@@ -86,6 +88,7 @@ export const Profile = (props: ProfileProps) => {
             educationRef,
             contactRef,
           },
+          isDarkMode,
           deviceConfig,
           appVersion,
           environment,

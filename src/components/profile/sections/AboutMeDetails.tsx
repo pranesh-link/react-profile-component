@@ -9,10 +9,11 @@ import {
 } from "../../../common/Utils";
 import { ProfileContext } from "../../../store/context";
 import { IDetailInfo, ISectionInfo } from "../../../store/types";
-import { useContext, useMemo } from "react";
+import { useContext } from "react";
 import styled from "styled-components";
 import * as clipboard from "clipboard-polyfill/text";
 import { COPIED, COPIED_TEXT, NOT_COPIED } from "../../../common/constants";
+import CopyIcon from "../../svg/CopyIcon";
 
 interface AboutMeDetailsProps {
   details: ISectionInfo;
@@ -26,15 +27,9 @@ export const AboutMeDetails = (props: AboutMeDetailsProps) => {
     isMobile,
     isExport,
     environment,
-    preloadedAssets,
     serverConfig: { cmsServerConfig },
   } = useContext(ProfileContext);
   const { details, showCopy, copyState, setShowCopy, setCopyState } = props;
-
-  const copyIcon = useMemo(
-    () => preloadedAssets.find(item => item.id === "copyIcon")?.image || "",
-    [preloadedAssets],
-  );
 
   const getCopyButton = (detail: IDetailInfo) => {
     const copied = copyState?.[detail.label]?.state === COPIED;
@@ -57,7 +52,7 @@ export const AboutMeDetails = (props: AboutMeDetailsProps) => {
           copied,
         })}
       >
-        {copied ? COPIED_TEXT : <img alt="" src={copyIcon} />}
+        {copied ? COPIED_TEXT : <CopyIcon />}
       </CopyButton>
     );
   };
@@ -130,7 +125,7 @@ const DetailSection = styled(FlexBoxSection)<{
   cursor: pointer;
   line-height: 1.5;
   .detail-icon {
-    height: 25px;
+    height: 20px;
     min-width: ${props =>
       props.isMobile && !props.isExport ? "unset" : "50px"};
     margin: ${props => (props.isMobile && !props.isExport ? "0" : "10px 0")};

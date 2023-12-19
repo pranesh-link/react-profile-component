@@ -12,10 +12,12 @@ import postcss from "rollup-plugin-postcss";
 import cssOnly from "rollup-plugin-css-only";
 import { uglify } from "rollup-plugin-uglify";
 import eslint from "@rollup/plugin-eslint";
+import pkg from "./package.json";
 
 export default [
   {
     input: "./src/index.ts",
+    external: Object.keys(pkg.devDependencies),
     output: [
       {
         file: "dist/index.js",

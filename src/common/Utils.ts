@@ -181,17 +181,6 @@ export const getIconUrl = (
   cmsServerConfig: ICMSServerConfig,
 ) => `${getServerBaseUrl(env, cmsServerConfig)}/${url}`;
 
-export const getIconUrlByExportFlag = (
-  env: Environment,
-  cmsServerConfig: ICMSServerConfig,
-  iconUrl?: string,
-  pdfExportIconUrl?: string,
-  isExport?: boolean,
-) =>
-  isExport
-    ? `${pdfExportIconUrl}?dummy=${Math.floor(Math.random() * 1000)}`
-    : getIconUrl(iconUrl || "", env, cmsServerConfig);
-
 export const getPdfUrl = (
   env: Environment,
   fileName: string,

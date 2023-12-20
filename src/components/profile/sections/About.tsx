@@ -7,16 +7,7 @@ import {
   ModalBanner,
   ModalContentWrap,
 } from "../../../common/Elements";
-import { ILink } from "../../../store/types";
-import {
-  getFilteredLinks,
-  getIconUrl,
-  getIconUrlByExportFlag,
-  valueIsArray,
-  valueIsLinkInfo,
-  getPdfUrl,
-  getPdfBlob,
-} from "../../../common/Utils";
+import { getIconUrl, getPdfUrl, getPdfBlob } from "../../../common/Utils";
 import styled from "styled-components";
 import { ProfileContext } from "../../../store/context";
 import { AboutMeDetails } from "./AboutMeDetails";
@@ -38,7 +29,7 @@ export const About = (_props: IAboutProps) => {
     isMobile,
     isDownloading,
     data: {
-      sections: { aboutMe, links },
+      sections: { aboutMe },
       download,
     },
     refs: { homeRef: refObj },
@@ -64,8 +55,6 @@ export const About = (_props: IAboutProps) => {
       }, 3000);
     }
   }, [copyState]);
-
-  const filteredLinks = getFilteredLinks(links.info as ILink[]);
 
   const downloadFile = (url: string) => {
     if (downloadRef.current !== null) {
@@ -120,12 +109,10 @@ export const About = (_props: IAboutProps) => {
                 <img
                   alt=""
                   className="profile-image"
-                  src={getIconUrlByExportFlag(
+                  src={getIconUrl(
+                    aboutMe.icon || "",
                     environment,
                     cmsServerConfig,
-                    aboutMe.icon,
-                    "",
-                    isExport,
                   )}
                 />
               </p>
@@ -141,17 +128,16 @@ export const About = (_props: IAboutProps) => {
             <FlexBoxSection
               justifyContent={isMobile ? "space-around" : "normal"}
               className="image"
+              style={{ display: "none" }}
             >
               <p className="image-wrap">
                 <img
                   alt=""
                   className="profile-image"
-                  src={getIconUrlByExportFlag(
+                  src={getIconUrl(
+                    aboutMe.icon || "",
                     environment,
                     cmsServerConfig,
-                    aboutMe.icon,
-                    "",
-                    isExport,
                   )}
                 />
               </p>
@@ -164,109 +150,46 @@ export const About = (_props: IAboutProps) => {
                 setCopyState(copyInfoId);
               }}
             />
-            {isExport ? (
-              <FlexBoxSection
-                alignItems="center"
-                className="profile-section links export"
-              >
-                {valueIsArray(links.info) && valueIsLinkInfo(links.info)
-                  ? filteredLinks.map(link => (
-                      <a
-                        className="link"
-                        href={link.link}
-                        target="_blank"
-                        key={link.label}
-                        rel="noreferrer"
-                      >
-                        <img
-                          crossOrigin="anonymous"
-                          alt={link.label}
-                          className={link.label}
-                          src={`?dummy=${Math.floor(Math.random() * 1000)}`}
-                        />
-                      </a>
-                    ))
-                  : null}
-              </FlexBoxSection>
-            ) : (
-              <InterestedInProfile
-                isMobile={isMobile}
-                disabled={download.download.disabled}
-                className={classNames({
-                  "downloaded-profile": hasDownloadedProfile,
-                })}
-                alignItems="center"
-              >
-                {!download.download.disabled &&
-                  !isDownloading &&
-                  !hasDownloadedProfile && (
-                    <>
-                      <a
-                        href="placeholder_href"
-                        ref={downloadRef}
-                        download={PDF_NAME}
-                        className="hide"
-                      >
-                        Placeholder
-                      </a>
-                      <img
-                        className="download"
-                        alt="Click here"
-                        height="25px"
-                        onClick={downloadResume}
-                        src={getIconUrl(
-                          download.download.icon,
-                          environment,
-                          cmsServerConfig,
-                        )}
-                        loading="lazy"
-                      />
+            <InterestedInProfile
+              isMobile={isMobile}
+              disabled={download.download.disabled}
+              className={classNames({
+                "downloaded-profile": hasDownloadedProfile,
+              })}
+              alignItems="center"
+            >
+              {!download.download.disabled &&
+                !isDownloading &&
+                !hasDownloadedProfile && (
+                  <>
+                    <a
+                      href="placeholder_href"
+                      ref={downloadRef}
+                      download={PDF_NAME}
+                      className="hide"
+                    >
+                      Placeholder
+                    </a>
+                    <img
+                      className="download"
+                      alt="Click here"
+                      height="25px"
+                      onClick={downloadResume}
+                      src={getIconUrl(
+                        download.download.icon,
+                        environment,
+                        cmsServerConfig,
+                      )}
+                      loading="lazy"
+                    />
 
-                      <span className="download-text">
-                        {download.download.message}
-                      </span>
-                    </>
-                  )}
-                {isDownloading && (
-                  <>
-                    <img
-                      className="downloading"
-                      alt="Downloading"
-                      height="35px"
-                      src={getIconUrl(
-                        download.downloading.icon,
-                        environment,
-                        cmsServerConfig,
-                      )}
-                      loading="lazy"
-                    />
-                    <FlexBox alignItems="center" className="downloading-text">
-                      <span>{download.downloading.message}</span>
-                      <span className="progress-animation" />
-                    </FlexBox>
-                  </>
-                )}
-                {hasDownloadedProfile && (
-                  <>
-                    <img
-                      className="downloaded"
-                      alt="Downloaded"
-                      height="40px"
-                      src={getIconUrl(
-                        download.downloaded.icon,
-                        environment,
-                        cmsServerConfig,
-                      )}
-                      loading="lazy"
-                    />
-                    <span className="downloaded-text">
-                      {download.downloaded.message}
+                    <span className="download-text">
+                      {download.download.message}
                     </span>
                   </>
                 )}
-                <ContactMe />
-              </InterestedInProfile>
-            )}
+              <ContactMe />
+            </InterestedInProfile>
           </FlexBoxSection>
         </FlexBoxSection>
       </FlexBoxSection>
@@ -292,17 +215,7 @@ const InterestedInProfile = styled(FlexBox)<{
     cursor: pointer;
   }
 
-  .downloading {
-    min-width: 35px;
-  }
-
-  .downloaded {
-    min-width: 40px;
-  }
-
-  .download-text,
-  .downloading-text,
-  .downloaded-text {
+  .download-text {
     overflow: hidden;
     white-space: nowrap;
     width: 0;

@@ -1,38 +1,54 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import { FlexBoxSection } from "../../../common/Elements";
-import { ILink, ISectionInfo } from "../../../store/types";
+import { ILink, ISectionInfo, LinkType } from "../../../store/types";
 import {
   getFilteredLinks,
-  getIconUrl,
   valueIsArray,
   valueIsLinkInfo,
 } from "../../../common/Utils";
-import classNames from "classnames";
 import styled from "styled-components";
 import { ProfileContext } from "../../../store/context";
 import { SECTIONS } from "../../../common/constants";
+import {
+  FacebookIcon,
+  GithubIcon,
+  LinkedInIcon,
+  TwitterIcon,
+  WhatsAppIcon,
+} from "react-profile-component/components/svg";
 
 interface IContactProps {
   links?: ISectionInfo;
   refObj?: React.MutableRefObject<any>;
 }
 
+const LinkComponents: Record<LinkType, JSX.Element> = {
+  whatsApp: <WhatsAppIcon />,
+  github: <GithubIcon />,
+  linkedIn: <LinkedInIcon />,
+  facebook: <FacebookIcon />,
+  twitter: <TwitterIcon />,
+};
+
 export const Contact = (props: IContactProps) => {
   const { links: propsLinks, refObj: propsRefObj } = props;
   const { isMobile } = useContext(ProfileContext);
+
   let {
     data: {
       sections: { links },
     },
     refs: { contactRef: refObj },
-    environment,
-    serverConfig: { cmsServerConfig },
   } = useContext(ProfileContext);
   if (propsLinks && propsRefObj) {
     links = propsLinks;
     refObj = propsRefObj;
   }
-  const filteredLinks = getFilteredLinks(links.info as ILink[]);
+
+  const filteredLinks = useMemo(
+    () => getFilteredLinks(links.info as ILink[]),
+    [links.info],
+  );
 
   return (
     <ContactsSection
@@ -44,27 +60,16 @@ export const Contact = (props: IContactProps) => {
     >
       {valueIsArray(links.info) && valueIsLinkInfo(links.info)
         ? filteredLinks.map((link, index) => (
-            <div
-              key={index}
-              className={classNames("link-wrapper", {
-                "hide-profile-url": link.isExportOnly,
-              })}
-            >
-              {!link.isExportOnly && (
-                <a
-                  className="link"
-                  href={link.link}
-                  target="_blank"
-                  key={link.label}
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    alt={link.label}
-                    className={link.label}
-                    src={getIconUrl(link.icon, environment, cmsServerConfig)}
-                  />
-                </a>
-              )}
+            <div key={index} className="link-wrapper">
+              <a
+                className="link"
+                href={link.link}
+                target="_blank"
+                key={link.label}
+                rel="noopener noreferrer"
+              >
+                {LinkComponents[link.label]}
+              </a>
             </div>
           ))
         : null}

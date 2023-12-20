@@ -43,7 +43,7 @@ export const valueIsDetailInfo = (item: InfoType): item is IDetailInfo[] => {
 };
 
 export const valueIsLinkInfo = (item: InfoType): item is ILink[] => {
-  return (item as ILink[])[0].icon !== undefined;
+  return (item as ILink[])[0].component !== undefined;
 };
 
 export const valueIsExperienceInfo = (

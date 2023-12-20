@@ -12,8 +12,6 @@ import {
   getFilteredLinks,
   getIconUrl,
   getIconUrlByExportFlag,
-  getObjectKeyValuesByIndex,
-  isEmptyObject,
   valueIsArray,
   valueIsLinkInfo,
   getPdfUrl,
@@ -22,7 +20,7 @@ import {
 import styled from "styled-components";
 import { ProfileContext } from "../../../store/context";
 import { AboutMeDetails } from "./AboutMeDetails";
-import { COPIED, NOT_COPIED, PDF_NAME } from "../../../common/constants";
+import { PDF_NAME } from "../../../common/constants";
 import { ContactForm } from "../../form/contact/Form";
 import { ModalComponent } from "../../common/Component";
 import { ContactMe } from "../../common/ContactMe";
@@ -40,7 +38,7 @@ export const About = (_props: IAboutProps) => {
     isMobile,
     isDownloading,
     data: {
-      sections: { aboutMe, links, details },
+      sections: { aboutMe, links },
       download,
     },
     refs: { homeRef: refObj },
@@ -55,24 +53,15 @@ export const About = (_props: IAboutProps) => {
   const pdfFileName = preloadSrcList.find(
     item => item.id === "resume",
   )?.fileName;
-  const [copyState, setCopyState] = useState<Record<string, { state: string }>>(
-    {},
-  );
-  const [showCopy, setShowCopy] = useState<boolean>(false);
+  const [copyState, setCopyState] = useState<string>("");
   const [pdfUrl] = useState<string>(preloadedPdfBlob || "");
   const downloadRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
-    const [key, value] = getObjectKeyValuesByIndex(copyState, 0);
-    if (!isEmptyObject(copyState) && value.state === COPIED) {
+    if (copyState) {
       setTimeout(() => {
-        setCopyState({
-          [key]: {
-            state: NOT_COPIED,
-          },
-        });
-        setShowCopy(true);
-      }, 2000);
+        setCopyState("");
+      }, 3000);
     }
   }, [copyState]);
 
@@ -88,7 +77,6 @@ export const About = (_props: IAboutProps) => {
 
   const downloadResume = async () => {
     let url = pdfUrl;
-    console.log("download resume", url);
     if (!url) {
       const blob = await getPdfBlob(
         getPdfUrl(environment, pdfFileName || "", cmsServerConfig),
@@ -136,7 +124,7 @@ export const About = (_props: IAboutProps) => {
                     environment,
                     cmsServerConfig,
                     aboutMe.icon,
-                    aboutMe.pdfExportIcon,
+                    "",
                     isExport,
                   )}
                 />
@@ -162,7 +150,7 @@ export const About = (_props: IAboutProps) => {
                     environment,
                     cmsServerConfig,
                     aboutMe.icon,
-                    aboutMe.pdfExportIcon,
+                    "",
                     isExport,
                   )}
                 />
@@ -172,19 +160,8 @@ export const About = (_props: IAboutProps) => {
           <FlexBoxSection direction="column">
             <AboutMeDetails
               copyState={copyState}
-              details={details}
-              showCopy={showCopy}
-              setShowCopy={(showCopy: boolean) => setShowCopy(showCopy)}
-              setCopyState={(copyInfoId: string, state: string) => {
-                setCopyState(
-                  copyInfoId
-                    ? {
-                        [copyInfoId]: {
-                          state,
-                        },
-                      }
-                    : {},
-                );
+              setCopyState={(copyInfoId: string) => {
+                setCopyState(copyInfoId);
               }}
             />
             {isExport ? (
@@ -205,9 +182,7 @@ export const About = (_props: IAboutProps) => {
                           crossOrigin="anonymous"
                           alt={link.label}
                           className={link.label}
-                          src={`${link.pdfExportIcon}?dummy=${Math.floor(
-                            Math.random() * 1000,
-                          )}`}
+                          src={`?dummy=${Math.floor(Math.random() * 1000)}`}
                         />
                       </a>
                     ))
@@ -303,7 +278,7 @@ const InterestedInProfile = styled(FlexBox)<{
   isMobile: boolean;
   disabled?: boolean;
 }>`
-  margin: ${props => (props.isMobile ? "10px 0 0 0" : "10px 0 0 10px")};
+  margin: ${props => (props.isMobile ? "10px 0 0 0" : "10px 0 0 0px")};
   min-height: ${props => (props.disabled ? "0px" : "50px")};
   font-weight: bold;
   &.downloaded-profile {

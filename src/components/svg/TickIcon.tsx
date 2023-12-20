@@ -1,12 +1,13 @@
 interface ITickIconProps {
-  heightPercent?: number;
-  widthPercent?: number;
+  height?: number;
+  width?: number;
   fillColor?: string;
+  strokeWidth?: number;
 }
 
 const TickIcon = (props: ITickIconProps) => {
-  const { widthPercent = 100, heightPercent = 100, fillColor = "#fff" } = props;
-  const svgProps = { height: `${heightPercent}%`, width: `${widthPercent}%` };
+  const { height = 15, width = 15, fillColor = "#fff", strokeWidth } = props;
+  const svgProps = { height, width };
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -35,8 +36,8 @@ const TickIcon = (props: ITickIconProps) => {
       <g
         fill={fillColor}
         fillRule="nonzero"
-        stroke="none"
-        strokeWidth="1"
+        stroke={strokeWidth ? fillColor : "none"}
+        strokeWidth={strokeWidth || "1"}
         strokeLinecap="butt"
         strokeLinejoin="miter"
         strokeMiterlimit="10"

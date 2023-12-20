@@ -40,9 +40,13 @@ export const FlexBoxSection = styled.section<{
   }
 `;
 
-export const Grid = styled.div<{ gridTemplateColumns?: string }>`
+export const Grid = styled.div<{
+  gridTemplateColumns?: string;
+  alignItems?: string;
+}>`
   display: grid;
   grid-template-columns: ${props => props.gridTemplateColumns || "1fr"};
+  align-items: ${props => props.alignItems || "normal"};
 `;
 
 export type FLEX_WRAP =

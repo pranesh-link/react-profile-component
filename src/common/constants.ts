@@ -19,9 +19,6 @@ export const SHORT_INFOS: ShortInfosType[] = [
   "softwareTech",
 ];
 export const EXPANDABLE_INFOS: ExpandableInfosType[] = ["description"];
-export const COPIED = "copied";
-export const NOT_COPIED = "not-copied";
-export const COPIED_TEXT = "Copied!";
 
 export const DEFAULT_PWA: IPWA = {
   messages: {

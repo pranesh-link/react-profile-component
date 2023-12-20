@@ -156,20 +156,26 @@ export interface IExperience {
   projects: IProjectExperience[];
 }
 
+export type AboutMeDetailType = "email" | "mobile" | "location";
 export interface IDetailInfo extends ISkill {
+  id: AboutMeDetailType;
   info: string;
   canCopy?: boolean;
-  icon: string;
-  pdfExportIcon: string;
+  component: string;
 }
 
+export type LinkType =
+  | "whatsApp"
+  | "github"
+  | "facebook"
+  | "linkedIn"
+  | "twitter";
+
 export interface ILink {
-  icon: string;
+  component: string;
   link: string;
-  label: string;
-  pdfExportIcon: string;
+  label: LinkType;
   display?: boolean;
-  isExportOnly?: boolean;
 }
 
 export interface IOrgProject {

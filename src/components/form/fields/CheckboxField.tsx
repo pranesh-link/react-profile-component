@@ -45,7 +45,7 @@ export const CheckboxField = (props: ICheckboxFieldProps) => {
                   handleCheckboxChange(item.value);
                 }}
               >
-                <TickIcon />
+                <TickIcon width={13} height={13} />
               </CheckboxTick>
             )}
             <CheckboxInputLabel className={classNames({ checked: isChecked })}>

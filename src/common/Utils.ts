@@ -43,7 +43,7 @@ export const valueIsDetailInfo = (item: InfoType): item is IDetailInfo[] => {
 };
 
 export const valueIsLinkInfo = (item: InfoType): item is ILink[] => {
-  return (item as ILink[])[0].icon !== undefined;
+  return (item as ILink[])[0].component !== undefined;
 };
 
 export const valueIsExperienceInfo = (
@@ -180,17 +180,6 @@ export const getIconUrl = (
   env: Environment,
   cmsServerConfig: ICMSServerConfig,
 ) => `${getServerBaseUrl(env, cmsServerConfig)}/${url}`;
-
-export const getIconUrlByExportFlag = (
-  env: Environment,
-  cmsServerConfig: ICMSServerConfig,
-  iconUrl?: string,
-  pdfExportIconUrl?: string,
-  isExport?: boolean,
-) =>
-  isExport
-    ? `${pdfExportIconUrl}?dummy=${Math.floor(Math.random() * 1000)}`
-    : getIconUrl(iconUrl || "", env, cmsServerConfig);
 
 export const getPdfUrl = (
   env: Environment,

@@ -8,6 +8,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-lib": "rm -rf dist && rollup -c && npm run minify-js && npm run remove-assets-types",
+    "serve-build": "rollup -c -w",
     "remove-assets-types": "rm -rf dist/assets dist/types dist/index.css",
     "rollup": "rollup",
     "remove-sources": "rm -rf src rollup.config.js .github tsconfig.json demo",

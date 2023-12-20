@@ -2,118 +2,89 @@ import classNames from "classnames";
 import { FlexBoxSection, Grid } from "../../../common/Elements";
 import {
   getHref,
-  getIconUrlByExportFlag,
   lowercase,
   valueIsArray,
   valueIsDetailInfo,
 } from "../../../common/Utils";
 import { ProfileContext } from "../../../store/context";
-import { IDetailInfo, ISectionInfo } from "../../../store/types";
+import { AboutMeDetailType } from "../../../store/types";
 import { useContext } from "react";
 import styled from "styled-components";
 import * as clipboard from "clipboard-polyfill/text";
-import { COPIED, COPIED_TEXT, NOT_COPIED } from "../../../common/constants";
-import CopyIcon from "../../svg/CopyIcon";
+import {
+  CopyIcon,
+  LocationIcon,
+  MailIcon,
+  MobileIcon,
+  TickIcon,
+} from "react-profile-component/components/svg";
 
 interface AboutMeDetailsProps {
-  details: ISectionInfo;
-  showCopy: boolean;
-  copyState: Record<string, { state: string }>;
-  setShowCopy: (showCopy: boolean) => void;
-  setCopyState: (copyInfoId: string, state: string) => void;
+  copyState: string;
+  setCopyState: (copyInfoId: string) => void;
 }
+const DetailInfoComponents: Record<AboutMeDetailType, JSX.Element> = {
+  location: <LocationIcon />,
+  email: <MailIcon />,
+  mobile: <MobileIcon />,
+};
 export const AboutMeDetails = (props: AboutMeDetailsProps) => {
   const {
     isMobile,
     isExport,
-    environment,
-    serverConfig: { cmsServerConfig },
+    data: {
+      sections: { details },
+    },
   } = useContext(ProfileContext);
-  const { details, showCopy, copyState, setShowCopy, setCopyState } = props;
-
-  const getCopyButton = (detail: IDetailInfo) => {
-    const copied = copyState?.[detail.label]?.state === COPIED;
-    return (
-      <CopyButton
-        data-id={lowercase(detail.label)}
-        data-clipboard-text={detail.info}
-        onClick={() => {
-          clipboard.writeText(detail.info).then(() => {
-            setCopyState(detail.label, COPIED);
-          });
-        }}
-        className={classNames({
-          hide:
-            isExport ||
-            !detail.canCopy ||
-            !showCopy ||
-            !Boolean(copyState[detail.label]),
-          mobile: !isExport && isMobile && detail.canCopy,
-          copied,
-        })}
-      >
-        {copied ? COPIED_TEXT : <CopyIcon />}
-      </CopyButton>
-    );
-  };
-
-  const getGridDetailInfo = (detail: IDetailInfo) => (
-    <>
-      {(isMobile || isExport) && detail.canCopy ? (
-        <a href={getHref(lowercase(detail.label), detail.info)}>
-          {detail.info}
-        </a>
-      ) : (
-        <span className="detail-info-text" id={lowercase(detail.label)}>
-          <b>{detail.info}</b>
-        </span>
-      )}
-      {getCopyButton(detail)}
-    </>
-  );
+  const { copyState, setCopyState } = props;
 
   return valueIsArray(details.info) && valueIsDetailInfo(details.info) ? (
     <DetailSection className="details" isMobile={false} isExport={isExport}>
       {!isExport && (
         <FlexBoxSection direction="column" justifyContent="space-between">
-          {details.info.map((detail, index) => (
-            <img
-              crossOrigin="anonymous"
-              key={index}
-              alt={detail.label}
-              className={classNames("detail-icon", detail.label, {
-                export: isExport,
-              })}
-              src={getIconUrlByExportFlag(
-                environment,
-                cmsServerConfig,
-                detail.icon,
-                detail.pdfExportIcon,
-                isExport,
-              )}
-            />
-          ))}
+          {details.info.map((detail, index) => {
+            const { id, label, info, canCopy } = detail;
+            const copied = copyState === label;
+            return (
+              <Grid
+                key={index}
+                alignItems="start"
+                gridTemplateColumns="0.2fr 1fr 1fr"
+                className="detail-icon"
+              >
+                <div className="info-icon">{DetailInfoComponents[id]}</div>
+                {(isMobile || isExport) && canCopy ? (
+                  <a href={getHref(lowercase(label), info)}>{info}</a>
+                ) : (
+                  <span className="detail-info-text" id={lowercase(label)}>
+                    <b>{info}</b>
+                  </span>
+                )}
+                <CopyButton
+                  data-id={lowercase(label)}
+                  data-clipboard-text={info}
+                  onClick={() => {
+                    clipboard.writeText(info).then(() => {
+                      setCopyState(label);
+                    });
+                  }}
+                  className={classNames({
+                    hide: !canCopy,
+                    mobile: !isExport && isMobile && canCopy,
+                    copied,
+                  })}
+                >
+                  {copied ? (
+                    <TickIcon fillColor="#3fc935" strokeWidth={5} />
+                  ) : (
+                    <CopyIcon />
+                  )}
+                </CopyButton>
+              </Grid>
+            );
+          })}
         </FlexBoxSection>
       )}
-      <FlexBoxSection direction="column">
-        {details.info.map((detail, index) => (
-          <Grid
-            gridTemplateColumns="1fr 1fr"
-            className="detail-info"
-            key={index}
-            onMouseEnter={() => {
-              setCopyState(detail.label, NOT_COPIED);
-              setShowCopy(true);
-            }}
-            onMouseLeave={() => {
-              setCopyState("", NOT_COPIED);
-              setShowCopy(false);
-            }}
-          >
-            {getGridDetailInfo(detail)}
-          </Grid>
-        ))}
-      </FlexBoxSection>
     </DetailSection>
   ) : null;
 };
@@ -125,9 +96,6 @@ const DetailSection = styled(FlexBoxSection)<{
   cursor: pointer;
   line-height: 1.5;
   .detail-icon {
-    height: 20px;
-    min-width: ${props =>
-      props.isMobile && !props.isExport ? "unset" : "50px"};
     margin: ${props => (props.isMobile && !props.isExport ? "0" : "10px 0")};
     &.export {
       min-width: 0;
@@ -143,6 +111,8 @@ const DetailSection = styled(FlexBoxSection)<{
   }
   .detail-info-text {
     cursor: auto;
+    flex-basis: 80%;
+    margin-right: 5px;
   }
 `;
 
@@ -152,17 +122,10 @@ const CopyButton = styled.button`
   cursor: pointer;
   outline: none;
   border-radius: 15px;
-  padding: 3px 7px;
+  padding: 2px;
   font-size: 10px;
   margin-left: 10px;
   max-width: 50px;
-  img {
-    width: 20px;
-    height: 20px;
-  }
-  &.hide {
-    display: none;
-  }
   &.mobile {
     display: inline-block;
     img {
@@ -171,6 +134,8 @@ const CopyButton = styled.button`
     }
   }
   &.copied {
-    background-color: #3f9c35;
+    svg {
+      animation: blinker 1s linear infinite;
+    }
   }
 `;

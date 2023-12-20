@@ -7,22 +7,11 @@ import {
   ModalBanner,
   ModalContentWrap,
 } from "../../../common/Elements";
-import { ILink } from "../../../store/types";
-import {
-  getFilteredLinks,
-  getIconUrl,
-  getIconUrlByExportFlag,
-  getObjectKeyValuesByIndex,
-  isEmptyObject,
-  valueIsArray,
-  valueIsLinkInfo,
-  getPdfUrl,
-  getPdfBlob,
-} from "../../../common/Utils";
+import { getIconUrl, getPdfUrl, getPdfBlob } from "../../../common/Utils";
 import styled from "styled-components";
 import { ProfileContext } from "../../../store/context";
 import { AboutMeDetails } from "./AboutMeDetails";
-import { COPIED, NOT_COPIED, PDF_NAME } from "../../../common/constants";
+import { PDF_NAME } from "../../../common/constants";
 import { ContactForm } from "../../form/contact/Form";
 import { ModalComponent } from "../../common/Component";
 import { ContactMe } from "../../common/ContactMe";
@@ -40,7 +29,7 @@ export const About = (_props: IAboutProps) => {
     isMobile,
     isDownloading,
     data: {
-      sections: { aboutMe, links, details },
+      sections: { aboutMe },
       download,
     },
     refs: { homeRef: refObj },
@@ -55,28 +44,17 @@ export const About = (_props: IAboutProps) => {
   const pdfFileName = preloadSrcList.find(
     item => item.id === "resume",
   )?.fileName;
-  const [copyState, setCopyState] = useState<Record<string, { state: string }>>(
-    {},
-  );
-  const [showCopy, setShowCopy] = useState<boolean>(false);
+  const [copyState, setCopyState] = useState<string>("");
   const [pdfUrl] = useState<string>(preloadedPdfBlob || "");
   const downloadRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
-    const [key, value] = getObjectKeyValuesByIndex(copyState, 0);
-    if (!isEmptyObject(copyState) && value.state === COPIED) {
+    if (copyState) {
       setTimeout(() => {
-        setCopyState({
-          [key]: {
-            state: NOT_COPIED,
-          },
-        });
-        setShowCopy(true);
-      }, 2000);
+        setCopyState("");
+      }, 3000);
     }
   }, [copyState]);
-
-  const filteredLinks = getFilteredLinks(links.info as ILink[]);
 
   const downloadFile = (url: string) => {
     if (downloadRef.current !== null) {
@@ -88,7 +66,6 @@ export const About = (_props: IAboutProps) => {
 
   const downloadResume = async () => {
     let url = pdfUrl;
-    console.log("download resume", url);
     if (!url) {
       const blob = await getPdfBlob(
         getPdfUrl(environment, pdfFileName || "", cmsServerConfig),
@@ -132,12 +109,10 @@ export const About = (_props: IAboutProps) => {
                 <img
                   alt=""
                   className="profile-image"
-                  src={getIconUrlByExportFlag(
+                  src={getIconUrl(
+                    aboutMe.icon || "",
                     environment,
                     cmsServerConfig,
-                    aboutMe.icon,
-                    aboutMe.pdfExportIcon,
-                    isExport,
                   )}
                 />
               </p>
@@ -153,17 +128,16 @@ export const About = (_props: IAboutProps) => {
             <FlexBoxSection
               justifyContent={isMobile ? "space-around" : "normal"}
               className="image"
+              style={{ display: "none" }}
             >
               <p className="image-wrap">
                 <img
                   alt=""
                   className="profile-image"
-                  src={getIconUrlByExportFlag(
+                  src={getIconUrl(
+                    aboutMe.icon || "",
                     environment,
                     cmsServerConfig,
-                    aboutMe.icon,
-                    aboutMe.pdfExportIcon,
-                    isExport,
                   )}
                 />
               </p>
@@ -172,126 +146,50 @@ export const About = (_props: IAboutProps) => {
           <FlexBoxSection direction="column">
             <AboutMeDetails
               copyState={copyState}
-              details={details}
-              showCopy={showCopy}
-              setShowCopy={(showCopy: boolean) => setShowCopy(showCopy)}
-              setCopyState={(copyInfoId: string, state: string) => {
-                setCopyState(
-                  copyInfoId
-                    ? {
-                        [copyInfoId]: {
-                          state,
-                        },
-                      }
-                    : {},
-                );
+              setCopyState={(copyInfoId: string) => {
+                setCopyState(copyInfoId);
               }}
             />
-            {isExport ? (
-              <FlexBoxSection
-                alignItems="center"
-                className="profile-section links export"
-              >
-                {valueIsArray(links.info) && valueIsLinkInfo(links.info)
-                  ? filteredLinks.map(link => (
-                      <a
-                        className="link"
-                        href={link.link}
-                        target="_blank"
-                        key={link.label}
-                        rel="noreferrer"
-                      >
-                        <img
-                          crossOrigin="anonymous"
-                          alt={link.label}
-                          className={link.label}
-                          src={`${link.pdfExportIcon}?dummy=${Math.floor(
-                            Math.random() * 1000,
-                          )}`}
-                        />
-                      </a>
-                    ))
-                  : null}
-              </FlexBoxSection>
-            ) : (
-              <InterestedInProfile
-                isMobile={isMobile}
-                disabled={download.download.disabled}
-                className={classNames({
-                  "downloaded-profile": hasDownloadedProfile,
-                })}
-                alignItems="center"
-              >
-                {!download.download.disabled &&
-                  !isDownloading &&
-                  !hasDownloadedProfile && (
-                    <>
-                      <a
-                        href="placeholder_href"
-                        ref={downloadRef}
-                        download={PDF_NAME}
-                        className="hide"
-                      >
-                        Placeholder
-                      </a>
-                      <img
-                        className="download"
-                        alt="Click here"
-                        height="25px"
-                        onClick={downloadResume}
-                        src={getIconUrl(
-                          download.download.icon,
-                          environment,
-                          cmsServerConfig,
-                        )}
-                        loading="lazy"
-                      />
+            <InterestedInProfile
+              isMobile={isMobile}
+              disabled={download.download.disabled}
+              className={classNames({
+                "downloaded-profile": hasDownloadedProfile,
+              })}
+              alignItems="center"
+            >
+              {!download.download.disabled &&
+                !isDownloading &&
+                !hasDownloadedProfile && (
+                  <>
+                    <a
+                      href="placeholder_href"
+                      ref={downloadRef}
+                      download={PDF_NAME}
+                      className="hide"
+                    >
+                      Placeholder
+                    </a>
+                    <img
+                      className="download"
+                      alt="Click here"
+                      height="25px"
+                      onClick={downloadResume}
+                      src={getIconUrl(
+                        download.download.icon,
+                        environment,
+                        cmsServerConfig,
+                      )}
+                      loading="lazy"
+                    />
 
-                      <span className="download-text">
-                        {download.download.message}
-                      </span>
-                    </>
-                  )}
-                {isDownloading && (
-                  <>
-                    <img
-                      className="downloading"
-                      alt="Downloading"
-                      height="35px"
-                      src={getIconUrl(
-                        download.downloading.icon,
-                        environment,
-                        cmsServerConfig,
-                      )}
-                      loading="lazy"
-                    />
-                    <FlexBox alignItems="center" className="downloading-text">
-                      <span>{download.downloading.message}</span>
-                      <span className="progress-animation" />
-                    </FlexBox>
-                  </>
-                )}
-                {hasDownloadedProfile && (
-                  <>
-                    <img
-                      className="downloaded"
-                      alt="Downloaded"
-                      height="40px"
-                      src={getIconUrl(
-                        download.downloaded.icon,
-                        environment,
-                        cmsServerConfig,
-                      )}
-                      loading="lazy"
-                    />
-                    <span className="downloaded-text">
-                      {download.downloaded.message}
+                    <span className="download-text">
+                      {download.download.message}
                     </span>
                   </>
                 )}
-                <ContactMe />
-              </InterestedInProfile>
-            )}
+              <ContactMe />
+            </InterestedInProfile>
           </FlexBoxSection>
         </FlexBoxSection>
       </FlexBoxSection>
@@ -303,7 +201,7 @@ const InterestedInProfile = styled(FlexBox)<{
   isMobile: boolean;
   disabled?: boolean;
 }>`
-  margin: ${props => (props.isMobile ? "10px 0 0 0" : "10px 0 0 10px")};
+  margin: ${props => (props.isMobile ? "10px 0 0 0" : "10px 0 0 0px")};
   min-height: ${props => (props.disabled ? "0px" : "50px")};
   font-weight: bold;
   &.downloaded-profile {
@@ -317,17 +215,7 @@ const InterestedInProfile = styled(FlexBox)<{
     cursor: pointer;
   }
 
-  .downloading {
-    min-width: 35px;
-  }
-
-  .downloaded {
-    min-width: 40px;
-  }
-
-  .download-text,
-  .downloading-text,
-  .downloaded-text {
+  .download-text {
     overflow: hidden;
     white-space: nowrap;
     width: 0;

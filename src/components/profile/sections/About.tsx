@@ -128,7 +128,6 @@ export const About = (_props: IAboutProps) => {
             <FlexBoxSection
               justifyContent={isMobile ? "space-around" : "normal"}
               className="image"
-              style={{ display: "none" }}
             >
               <p className="image-wrap">
                 <img

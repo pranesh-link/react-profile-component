@@ -27,7 +27,7 @@
     "profile",
     "profile-component"
   ],
-  "devDependencies": {
+  "dependencies": {
     "@babel/core": "7.23.3",
     "@babel/preset-react": "7.23.3",
     "@emailjs/browser": "3.11.0",

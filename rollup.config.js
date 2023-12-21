@@ -17,7 +17,7 @@ import pkg from "./package.json";
 export default [
   {
     input: "./src/index.ts",
-    external: Object.keys(pkg.devDependencies),
+    external: Object.keys(pkg.dependencies),
     output: [
       {
         file: "dist/index.js",

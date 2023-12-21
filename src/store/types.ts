@@ -161,7 +161,6 @@ export interface IDetailInfo extends ISkill {
   id: AboutMeDetailType;
   info: string;
   canCopy?: boolean;
-  component: string;
 }
 
 export type LinkType =
@@ -172,7 +171,6 @@ export type LinkType =
   | "twitter";
 
 export interface ILink {
-  component: string;
   link: string;
   label: LinkType;
   display?: boolean;

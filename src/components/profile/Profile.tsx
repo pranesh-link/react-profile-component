@@ -39,6 +39,7 @@ interface ProfileProps {
   isInstallBannerOpen: boolean;
   isExport: boolean;
   hasPWAInstalled: boolean;
+  showComponentLibUrl?: boolean;
   deviceConfig: IDeviceConfig;
   setIsDownloading: (isDownloading: boolean) => void;
   setIsHamburgerMenuOpen: (isHamburgerMenuOpen: boolean) => void;
@@ -66,6 +67,7 @@ export const Profile = (props: ProfileProps) => {
     serverConfig,
     emailJsConfig,
     isDarkMode,
+    showComponentLibUrl = true,
   } = props;
   const [currentSection, setCurrentSection] = useState<string>("aboutMe");
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
@@ -103,18 +105,19 @@ export const Profile = (props: ProfileProps) => {
           preloadedAssets,
           serverConfig,
           emailJsConfig,
+          showComponentLibUrl,
           setIsContactFormOpen,
         }}
       >
         <HamBurgerMenu
           isOpen={isHamburgerMenuOpen}
           hasPWAInstalled={hasPWAInstalled}
-          setIsOpen={isOpen => setIsHamburgerMenuOpen(isOpen)}
-          onMenuChange={section => setCurrentSection(section)}
+          setIsOpen={(isOpen) => setIsHamburgerMenuOpen(isOpen)}
+          onMenuChange={(section) => setCurrentSection(section)}
           onInstallPWA={onInstallPWA}
         />
         {isMobile && <Swipe onTouchMove={() => setIsHamburgerMenuOpen(true)} />}
-        <MenuBar onMenuChange={section => setCurrentSection(section)} />
+        <MenuBar onMenuChange={(section) => setCurrentSection(section)} />
         {!isHamburgerMenuOpen && (
           <>
             <Overlay

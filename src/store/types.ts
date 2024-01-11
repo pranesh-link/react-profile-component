@@ -263,6 +263,7 @@ export interface IProfileContext {
   isExport?: boolean;
   isDownloading?: boolean;
   isMobile: boolean;
+  showComponentLibUrl: boolean;
   isInstallBannerOpen: boolean;
   hasDownloadedProfile?: boolean;
   isContactFormOpen: boolean;

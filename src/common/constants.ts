@@ -19,6 +19,10 @@ export const SHORT_INFOS: ShortInfosType[] = [
   "softwareTech",
 ];
 export const EXPANDABLE_INFOS: ExpandableInfosType[] = ["description"];
+export const LINKS = {
+  NPM_PROFILE_COMPONENT:
+    "https://www.npmjs.com/package/react-profile-component",
+};
 
 export const DEFAULT_PWA: IPWA = {
   messages: {
@@ -106,6 +110,7 @@ export const DEFAULT_PROFILE_CONTEXT: IProfileContext = {
     },
   },
   isDarkMode: false,
+  showComponentLibUrl: true,
   refs: {
     homeRef: React.createRef(),
     skillsRef: React.createRef(),
@@ -158,6 +163,8 @@ export const LABEL_TEXT: Record<string, string> = {
   role: "Role",
   retry: "Retry",
   close: "Close",
+  developedUsing:
+    "Developed using <a href='{0}' target='_blank'> react-profile-component </a>",
 };
 
 export const SECTIONS = {

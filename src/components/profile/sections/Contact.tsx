@@ -1,5 +1,5 @@
 import React, { useContext, useMemo } from "react";
-import { FlexBoxSection } from "../../../common/Elements";
+import { FlexBox, FlexBoxSection } from "../../../common/Elements";
 import { ILink, ISectionInfo, LinkType } from "../../../store/types";
 import {
   getFilteredLinks,
@@ -8,7 +8,7 @@ import {
 } from "../../../common/Utils";
 import styled from "styled-components";
 import { ProfileContext } from "../../../store/context";
-import { SECTIONS } from "../../../common/constants";
+import { LABEL_TEXT, LINKS, SECTIONS } from "../../../common/constants";
 import {
   FacebookIcon,
   GithubIcon,
@@ -32,7 +32,7 @@ const LinkComponents: Record<LinkType, JSX.Element> = {
 
 export const Contact = (props: IContactProps) => {
   const { links: propsLinks, refObj: propsRefObj } = props;
-  const { isMobile } = useContext(ProfileContext);
+  const { isMobile, showComponentLibUrl } = useContext(ProfileContext);
 
   let {
     data: {
@@ -47,32 +47,46 @@ export const Contact = (props: IContactProps) => {
 
   const filteredLinks = useMemo(
     () => getFilteredLinks(links.info as ILink[]),
-    [links.info],
+    [links.info]
   );
 
   return (
     <ContactsSection
-      justifyContent={isMobile ? "space-evenly" : "center"}
+      justifyContent="center"
+      direction="column"
       alignItems="center"
       className="profile-section links"
       id={SECTIONS.LINKS}
       ref={refObj}
     >
-      {valueIsArray(links.info) && valueIsLinkInfo(links.info)
-        ? filteredLinks.map((link, index) => (
-            <div key={index} className="link-wrapper">
-              <a
-                className="link"
-                href={link.link}
-                target="_blank"
-                key={link.label}
-                rel="noopener noreferrer"
-              >
-                {LinkComponents[link.label]}
-              </a>
-            </div>
-          ))
-        : null}
+      <FlexBox justifyContent={isMobile ? "space-evenly" : "center"}>
+        {valueIsArray(links.info) && valueIsLinkInfo(links.info)
+          ? filteredLinks.map((link, index) => (
+              <div key={index} className="link-wrapper">
+                <a
+                  className="link"
+                  href={link.link}
+                  target="_blank"
+                  key={link.label}
+                  rel="noopener noreferrer"
+                >
+                  {LinkComponents[link.label]}
+                </a>
+              </div>
+            ))
+          : null}
+      </FlexBox>
+      {showComponentLibUrl && (
+        <div
+          className="developed-using"
+          dangerouslySetInnerHTML={{
+            __html: LABEL_TEXT.developedUsing.replace(
+              "{0}",
+              LINKS.NPM_PROFILE_COMPONENT
+            ),
+          }}
+        />
+      )}
     </ContactsSection>
   );
 };
@@ -80,5 +94,20 @@ export const Contact = (props: IContactProps) => {
 const ContactsSection = styled(FlexBoxSection)`
   .hide-profile-url {
     display: none;
+  }
+  .developed-using {
+    margin-top: 5px;
+    color: #f0f0f0;
+    font-weight: bold;
+    font-size: 13px;
+    font-style: italic;
+    letter-spacing: 0.5px;
+    a {
+      margin-left: 3px;
+      color: #3498db;
+      &:visited {
+        color: #3498db;
+      }
+    }
   }
 `;

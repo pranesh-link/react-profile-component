@@ -23,4 +23,4 @@ yarn add react-profile-component
 
 [React Profile component usage](https://github.com/pranesh-link/react-profile-component/tree/master/src/demo/ProfilePage.tsx)
 
-<img src="https://github.com/pranesh-link/react-profile-component/tree/PROF-136/demo/profile.png" />
+<img src="https://pranesh.link/profile-screenshot.png" />

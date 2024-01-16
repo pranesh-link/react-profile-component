@@ -23,6 +23,6 @@ yarn add react-profile-component
 
 [React Profile component usage](https://github.com/pranesh-link/react-profile-component/tree/master/src/demo/ProfilePage.tsx)
 
-![Example profile](https://github.com/pranesh-link/react-profile-component/tree/master/demo/profile.png)
+![Example profile](https://github.com/pranesh-link/react-profile-component/tree/PROF-136/demo/profile.png)
 
 Complete example, coming soon!

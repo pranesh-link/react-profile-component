@@ -73,15 +73,15 @@ export const DEFAULT_PROFILE_CONTEXT: IProfileContext = {
       },
       details: {
         title: "",
-        info: "",
+        info: [],
       },
       skills: {
         title: "",
-        info: "",
+        info: [],
       },
       experiences: {
         title: "",
-        info: "",
+        info: [],
       },
       education: {
         title: "",
@@ -89,7 +89,7 @@ export const DEFAULT_PROFILE_CONTEXT: IProfileContext = {
       },
       links: {
         title: "",
-        info: "",
+        info: [],
       },
     },
     download: {

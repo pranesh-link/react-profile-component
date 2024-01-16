@@ -1,11 +1,6 @@
 import classNames from "classnames";
 import { FlexBoxSection, Grid } from "../../../common/Elements";
-import {
-  getHref,
-  lowercase,
-  valueIsArray,
-  valueIsDetailInfo,
-} from "../../../common/Utils";
+import { getHref, lowercase } from "../../../common/Utils";
 import { ProfileContext } from "../../../store/context";
 import { AboutMeDetailType } from "../../../store/types";
 import { useContext } from "react";
@@ -38,7 +33,7 @@ export const AboutMeDetails = (props: AboutMeDetailsProps) => {
   } = useContext(ProfileContext);
   const { copyState, setCopyState } = props;
 
-  return valueIsArray(details.info) && valueIsDetailInfo(details.info) ? (
+  return (
     <DetailSection className="details" isMobile={false} isExport={isExport}>
       {!isExport && (
         <FlexBoxSection direction="column" justifyContent="space-between">
@@ -86,7 +81,7 @@ export const AboutMeDetails = (props: AboutMeDetailsProps) => {
         </FlexBoxSection>
       )}
     </DetailSection>
-  ) : null;
+  );
 };
 
 const DetailSection = styled(FlexBoxSection)<{
@@ -96,7 +91,7 @@ const DetailSection = styled(FlexBoxSection)<{
   cursor: pointer;
   line-height: 1.5;
   .detail-icon {
-    margin: ${props => (props.isMobile && !props.isExport ? "0" : "10px 0")};
+    margin: ${(props) => (props.isMobile && !props.isExport ? "0" : "10px 0")};
     &.export {
       min-width: 0;
       width: 25px;

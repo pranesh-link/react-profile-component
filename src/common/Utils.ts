@@ -1,6 +1,5 @@
 import { CORS_MODE, SERVER_FILES_LOC } from "./constants";
 import {
-  IDetailInfo,
   ILink,
   InfoType,
   IExperience,
@@ -26,7 +25,7 @@ export const valueIsArray = (item: InfoType): item is any[] => {
 };
 
 export const valueIsOrgProjectInfo = (
-  item: InfoType,
+  item: InfoType
 ): item is IOrgProject[] => {
   return (item as IOrgProject[])[0].organization !== undefined;
 };
@@ -38,16 +37,12 @@ export const valueIsSkillInfo = (item: InfoType): item is ISkill[] => {
   return (item as ISkill[])[0].label !== undefined;
 };
 
-export const valueIsDetailInfo = (item: InfoType): item is IDetailInfo[] => {
-  return (item as IDetailInfo[])[0].label !== undefined;
-};
-
 export const valueIsLinkInfo = (item: InfoType): item is ILink[] => {
   return (item as ILink[])[0].link !== undefined;
 };
 
 export const valueIsExperienceInfo = (
-  item: InfoType,
+  item: InfoType
 ): item is IExperience[] => {
   return (item as IExperience[])[0].name !== undefined;
 };
@@ -58,7 +53,7 @@ export const uppercase = (str: string) => str.toUpperCase().replace(/ /g, "");
 export const replaceWith = (
   mainStr: string,
   replaceChar1: string,
-  replaceChar2: string,
+  replaceChar2: string
 ) => mainStr.replace(replaceChar1, replaceChar2);
 
 export const getHref = (label: string, info: string) => {
@@ -125,7 +120,7 @@ export const getPdfBlob = async (url: string) => getPdfFile(url);
 export const isEmptyObject = (obj: Object) => Object.keys(obj).length === 0;
 
 export const isStringBooleanRecord = (
-  val: any,
+  val: any
 ): val is Record<string, boolean> =>
   typeof val[Object.keys(val)[0]] === "boolean" ||
   (typeof val === "object" && Object.keys(val).length === 0);
@@ -140,7 +135,7 @@ export const getObjectKeyValuesByIndex = (obj: Object, index: number) => [
 ];
 
 export const getFilteredLinks = (info: ILink[]) =>
-  info.filter(link => link?.display !== false);
+  info.filter((link) => link?.display !== false);
 
 export const getRemainingCharacters = (fieldStr: string, maxLength: number) =>
   maxLength - fieldStr.length;
@@ -149,7 +144,7 @@ export const isSupportedBrowserAndOS = (
   browsers: string[],
   os: string[],
   browserName: string,
-  osName: string,
+  osName: string
 ) => {
   const isSupportedBrowser = browsers.indexOf(browserName) > -1;
   const isSupportedOS = os.indexOf(osName) > -1;
@@ -172,29 +167,29 @@ export const getWebUrl = (env: Environment, webConfig: IWebServerConfig) =>
 
 export const getServerBaseUrl = (
   env: Environment,
-  cmsConfig: ICMSServerConfig,
+  cmsConfig: ICMSServerConfig
 ) => (env === "development" ? cmsConfig.devCMSUrl : cmsConfig.prodCMSUrl);
 
 export const getIconUrl = (
   url: string,
   env: Environment,
-  cmsServerConfig: ICMSServerConfig,
+  cmsServerConfig: ICMSServerConfig
 ) => `${getServerBaseUrl(env, cmsServerConfig)}/${url}`;
 
 export const getPdfUrl = (
   env: Environment,
   fileName: string,
-  cmsServerConfig: ICMSServerConfig,
+  cmsServerConfig: ICMSServerConfig
 ) => `${getServerBaseUrl(env, cmsServerConfig)}${SERVER_FILES_LOC}/${fileName}`;
 
 export const getPreloadedAsset = (assets: IPreloadedAsset[], assetId: string) =>
-  assets.find(item => item.id === assetId)?.image || "";
+  assets.find((item) => item.id === assetId)?.image || "";
 
 export const getJsonResponse = async (
   env: Environment,
   jsonToFetch: string,
   cmsServerConfig: ICMSServerConfig,
-  data?: any,
+  data?: any
 ) => {
   const JSON_BASE_URL = getServerBaseUrl(env, cmsServerConfig);
   let hasError = false;
@@ -215,5 +210,5 @@ export const getProfileJsonResponse = async (
   env: Environment,
   jsonToFetch: string,
   cmsServerConfig: ICMSServerConfig,
-  data: IHeader | ISectionInfo | DownloadType | IFormInfo,
+  data: IHeader | ISectionInfo | DownloadType | IFormInfo
 ) => getJsonResponse(env, jsonToFetch, cmsServerConfig, data);

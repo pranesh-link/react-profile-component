@@ -1,10 +1,74 @@
 export interface IProfileData {
   header: IHeader;
-  sections: SectionsType;
+  sections: ISections;
   download: DownloadType;
   forms: FormsType;
 }
 
+export type InfoType =
+  | string
+  | (ISkill | IOrgProject | ILink | IDetailInfo | IExperience | IResumeOrg)[];
+
+export interface ISectionInfo {
+  title: string;
+  ref?: string;
+  icon?: string;
+  pdfExportIcon?: string;
+}
+
+export interface IAboutMeInfo extends ISectionInfo {
+  info: string;
+}
+
+export interface IDetailInfo extends ISectionInfo {
+  info: {
+    id: AboutMeDetailType;
+    label: string;
+    info: string;
+    canCopy?: boolean;
+  }[];
+}
+export interface ISkill {
+  label: string;
+  star: number;
+}
+
+export interface ISkillInfo extends ISectionInfo {
+  info: ISkill[];
+}
+
+export interface IExperience {
+  name: string;
+  type: string;
+  from: string;
+  to?: string;
+  designation: string;
+  responsibilities: string;
+  projects: IProjectExperience[];
+}
+
+export interface IExperienceInfo extends ISectionInfo {
+  info: IExperience[];
+}
+
+export interface IEducationInfo extends IAboutMeInfo {}
+
+export interface ILink {
+  link: string;
+  label: LinkType;
+  display?: boolean;
+}
+export interface ILinkInfo extends ISectionInfo {
+  info: ILink[];
+}
+export interface ISections {
+  aboutMe: IAboutMeInfo;
+  details: IDetailInfo;
+  skills: ISkillInfo;
+  experiences: IExperienceInfo;
+  education: IEducationInfo;
+  links: ILinkInfo;
+}
 export type FormType = "contactForm";
 
 export interface ILabelValue {
@@ -79,13 +143,6 @@ export interface IHeader {
   name: string;
   currentJobRole: string;
 }
-export interface ISectionInfo {
-  title: string;
-  info: InfoType;
-  ref?: string;
-  icon?: string;
-  pdfExportIcon?: string;
-}
 
 export interface IResumeExperience {
   title: string;
@@ -125,15 +182,6 @@ export interface IPWA {
   bannerExpiryTime: number;
 }
 
-export type InfoType =
-  | string
-  | (ISkill | IOrgProject | ILink | IDetailInfo | IExperience | IResumeOrg)[];
-
-export interface ISkill {
-  label: string;
-  star: number;
-}
-
 export type ShortInfosType = "client" | "duration" | "role" | "softwareTech";
 export type ExpandableInfosType = "description";
 export interface IProjectExperience {
@@ -146,22 +194,8 @@ export interface IProjectExperience {
   description: string;
   links: string[];
 }
-export interface IExperience {
-  name: string;
-  type: string;
-  from: string;
-  to?: string;
-  designation: string;
-  responsibilities: string;
-  projects: IProjectExperience[];
-}
 
 export type AboutMeDetailType = "email" | "mobile" | "location";
-export interface IDetailInfo extends ISkill {
-  id: AboutMeDetailType;
-  info: string;
-  canCopy?: boolean;
-}
 
 export type LinkType =
   | "whatsApp"
@@ -169,12 +203,6 @@ export type LinkType =
   | "facebook"
   | "linkedIn"
   | "twitter";
-
-export interface ILink {
-  link: string;
-  label: LinkType;
-  display?: boolean;
-}
 
 export interface IOrgProject {
   organization: string;

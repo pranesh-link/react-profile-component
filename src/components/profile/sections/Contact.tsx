@@ -1,6 +1,6 @@
 import React, { useContext, useMemo } from "react";
 import { FlexBox, FlexBoxSection } from "../../../common/Elements";
-import { ILink, ISectionInfo, LinkType } from "../../../store/types";
+import { ILink, ILinkInfo, LinkType } from "../../../store/types";
 import {
   getFilteredLinks,
   valueIsArray,
@@ -18,7 +18,7 @@ import {
 } from "react-profile-component/components/svg";
 
 interface IContactProps {
-  links?: ISectionInfo;
+  links?: ILinkInfo;
   refObj?: React.MutableRefObject<any>;
 }
 

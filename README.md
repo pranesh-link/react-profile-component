@@ -21,8 +21,8 @@ or
 yarn add react-profile-component
 ```
 
-[React Profile component usage](https://github.com/pranesh-link/react-profile-component/tree/master/demo/ProfilePage.tsx)
+[React Profile component usage](https://github.com/pranesh-link/react-profile-component/tree/master/src/demo/ProfilePage.tsx)
 
-[Example profile](https://github.com/pranesh-link/react-profile-component/tree/master/demo/profile.jpg)
+## Profile Page
 
-Complete example, coming soon!
+<img src="https://profile-jsons.pranesh.link/images/profile-screenshot.png" />

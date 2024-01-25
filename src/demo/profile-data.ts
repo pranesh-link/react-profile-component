@@ -2,8 +2,9 @@ import { IProfileData } from "react-profile-component/store";
 
 const mockProfileData: IProfileData = {
   labels: {
-    github: "Github",
+    github: "GitHub",
     npm: "NPM",
+    skills: "Skills",
   },
   header: {
     shortDesc: "Hi, I'm",

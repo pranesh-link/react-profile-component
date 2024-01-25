@@ -63,6 +63,7 @@ export interface IOpenSource {
   title: string;
   npm?: string;
   github: string;
+  skillsUsed: string;
   description: string;
 }
 

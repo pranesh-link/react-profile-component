@@ -611,6 +611,16 @@ export const SectionWrapper = styled(FlexBoxSection)`
       font-weight: 600;
     }
   }
+
+  .os-project-skills {
+    font-size: 16px;
+    .label {
+      font-weight: 700;
+    }
+    .info {
+      font-weight: 600;
+    }
+  }
   @media screen and (max-width: 767px) {
     padding: 0;
     margin-left: 0;

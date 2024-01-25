@@ -31,6 +31,10 @@ const OpenSourceProjects = () => {
             <section key={item.id} className="os-project">
               <h3 className="os-project-name">{item.id}</h3>
               <p className="os-project-desc">{item.description}</p>
+              <p className="os-project-skills">
+                <span className="label">{labels.skills}: </span>{" "}
+                <span className="info">{item.skillsUsed}</span>
+              </p>
               <FlexBox className="project-titles-wrap" flexWrap="wrap">
                 {item.npm && (
                   <ProjectLink onClick={() => goToLink(item.npm)}>

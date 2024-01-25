@@ -89,6 +89,11 @@ const ContactsSection = styled(FlexBoxSection)`
   .hide-profile-url {
     display: none;
   }
+  .link-wrapper {
+    &:not(:last-child) {
+      padding-right: 50px;
+    }
+  }
   .developed-using {
     margin-top: 5px;
     color: #f0f0f0;
@@ -102,6 +107,12 @@ const ContactsSection = styled(FlexBoxSection)`
       &:visited {
         color: #3498db;
       }
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .link-wrapper {
+      padding-right: 0;
     }
   }
 `;

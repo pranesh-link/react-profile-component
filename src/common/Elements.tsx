@@ -191,11 +191,6 @@ export const SectionsWrapper = styled.section<{
           padding-right: 15px;
         }
       }
-      .link-wrapper {
-        &:not(:last-child) {
-          padding-right: 50px;
-        }
-      }
 
       .link {
         @media screen and (max-width: 767px) {
@@ -226,12 +221,6 @@ export const SectionsWrapper = styled.section<{
           &:last-child {
             display: none;
           }
-        }
-      }
-
-      @media only screen and (max-width: 767px) {
-        .link-wrapper {
-          padding-right: 0;
         }
       }
     }

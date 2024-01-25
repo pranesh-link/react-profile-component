@@ -91,6 +91,7 @@ const mockProfileData: IProfileData = {
           title: "My Component",
           npm: "https://www.npmjs.com/package/my-component",
           github: "https://github.com/my-profile/my-component",
+          skillsUsed: "React, TypeScript, HTML, CSS",
           description: "This is the description for My component",
         },
       ],

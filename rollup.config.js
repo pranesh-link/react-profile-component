@@ -14,7 +14,7 @@ import { uglify } from "rollup-plugin-uglify";
 import eslint from "@rollup/plugin-eslint";
 import pkg from "./package.json";
 
-export default [
+const config = [
   {
     input: "./src/index.ts",
     external: Object.keys(pkg.dependencies),
@@ -49,7 +49,10 @@ export default [
       }),
       eslint({}),
       uglify(),
-      typescript({ tsconfig: "./tsconfig.json" }),
+      typescript({
+        tsconfig: "./tsconfig.json",
+        exclude: ["src/demo/ProfilePage.tsx"],
+      }),
     ],
   },
   {
@@ -58,3 +61,5 @@ export default [
     plugins: [dts({ tsconfig: "./tsconfig.json" })],
   },
 ];
+
+export default config;

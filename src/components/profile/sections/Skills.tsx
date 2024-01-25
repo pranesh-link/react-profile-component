@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { memo, useContext } from "react";
 import { ISkill } from "../../../store/types";
-import { valueIsArray, valueIsSkillInfo } from "../../../common/Utils";
 import {
   FlexBox,
   FlexBoxSection,
@@ -63,11 +62,9 @@ export const Skills = () => {
   );
 
   const getStarredSkillsData = () =>
-    valueIsArray(skills.info) && valueIsSkillInfo(skills.info)
-      ? skills.info.map((skill: ISkill, index: number) => (
-          <div key={index}>{getColumnData(skill)}</div>
-        ))
-      : null;
+    skills.info.map((skill: ISkill, index: number) => (
+      <div key={index}>{getColumnData(skill)}</div>
+    ));
 
   return (
     <section
@@ -96,21 +93,23 @@ const SkillsInfoWrapper = styled(FlexBoxSection)<{
   .skill {
     padding-bottom: 10px;
     .skill-label {
-      flex-basis: ${props => {
+      flex-basis: ${(props) => {
         let flexBasis = "50%";
         flexBasis = props.isExport ? "60%" : props.isMobile ? "40%" : flexBasis;
         return flexBasis;
       }};
       padding-right: 10px;
-      ${props => props.isMobile && !props.isExport && "font-size: 13px"}
+      ${(props) => props.isMobile && !props.isExport && "font-size: 13px"}
     }
     .stars {
-      margin-right: ${props => (props.isExport ? "100px" : "10px")};
+      margin-right: ${(props) => (props.isExport ? "100px" : "10px")};
     }
 
     .star {
-      height: ${props => (props.isMobile && !props.isExport ? "15px" : "20px")};
-      width: ${props => (props.isMobile && !props.isExport ? "15px" : "20px")};
+      height: ${(props) =>
+        props.isMobile && !props.isExport ? "15px" : "20px"};
+      width: ${(props) =>
+        props.isMobile && !props.isExport ? "15px" : "20px"};
     }
   }
 

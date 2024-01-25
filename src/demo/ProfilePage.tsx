@@ -18,6 +18,7 @@ export const ProfilePage = () => {
         experienceRef: React.createRef(),
         educationRef: React.createRef(),
         contactRef: React.createRef(),
+        openSourceRef: React.createRef(),
       }}
       isDownloading={false}
       isMobile={false}
@@ -37,6 +38,7 @@ export const ProfilePage = () => {
       onInstallPWA={onClickInstall}
       environment={process.env.NODE_ENV}
       appVersion="1.0.0"
+      showComponentLibUrl={false}
       deviceConfig={{
         os: ["Windows"],
         osName: "Windows",

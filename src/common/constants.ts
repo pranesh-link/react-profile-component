@@ -37,6 +37,7 @@ export const DEFAULT_PWA: IPWA = {
 
 export const DEFAULT_PROFILE_CONTEXT: IProfileContext = {
   data: {
+    labels: {},
     header: {
       shortDesc: "",
       name: "",
@@ -91,6 +92,10 @@ export const DEFAULT_PROFILE_CONTEXT: IProfileContext = {
         title: "",
         info: [],
       },
+      openSourceProjects: {
+        title: "",
+        info: [],
+      },
     },
     download: {
       type: "",
@@ -117,6 +122,7 @@ export const DEFAULT_PROFILE_CONTEXT: IProfileContext = {
     experienceRef: React.createRef(),
     educationRef: React.createRef(),
     contactRef: React.createRef(),
+    openSourceRef: React.createRef(),
   },
   deviceConfig: {
     browserName: "",
@@ -179,14 +185,11 @@ export const SECTIONS = {
   LINKS: "links",
   DOWNLOAD: "download",
   RESUME_EXPERIENCES: "resume-experiences",
+  OPEN_SOURCE_PROJECTS: "openSourceProjects",
 };
 
 export const FORMS = {
   CONTACT_FORM: "contact-form",
-};
-
-export const PAGE_TITLES = {
-  profile: "Pranesh",
 };
 
 export const SECTION_ORDER_DISPLAY: Record<
@@ -198,7 +201,8 @@ export const SECTION_ORDER_DISPLAY: Record<
   ORGANIZATIONS: { order: 3, display: false },
   SKILLS: { order: 2 },
   EXPERIENCES: { order: 5 },
-  CONTACT: { order: 6 },
+  CONTACT: { order: 7 },
+  OPENSOURCEPROJECTS: { order: 6 },
 };
 
 export const LABELS = {
@@ -236,6 +240,7 @@ export const DEFAULT_PROFILE_CONFIG_DATA = {
   download: DEFAULT_PROFILE_CONTEXT.data.download,
   skills: DEFAULT_PROFILE_CONTEXT.data.sections.skills,
   contactForm: DEFAULT_PROFILE_CONTEXT.data.forms.contactForm,
+  profileLabels: DEFAULT_PROFILE_CONTEXT.data.labels,
 };
 
 export const CONFIG_REF_INFO = {
@@ -248,7 +253,6 @@ export const CONFIG_TYPES = {
   PROFILECONFIG: "profileConfig",
 };
 
-export const PDF_NAME = "Pranesh_Resume.pdf";
 export const SERVER_FILES_LOC = "/files";
 export const YES = "Yes";
 export const NO = "No";

@@ -11,7 +11,6 @@ import { getIconUrl, getPdfUrl, getPdfBlob } from "../../../common/Utils";
 import styled from "styled-components";
 import { ProfileContext } from "../../../store/context";
 import { AboutMeDetails } from "./AboutMeDetails";
-import { PDF_NAME } from "../../../common/constants";
 import { ContactForm } from "../../form/contact/Form";
 import { ModalComponent } from "../../common/Component";
 import { ContactMe } from "../../common/ContactMe";
@@ -39,10 +38,10 @@ export const About = (_props: IAboutProps) => {
   } = React.useContext(ProfileContext);
 
   const preloadedPdfBlob = preloadedFiles.find(
-    item => item.id === "resume",
+    (item) => item.id === "resume"
   )?.file;
   const pdfFileName = preloadSrcList.find(
-    item => item.id === "resume",
+    (item) => item.id === "resume"
   )?.fileName;
   const [copyState, setCopyState] = useState<string>("");
   const [pdfUrl] = useState<string>(preloadedPdfBlob || "");
@@ -68,7 +67,7 @@ export const About = (_props: IAboutProps) => {
     let url = pdfUrl;
     if (!url) {
       const blob = await getPdfBlob(
-        getPdfUrl(environment, pdfFileName || "", cmsServerConfig),
+        getPdfUrl(environment, pdfFileName || "", cmsServerConfig)
       );
       url = blob.objectUrl;
       downloadFile(url);
@@ -112,7 +111,7 @@ export const About = (_props: IAboutProps) => {
                   src={getIconUrl(
                     aboutMe.icon || "",
                     environment,
-                    cmsServerConfig,
+                    cmsServerConfig
                   )}
                 />
               </p>
@@ -136,7 +135,7 @@ export const About = (_props: IAboutProps) => {
                   src={getIconUrl(
                     aboutMe.icon || "",
                     environment,
-                    cmsServerConfig,
+                    cmsServerConfig
                   )}
                 />
               </p>
@@ -164,7 +163,7 @@ export const About = (_props: IAboutProps) => {
                     <a
                       href="placeholder_href"
                       ref={downloadRef}
-                      download={PDF_NAME}
+                      download={pdfFileName}
                       className="hide"
                     >
                       Placeholder
@@ -177,7 +176,7 @@ export const About = (_props: IAboutProps) => {
                       src={getIconUrl(
                         download.download.icon,
                         environment,
-                        cmsServerConfig,
+                        cmsServerConfig
                       )}
                       loading="lazy"
                     />
@@ -200,11 +199,11 @@ const InterestedInProfile = styled(FlexBox)<{
   isMobile: boolean;
   disabled?: boolean;
 }>`
-  margin: ${props => (props.isMobile ? "10px 0 0 0" : "10px 0 0 0px")};
-  min-height: ${props => (props.disabled ? "0px" : "50px")};
+  margin: ${(props) => (props.isMobile ? "10px 0 0 0" : "10px 0 0 0px")};
+  min-height: ${(props) => (props.disabled ? "0px" : "50px")};
   font-weight: bold;
   &.downloaded-profile {
-    margin-left: ${props => (props.isMobile ? "0" : "5px")};
+    margin-left: ${(props) => (props.isMobile ? "0" : "5px")};
   }
 
   .download {

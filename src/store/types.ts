@@ -3,17 +3,13 @@ export interface IProfileData {
   sections: ISections;
   download: DownloadType;
   forms: FormsType;
+  labels: Record<string, string>;
 }
-
-export type InfoType =
-  | string
-  | (ISkill | IOrgProject | ILink | IDetailInfo | IExperience | IResumeOrg)[];
 
 export interface ISectionInfo {
   title: string;
   ref?: string;
   icon?: string;
-  pdfExportIcon?: string;
 }
 
 export interface IAboutMeInfo extends ISectionInfo {
@@ -61,6 +57,18 @@ export interface ILink {
 export interface ILinkInfo extends ISectionInfo {
   info: ILink[];
 }
+
+export interface IOpenSource {
+  id: string;
+  title: string;
+  npm?: string;
+  github: string;
+  description: string;
+}
+
+export interface IOpenSourceInfo extends ISectionInfo {
+  info: IOpenSource[];
+}
 export interface ISections {
   aboutMe: IAboutMeInfo;
   details: IDetailInfo;
@@ -68,7 +76,9 @@ export interface ISections {
   experiences: IExperienceInfo;
   education: IEducationInfo;
   links: ILinkInfo;
+  openSourceProjects: IOpenSourceInfo;
 }
+
 export type FormType = "contactForm";
 
 export interface ILabelValue {
@@ -222,14 +232,16 @@ export type ProfileSectionType =
   | "skills"
   | "experiences"
   | "education"
-  | "links";
+  | "links"
+  | "openSourceProjects";
 
 export type RefTypes =
   | "homeRef"
   | "skillsRef"
   | "experienceRef"
   | "educationRef"
-  | "contactRef";
+  | "contactRef"
+  | "openSourceRef";
 
 export interface IPreloadedFile {
   id: string;

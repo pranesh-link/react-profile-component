@@ -1,11 +1,7 @@
 import React, { useContext, useMemo } from "react";
 import { FlexBox, FlexBoxSection } from "../../../common/Elements";
 import { ILink, ILinkInfo, LinkType } from "../../../store/types";
-import {
-  getFilteredLinks,
-  valueIsArray,
-  valueIsLinkInfo,
-} from "../../../common/Utils";
+import { getFilteredLinks } from "../../../common/Utils";
 import styled from "styled-components";
 import { ProfileContext } from "../../../store/context";
 import { LABEL_TEXT, LINKS, SECTIONS } from "../../../common/constants";
@@ -60,21 +56,19 @@ export const Contact = (props: IContactProps) => {
       ref={refObj}
     >
       <FlexBox justifyContent={isMobile ? "space-evenly" : "center"}>
-        {valueIsArray(links.info) && valueIsLinkInfo(links.info)
-          ? filteredLinks.map((link, index) => (
-              <div key={index} className="link-wrapper">
-                <a
-                  className="link"
-                  href={link.link}
-                  target="_blank"
-                  key={link.label}
-                  rel="noopener noreferrer"
-                >
-                  {LinkComponents[link.label]}
-                </a>
-              </div>
-            ))
-          : null}
+        {filteredLinks.map((link, index) => (
+          <div key={index} className="link-wrapper">
+            <a
+              className="link"
+              href={link.link}
+              target="_blank"
+              key={link.label}
+              rel="noopener noreferrer"
+            >
+              {LinkComponents[link.label]}
+            </a>
+          </div>
+        ))}
       </FlexBox>
       {showComponentLibUrl && (
         <div

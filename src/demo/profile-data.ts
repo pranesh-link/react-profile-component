@@ -1,6 +1,10 @@
 import { IProfileData } from "react-profile-component/store";
 
 const mockProfileData: IProfileData = {
+  labels: {
+    github: "Github",
+    npm: "NPM",
+  },
   header: {
     shortDesc: "Hi, I'm",
     name: "John",
@@ -12,8 +16,6 @@ const mockProfileData: IProfileData = {
       ref: "homeRef",
       info: "I'm an enthusiastic <b>Lead UI Engineer</b> aspiring to be <b>UI Architect</b> with 11+ years of technology experience who wants to be an integral part of a competitive work environment, which would help me to update my knowledge and skills, both on the intellectual and personal front while contributing to the growth and success of the organisation.",
       icon: "images/demo-display-pic.avif",
-      pdfExportIcon:
-        "https://profile-jsons.pranesh.link/images/demo-display-pic.avif",
     },
     details: {
       title: "Details",
@@ -32,7 +34,7 @@ const mockProfileData: IProfileData = {
         {
           id: "email",
           label: "E-mail",
-          info: "youremail@email.com",
+          info: "myemail@email.com",
           canCopy: true,
         },
       ],
@@ -64,7 +66,7 @@ const mockProfileData: IProfileData = {
                 "React, Typescript, CSS, HTML5, Jest, React Testing library",
               description:
                 "My project description, this is a sample description with HTML support <ul><li><b>My Profile:</b> View or update your personal information.</li>  <li><strong>Additional Rewards</strong>: View other services offered.</li><li><strong>Redeem Your Retail Card</strong>: Redeem subscriptions purchased through the retail store.</li><li><strong>Common FAQs</strong>: Get answers to commonly asked questions.</li></ul>",
-              links: ["https://yourproject.com"],
+              links: ["https://myproject.com"],
             },
           ],
         },
@@ -77,6 +79,19 @@ const mockProfileData: IProfileData = {
         {
           label: "HTML 5",
           star: 3,
+        },
+      ],
+    },
+    openSourceProjects: {
+      title: "Open source projects",
+      ref: "openSourceRef",
+      info: [
+        {
+          id: "my-component",
+          title: "My Component",
+          npm: "https://www.npmjs.com/package/my-component",
+          github: "https://github.com/my-profile/my-component",
+          description: "This is the description for My component",
         },
       ],
     },

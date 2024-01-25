@@ -18,7 +18,7 @@ export const ContactMe = () => {
 
   const contactMeIcon = useMemo(
     () => getPreloadedAsset(preloadedAssets, "contactMeIcon"),
-    [preloadedAssets],
+    [preloadedAssets]
   );
 
   const hasPWASupport = useMemo(() => {

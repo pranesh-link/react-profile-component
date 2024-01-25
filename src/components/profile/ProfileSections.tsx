@@ -11,6 +11,7 @@ import { ResumeExperiences } from "./sections/ResumeExperiences";
 import { SECTION_ORDER_DISPLAY } from "../../common/constants";
 import { VersionModal } from "../common/VersionModal";
 import usePWA from "react-pwa-install-prompt";
+import { OpenSourceProjects } from "./sections/OpenSourceProjects";
 
 interface IProfileSectionsProps {
   exportProfile?: () => void;
@@ -32,8 +33,14 @@ const ProfileSections = (props: IProfileSectionsProps) => {
   const { appVersion: version } = useContext(ProfileContext);
   const [displayVersionModal, setDisplayVersionModal] = useState(false);
   const { shortDesc, name, currentJobRole } = header;
-  const { ABOUTME, EDUCATION, SKILLS, EXPERIENCES, CONTACT } =
-    SECTION_ORDER_DISPLAY;
+  const {
+    ABOUTME,
+    EDUCATION,
+    SKILLS,
+    EXPERIENCES,
+    CONTACT,
+    OPENSOURCEPROJECTS,
+  } = SECTION_ORDER_DISPLAY;
   const { isInstallPromptSupported } = usePWA();
 
   const AboutComp = useMemo(
@@ -46,7 +53,7 @@ const ProfileSections = (props: IProfileSectionsProps) => {
         }}
       />
     ),
-    [props],
+    [props]
   );
 
   const EducationComp = useMemo(() => <Education />, []);
@@ -57,8 +64,10 @@ const ProfileSections = (props: IProfileSectionsProps) => {
 
   const ContactComp = useMemo(
     () => <>{!isExport && <Contact />}</>,
-    [isExport],
+    [isExport]
   );
+
+  const OpenSourceProjectsComp = useMemo(() => <OpenSourceProjects />, []);
 
   const sectionComponents: ISectionComponents[] = useMemo(
     () => [
@@ -92,6 +101,12 @@ const ProfileSections = (props: IProfileSectionsProps) => {
         component: ContactComp,
         display: CONTACT.display,
       },
+      {
+        order: OPENSOURCEPROJECTS.order,
+        name: "openSource",
+        component: OpenSourceProjectsComp,
+        display: OPENSOURCEPROJECTS.display,
+      },
     ],
     [
       ABOUTME,
@@ -104,19 +119,20 @@ const ProfileSections = (props: IProfileSectionsProps) => {
       ExperiencesComp,
       SKILLS,
       SkillsComp,
-    ],
+      OPENSOURCEPROJECTS,
+      OpenSourceProjectsComp,
+    ]
   );
 
   const reOrderedSectionComponents = useMemo(
     () => sectionComponents.sort((a, b) => a.order - b.order),
-    [sectionComponents],
+    [sectionComponents]
   );
 
   const HorizontalSep = useMemo(
     () => <hr className={classNames("header-sep", { export: isExport })} />,
-    [isExport],
+    [isExport]
   );
-
   return (
     <>
       <VersionModal
@@ -148,13 +164,21 @@ const ProfileSections = (props: IProfileSectionsProps) => {
         >
           {reOrderedSectionComponents.map((section, index) => {
             return section.display !== false ? (
-              <div key={index}>{section.component}</div>
+              <SectionWrap
+                key={index}
+                className={classNames({
+                  "last-info-section":
+                    index === reOrderedSectionComponents.length - 2,
+                })}
+              >
+                {section.component}
+              </SectionWrap>
             ) : null;
           })}
           {!isMobile && (
             <Version
               href=""
-              onClick={e => {
+              onClick={(e) => {
                 e.preventDefault();
                 setDisplayVersionModal(true);
               }}
@@ -263,4 +287,10 @@ const CurrentJobRole = styled.h3`
   margin-block: 0;
   color: #22a39f;
   font-size: 20px;
+`;
+
+const SectionWrap = styled.div`
+  &.last-info-section {
+    min-height: 100vh;
+  }
 `;

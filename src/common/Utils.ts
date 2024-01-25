@@ -1,11 +1,6 @@
 import { CORS_MODE, SERVER_FILES_LOC } from "./constants";
 import {
   ILink,
-  InfoType,
-  IExperience,
-  IOrgProject,
-  IResumeOrg,
-  ISkill,
   IPreloadedAsset,
   IHeader,
   ISectionInfo,
@@ -16,36 +11,6 @@ import {
   Environment,
 } from "../store/types";
 
-export const valueIsString = (item: InfoType): item is string => {
-  return typeof item === "string";
-};
-
-export const valueIsArray = (item: InfoType): item is any[] => {
-  return Array.isArray(item);
-};
-
-export const valueIsOrgProjectInfo = (
-  item: InfoType
-): item is IOrgProject[] => {
-  return (item as IOrgProject[])[0].organization !== undefined;
-};
-
-export const valueIsResumeOrgInfo = (item: InfoType): item is IResumeOrg[] => {
-  return (item as IResumeOrg[])[0].organization !== undefined;
-};
-export const valueIsSkillInfo = (item: InfoType): item is ISkill[] => {
-  return (item as ISkill[])[0].label !== undefined;
-};
-
-export const valueIsLinkInfo = (item: InfoType): item is ILink[] => {
-  return (item as ILink[])[0].link !== undefined;
-};
-
-export const valueIsExperienceInfo = (
-  item: InfoType
-): item is IExperience[] => {
-  return (item as IExperience[])[0].name !== undefined;
-};
 export const lowercase = (str: string) => str.toLowerCase().replace(/ /g, "");
 
 export const uppercase = (str: string) => str.toUpperCase().replace(/ /g, "");
@@ -212,3 +177,6 @@ export const getProfileJsonResponse = async (
   cmsServerConfig: ICMSServerConfig,
   data: IHeader | ISectionInfo | DownloadType | IFormInfo
 ) => getJsonResponse(env, jsonToFetch, cmsServerConfig, data);
+
+export const goToLink = (link: string = "", target: string = "_blank") =>
+  window.open(link, target);

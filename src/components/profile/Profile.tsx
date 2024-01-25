@@ -13,7 +13,7 @@ import {
   IServerConfig,
 } from "../../store/types";
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Overlay } from "../../common/Elements";
 
 interface ProfileProps {
@@ -24,6 +24,7 @@ interface ProfileProps {
     experienceRef: React.MutableRefObject<any>;
     educationRef: React.MutableRefObject<any>;
     contactRef: React.MutableRefObject<any>;
+    openSourceRef: React.MutableRefObject<any>;
   };
   preloadSrcList: IPreloadSrc[];
   preloadedFiles: IPreloadedFile[];
@@ -49,7 +50,14 @@ interface ProfileProps {
 export const Profile = (props: ProfileProps) => {
   const {
     profileData,
-    refs: { homeRef, skillsRef, experienceRef, educationRef, contactRef },
+    refs: {
+      homeRef,
+      skillsRef,
+      experienceRef,
+      educationRef,
+      contactRef,
+      openSourceRef,
+    },
     isDownloading,
     isMobile,
     isHamburgerMenuOpen,
@@ -89,6 +97,7 @@ export const Profile = (props: ProfileProps) => {
             experienceRef,
             educationRef,
             contactRef,
+            openSourceRef,
           },
           isDarkMode,
           deviceConfig,

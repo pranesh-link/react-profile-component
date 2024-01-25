@@ -20,7 +20,7 @@ const MenuBar = (props: IMenuBarProps) => {
   const goTo = (section: string) => {
     scrollTo(
       `#${section}`,
-      props.isMobileMenu ? 90 : isInstallBannerOpen ? 110 : 20,
+      props.isMobileMenu ? 90 : isInstallBannerOpen ? 110 : 20
     );
   };
   let timeout: any;
@@ -28,7 +28,7 @@ const MenuBar = (props: IMenuBarProps) => {
     .reduce(
       (
         items: { title: string; ref: string; section: string; order: number }[],
-        current: string,
+        current: string
       ) => {
         if (data.sections[current as ProfileSectionType].ref) {
           const { title, ref = "" } =
@@ -46,7 +46,7 @@ const MenuBar = (props: IMenuBarProps) => {
         }
         return items;
       },
-      [],
+      []
     )
     .sort((a, b) => a.order - b.order);
 
@@ -55,7 +55,6 @@ const MenuBar = (props: IMenuBarProps) => {
       (result, curr, index) => {
         const { ref, section } = curr;
         const currentRef = refs[ref as RefTypes];
-
         if (currentRef.current) {
           let pos = currentRef.current.getBoundingClientRect().top;
           pos =
@@ -73,7 +72,7 @@ const MenuBar = (props: IMenuBarProps) => {
         }
         return result;
       },
-      { section: "aboutMe", pos: isInstallBannerOpen ? 90 : 0 },
+      { section: "aboutMe", pos: isInstallBannerOpen ? 90 : 0 }
     );
     if (onMenuChange) {
       onMenuChange(resultPosition.section);
@@ -101,7 +100,7 @@ const MenuBar = (props: IMenuBarProps) => {
       className={classNames("wrapper", { mobile: props.isMobileMenu })}
     >
       <FlexBoxSection direction="column">
-        {menuItems.map(item => (
+        {menuItems.map((item) => (
           <MenuBtn
             key={item.section}
             onClick={() => {
@@ -127,12 +126,13 @@ export default MenuBar;
 const MenuWrapper = styled.nav`
   overflow: hidden;
   position: fixed;
-  top: 35%;
+  top: 15%;
   right: 25px;
   width: 100%;
   z-index: 10;
   background-color: #222222;
-  max-width: 150px;
+  max-width: fit-content;
+  border-radius: 5px;
   &.mobile {
     padding-top: 0;
     position: static;
@@ -177,7 +177,7 @@ const MenuBtn = styled.button`
   outline: none;
   color: #fff;
   font-weight: bold;
-  padding: 20px 10px;
+  padding: 20px;
   &:hover {
     color: #00b2e2;
   }

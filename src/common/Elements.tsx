@@ -82,7 +82,7 @@ export type FLEX_DIRECTION =
 
 export const SecHeader = styled.header`
   font-size: 40px;
-  font-weight: 300;
+  font-weight: 600;
   margin-bottom: 20px;
   color: #22a39f;
   text-align: center;
@@ -508,5 +508,148 @@ export const Version = styled.a`
   margin-bottom: 60px;
   &:hover {
     opacity: 1;
+  }
+`;
+
+export const SectionWrapper = styled(FlexBoxSection)`
+  padding-left: 20px;
+  padding-right: 15%;
+  margin-left: 25%;
+  .project-titles-wrap {
+    max-width: 70%;
+    margin-top: 15px;
+  }
+  &.export {
+    margin-left: 0;
+    padding-left: 0px;
+  }
+  .org-name {
+    font-size: 22px;
+    margin-block: 5px;
+    &.current {
+      color: #3f9c35;
+    }
+    &.previous {
+      color: #8a8982;
+    }
+  }
+  .duration {
+    font-size: 13px;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+  .projects-label,
+  .clients-label {
+    span {
+      margin-left: 5px;
+    }
+  }
+  .projects-label,
+  .clients-label,
+  .responsibilities {
+    display: flex;
+    margin-block-start: 10px;
+    margin-block-end: 0;
+    label {
+      text-transform: uppercase;
+      margin-right: 10px;
+    }
+    span {
+      font-weight: 600;
+    }
+    div {
+      font-weight: normal;
+    }
+  }
+  .responsibilities {
+    flex-direction: column;
+  }
+  .org-projects {
+    padding-left: 10px;
+  }
+  .responsibilities {
+    ul {
+      padding-inline-start: 5px;
+      list-style-type: none;
+      margin-block: 5px;
+      li {
+        display: flex;
+        padding-bottom: 7px;
+        align-items: center;
+        &::before {
+          content: "✓";
+          color: #3fc935;
+          font-size: 20px;
+          font-weight: bold;
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+
+  .os-project {
+    margin-bottom: 10px;
+  }
+
+  .os-project-name {
+    font-size: 20px;
+    margin: 0 0 10px 0;
+    text-decoration: underline;
+  }
+
+  .os-project-desc {
+    padding-bottom: 5px;
+    text-indent: 1em;
+  }
+
+  .os-project-link {
+    label {
+      flex-basis: 15%;
+      font-weight: 700;
+    }
+    a {
+      font-weight: 600;
+    }
+  }
+
+  .os-project-skills {
+    font-size: 16px;
+    .label {
+      font-weight: 700;
+    }
+    .info {
+      font-weight: 600;
+    }
+  }
+  @media screen and (max-width: 767px) {
+    padding: 0;
+    margin-left: 0;
+    ul {
+      margin: 0;
+      padding-left: 25px;
+    }
+    .org-name {
+      font-size: 20px;
+    }
+
+    .project-titles-wrap {
+      max-width: unset;
+    }
+
+    .open-source-project-name {
+      font-size: 18px;
+    }
+  }
+`;
+
+export const ProjectLink = styled(ActionBtn)`
+  padding: 10px 15px;
+  border-radius: 20px;
+  background: #3498db;
+  color: #f0f0f0;
+  margin-bottom: 15px;
+  margin-right: 20px;
+  &:hover {
+    background: #3f9c35;
   }
 `;

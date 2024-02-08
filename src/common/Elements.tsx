@@ -1,4 +1,5 @@
 import { MouseEventHandler } from "react";
+import { ModalComponent } from "react-profile-component/components/common/Component";
 import styled from "styled-components";
 
 export const ActionBtn = styled.button`
@@ -324,6 +325,7 @@ export const AutoCloseToastMessage = styled.div`
 
 export const PWAWrapper = styled(FlexBox)<{ top?: string; bottom?: string }>`
   position: fixed;
+  z-index: 20;
   ${({ top }) =>
     top &&
     `
@@ -337,7 +339,7 @@ export const PWAWrapper = styled(FlexBox)<{ top?: string; bottom?: string }>`
   background: #8f00ff;
   width: 100%;
   padding: 25px 0;
-  animation: ease-in-h 1s ease 1;
+  /* animation: ease-in-h 1s ease 1;
   @keyframes ease-in-h {
     from {
       height: 0;
@@ -345,7 +347,7 @@ export const PWAWrapper = styled(FlexBox)<{ top?: string; bottom?: string }>`
     to {
       height: auto;
     }
-  }
+  } */
   p {
     color: #fff;
     font-weight: 600;
@@ -372,6 +374,19 @@ export const PWAWrapper = styled(FlexBox)<{ top?: string; bottom?: string }>`
     }
     &.not-now {
       color: rgb(170, 187, 187, 0.8);
+    }
+  }
+
+  @media only screen and (max-width: 767px) {
+    padding: 10px 0;
+    p {
+      font-size: 14px;
+    }
+    button {
+      font-size: 15px !important;
+      &.install {
+        padding: 5px 10px;
+      }
     }
   }
 `;
@@ -576,40 +591,6 @@ export const SectionWrapper = styled(FlexBoxSection)`
     }
   }
 
-  .os-project {
-    margin-bottom: 10px;
-  }
-
-  .os-project-name {
-    font-size: 20px;
-    margin: 0 0 10px 0;
-    text-decoration: underline;
-  }
-
-  .os-project-desc {
-    padding-bottom: 5px;
-    text-indent: 1em;
-  }
-
-  .os-project-link {
-    label {
-      flex-basis: 15%;
-      font-weight: 700;
-    }
-    a {
-      font-weight: 600;
-    }
-  }
-
-  .os-project-skills {
-    font-size: 16px;
-    .label {
-      font-weight: 700;
-    }
-    .info {
-      font-weight: 600;
-    }
-  }
   @media screen and (max-width: 767px) {
     padding: 0;
     margin-left: 0;
@@ -640,5 +621,74 @@ export const ProjectLink = styled(ActionBtn)`
   margin-right: 20px;
   &:hover {
     background: #3f9c35;
+  }
+`;
+
+export const CustomModalComponent = styled(ModalComponent)`
+  .open-source-content-wrap {
+    .os-project {
+      margin: 20px 10px 10px;
+      .os-project-name {
+        font-size: 20px;
+        margin: 0 0 10px 0;
+        text-decoration: underline;
+      }
+
+      .os-project-desc {
+        padding-bottom: 5px;
+        text-indent: 1em;
+      }
+
+      .os-project-links {
+        margin-top: 15px;
+      }
+
+      .os-project-skills {
+        font-size: 16px;
+        .label {
+          font-weight: 700;
+        }
+        .info {
+          font-weight: 600;
+        }
+      }
+    }
+  }
+  &.version-modal {
+    background: #f0f0f0;
+    padding: 25px;
+    border-radius: 50px;
+    width: fit-content;
+    margin: 0 auto;
+    font-size: 18px;
+    font-weight: 600;
+    color: #3e3e3e;
+    span {
+      font-style: italic;
+      font-weight: bold;
+    }
+  }
+  &.contact-form-status-modal-content {
+    margin: 0 30%;
+    display: flex;
+    justify-content: center;
+  }
+  &.contact-modal-content {
+    margin: 0 30%;
+  }
+  @media only screen and (max-width: 992px) {
+    &.ReactModal__Content {
+      margin: 0 15px;
+    }
+
+    ::-webkit-scrollbar {
+      width: 7px;
+    }
+
+    &.version-modal {
+      font-size: 15px;
+      margin: 0 auto;
+      letter-spacing: 0.5px;
+    }
   }
 `;

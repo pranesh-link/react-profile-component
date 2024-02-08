@@ -8,6 +8,7 @@ import classNames from "classnames";
 export const ContactMe = () => {
   const {
     setIsContactFormOpen,
+    setIsModalOpen,
     isMobile,
     data: {
       forms: { contactForm },
@@ -28,7 +29,10 @@ export const ContactMe = () => {
   return (
     <ContactMeButton
       className={classNames({ "has-pwa-banner": isMobile && hasPWASupport })}
-      onClick={() => setIsContactFormOpen(true)}
+      onClick={() => {
+        setIsContactFormOpen(true);
+        setIsModalOpen(true);
+      }}
     >
       <img alt="contact-me" height={25} src={contactMeIcon} />
       {!isMobile && <>{contactForm.actionButtonLabel}</>}
@@ -51,9 +55,6 @@ const ContactMeButton = styled(ActionBtn)`
   font-weight: bold;
   height: fit-content;
 
-  &.has-pwa-banner {
-  }
-
   img {
     background: #f0f0f0;
     padding: 5px;
@@ -67,14 +68,10 @@ const ContactMeButton = styled(ActionBtn)`
   @media only screen and (max-width: 767px) {
     padding: 5px;
     background: #3fc935;
-    bottom: 80px;
     right: 20px;
     animation: blinker 5s linear infinite;
     box-shadow: rgb(0 0 0 / 20%) 0 -1px 0px 1px, inset #304701 0 -1px 0px,
       #3f9c35 0 2px 12px;
-    &.has-pwa-banner {
-      bottom: 150px;
-    }
     &:hover {
       border: none;
       background: #3fc935;

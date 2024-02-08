@@ -1,6 +1,7 @@
 import React from "react";
 import {
   ExpandableInfosType,
+  IProfileConfigData,
   IProfileContext,
   IPWA,
   ShortInfosType,
@@ -114,6 +115,7 @@ export const DEFAULT_PROFILE_CONTEXT: IProfileContext = {
       },
     },
   },
+  pwaOffset: 0,
   isDarkMode: false,
   showComponentLibUrl: true,
   refs: {
@@ -142,6 +144,8 @@ export const DEFAULT_PROFILE_CONTEXT: IProfileContext = {
   isInstallBannerOpen: false,
   hasDownloadedProfile: false,
   isContactFormOpen: false,
+  isModalOpen: false,
+  setIsModalOpen: () => {},
   setIsContactFormOpen: () => {},
   serverConfig: {
     webServerConfig: {
@@ -200,9 +204,9 @@ export const SECTION_ORDER_DISPLAY: Record<
   EDUCATION: { order: 4 },
   ORGANIZATIONS: { order: 3, display: false },
   SKILLS: { order: 2 },
-  EXPERIENCES: { order: 5 },
+  EXPERIENCES: { order: 6 },
   CONTACT: { order: 7 },
-  OPENSOURCEPROJECTS: { order: 6 },
+  OPENSOURCEPROJECTS: { order: 5 },
 };
 
 export const LABELS = {
@@ -228,13 +232,15 @@ export const FIELD_SUB_TYPES = {
   EMAIL: "email",
 };
 
-export const DEFAULT_PROFILE_CONFIG_DATA = {
+export const DEFAULT_PROFILE_CONFIG_DATA: IProfileConfigData = {
   profileSections: {
     header: DEFAULT_PROFILE_CONTEXT.data.header,
     aboutMe: DEFAULT_PROFILE_CONTEXT.data.sections.aboutMe,
     education: DEFAULT_PROFILE_CONTEXT.data.sections.education,
     details: DEFAULT_PROFILE_CONTEXT.data.sections.details,
     experiences: DEFAULT_PROFILE_CONTEXT.data.sections.experiences,
+    openSourceProjects:
+      DEFAULT_PROFILE_CONTEXT.data.sections.openSourceProjects,
   },
   links: DEFAULT_PROFILE_CONTEXT.data.sections.links,
   download: DEFAULT_PROFILE_CONTEXT.data.download,

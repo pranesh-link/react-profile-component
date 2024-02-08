@@ -7,7 +7,7 @@ const FieldLabel = styled.label<{ isMobile: boolean }>`
   margin-right: 10px;
 
   @media only screen and (max-width: 767px) {
-    flex-basis: 35%;
+    flex-basis: 40%;
   }
 `;
 

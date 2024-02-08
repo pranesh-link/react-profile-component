@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Profile } from "react-profile-component/components/profile";
 import mockProfileData from "./profile-data";
+import "react-profile-component/dist/index.css";
 
 export const ProfilePage = () => {
   const [isHamburgerMenuOpen, setIsHamburgerMenuOpen] = useState(false);
@@ -34,6 +35,7 @@ export const ProfilePage = () => {
         templateId: "yourtemplateid",
         publicKey: "yourpublickey",
       }}
+      pwaOffset={0}
       isDarkMode={false}
       onInstallPWA={onClickInstall}
       environment={process.env.NODE_ENV}

@@ -33,9 +33,9 @@ const config = [
       }),
       external(),
       resolve(),
-      // terser({
-      //   compress: true,
-      // }),
+      terser({
+        compress: true,
+      }),
       svg(),
       image(),
       css(),

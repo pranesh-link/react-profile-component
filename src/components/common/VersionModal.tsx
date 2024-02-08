@@ -1,6 +1,5 @@
 import { useContext } from "react";
-import { ModalComponent } from "./Component";
-import { FlexBox } from "../../common/Elements";
+import { CustomModalComponent, FlexBox } from "../../common/Elements";
 import { ProfileContext } from "../../store/context";
 
 interface IVersionModalProps {
@@ -10,7 +9,7 @@ interface IVersionModalProps {
 export const VersionModal = (props: IVersionModalProps) => {
   const { appVersion: version } = useContext(ProfileContext);
   return (
-    <ModalComponent
+    <CustomModalComponent
       isOpen={props.displayVersionModal}
       shouldCloseOnOverlayClick={true}
       onRequestClose={() => {
@@ -23,6 +22,6 @@ export const VersionModal = (props: IVersionModalProps) => {
           App version: <span>v{version}</span>
         </p>
       </FlexBox>
-    </ModalComponent>
+    </CustomModalComponent>
   );
 };

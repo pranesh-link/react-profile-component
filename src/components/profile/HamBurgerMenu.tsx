@@ -39,7 +39,7 @@ export const HamBurgerMenu = (props: IHamburgerMenuProps) => {
 
   const hasPWASupport = useMemo(
     () => isSupportedBrowserAndOS(browsers, os, browserName, osName),
-    [browsers, os, browserName, osName],
+    [browsers, os, browserName, osName]
   );
 
   const [hamburgerClicked, setHamburgerClicked] = useState<boolean>(false);
@@ -94,7 +94,7 @@ export const HamBurgerMenu = (props: IHamburgerMenuProps) => {
           node.addEventListener("transitionend", done, true);
         }}
       >
-        {state => (
+        {(state) => (
           <Menu className={state}>
             <ContentSection direction="column" justifyContent="space-around">
               <FlexBox justifyContent="flex-end">
@@ -106,9 +106,9 @@ export const HamBurgerMenu = (props: IHamburgerMenuProps) => {
                 </ActionBtn>
               </FlexBox>
               <MenuBar
-                isMobileMenu={true}
+                isMobileMenu
                 closeHamburgerMenu={() => setIsOpen(false)}
-                onMenuChange={section => onMenuChange(section)}
+                onMenuChange={(section) => onMenuChange(section)}
               />
               {hasPWASupport && !hasPWAInstalled && (
                 <FlexBox justifyContent="center">
@@ -127,7 +127,7 @@ export const HamBurgerMenu = (props: IHamburgerMenuProps) => {
               )}
               <Version
                 href=""
-                onClick={e => {
+                onClick={(e) => {
                   e.preventDefault();
                   setIsOpen(false);
                   setDisplayVersionModal(true);

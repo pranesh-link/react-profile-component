@@ -15,7 +15,6 @@ import {
 import styled from "styled-components";
 import React, { useEffect, useState } from "react";
 import { Overlay } from "../../common/Elements";
-
 interface ProfileProps {
   profileData: IProfileData;
   refs: {
@@ -42,6 +41,7 @@ interface ProfileProps {
   hasPWAInstalled: boolean;
   showComponentLibUrl?: boolean;
   deviceConfig: IDeviceConfig;
+  pwaOffset: number;
   setIsDownloading: (isDownloading: boolean) => void;
   setIsHamburgerMenuOpen: (isHamburgerMenuOpen: boolean) => void;
   onInstallPWA: () => void;
@@ -76,15 +76,23 @@ export const Profile = (props: ProfileProps) => {
     emailJsConfig,
     isDarkMode,
     showComponentLibUrl = true,
+    pwaOffset,
   } = props;
   const [currentSection, setCurrentSection] = useState<string>("aboutMe");
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   let timer: NodeJS.Timeout;
   useEffect(() => {
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    isModalOpen
+      ? document.body.classList.add("modal-open")
+      : document.body.classList.remove("modal-open");
+  }, [isModalOpen]);
 
   return (
     <>
@@ -109,13 +117,16 @@ export const Profile = (props: ProfileProps) => {
           isMobile,
           isInstallBannerOpen,
           isContactFormOpen,
+          isModalOpen,
           preloadSrcList,
           preloadedFiles,
           preloadedAssets,
           serverConfig,
           emailJsConfig,
           showComponentLibUrl,
+          pwaOffset,
           setIsContactFormOpen,
+          setIsModalOpen,
         }}
       >
         <HamBurgerMenu

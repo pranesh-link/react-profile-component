@@ -9,7 +9,12 @@ import {
 } from "react";
 import emailjs from "@emailjs/browser";
 import styled from "styled-components";
-import { ActionBtn, FlexBox, FlexBoxSection } from "../../../common/Elements";
+import {
+  ActionBtn,
+  CustomModalComponent,
+  FlexBox,
+  FlexBoxSection,
+} from "../../../common/Elements";
 import classNames from "classnames";
 import {
   ContactFormData,
@@ -21,7 +26,6 @@ import {
 import { FormField } from "../common/FormField";
 import { ProfileContext } from "../../../store/context";
 import { getPreloadedAsset, isNetworkOnline } from "../../../common/Utils";
-import { ModalComponent } from "../../common/Component";
 import {
   getDecryptedConfig,
   getDefaultContactFormData,
@@ -47,12 +51,12 @@ export const ContactForm = (props: IContactFormProps) => {
 
   const defaultFormData = useMemo(
     () => getDefaultContactFormData(fields),
-    [fields],
+    [fields]
   );
 
   const requiredFields = useMemo(
-    () => fields.filter(i => i.required),
-    [fields],
+    () => fields.filter((i) => i.required),
+    [fields]
   );
 
   const { closeModal } = props;
@@ -64,7 +68,7 @@ export const ContactForm = (props: IContactFormProps) => {
   const [contactFormStatus, setContactFormStatus] = useState(
     isNetworkOnline()
       ? CONTACT_FORM_STATUS.FORM_FILL
-      : CONTACT_FORM_STATUS.OFFLINE,
+      : CONTACT_FORM_STATUS.OFFLINE
   );
   const [online, setOnline] = useState(isNetworkOnline());
   const [allowRetry, setAllowRetry] = useState(false);
@@ -82,23 +86,23 @@ export const ContactForm = (props: IContactFormProps) => {
       [CONTACT_FORM_STATUS.FORM_FILL]: "",
       [CONTACT_FORM_STATUS.SENDING]: getPreloadedAsset(
         preloadedAssets,
-        "loadingAnimation",
+        "loadingAnimation"
       ),
       [CONTACT_FORM_STATUS.SUCCESS]: getPreloadedAsset(
         preloadedAssets,
-        "successAnimation",
+        "successAnimation"
       ),
       [CONTACT_FORM_STATUS.ERROR]: getPreloadedAsset(
         preloadedAssets,
-        "errorAnimation",
+        "errorAnimation"
       ),
       [CONTACT_FORM_STATUS.OFFLINE]: getPreloadedAsset(
         preloadedAssets,
-        "offlineAnimation",
+        "offlineAnimation"
       ),
       [CONTACT_FORM_STATUS.REVIEW]: "",
     }),
-    [preloadedAssets],
+    [preloadedAssets]
   );
 
   const handleMailRequest = () => {
@@ -110,12 +114,12 @@ export const ContactForm = (props: IContactFormProps) => {
         emailJsConfig.templateId,
         emailJsConfig.publicKey,
       ],
-      form.key,
+      form.key
     );
 
     const transformedPaylod = transformMailRequest(
       formData,
-      form.transformFields,
+      form.transformFields
     );
 
     emailjs.send(serviceId, templateId, transformedPaylod, publicKey).then(
@@ -126,7 +130,7 @@ export const ContactForm = (props: IContactFormProps) => {
       () => {
         setContactFormStatus(CONTACT_FORM_STATUS.ERROR);
         setAllowRetry(true);
-      },
+      }
     );
   };
 
@@ -134,7 +138,7 @@ export const ContactForm = (props: IContactFormProps) => {
     e:
       | FormEvent<HTMLFormElement>
       | React.MouseEvent<HTMLAnchorElement, MouseEvent>
-      | React.MouseEvent<HTMLButtonElement, MouseEvent>,
+      | React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
     if (online) {
@@ -158,14 +162,9 @@ export const ContactForm = (props: IContactFormProps) => {
     }
   };
 
-  useEffect(() => {
-    document.body.classList.add("modal-open");
-    return () => document.body.classList.remove("modal-open");
-  }, []);
-
   const isFormSubmit = useMemo(
     () => contactFormStatus === CONTACT_FORM_STATUS.SENDING,
-    [contactFormStatus],
+    [contactFormStatus]
   );
 
   const displayStatus = useMemo(
@@ -177,38 +176,38 @@ export const ContactForm = (props: IContactFormProps) => {
         CONTACT_FORM_STATUS.OFFLINE,
         CONTACT_FORM_STATUS.REVIEW,
       ].indexOf(contactFormStatus) > -1,
-    [contactFormStatus],
+    [contactFormStatus]
   );
 
   const isSending = useMemo(
     () => contactFormStatus === CONTACT_FORM_STATUS.SENDING,
-    [contactFormStatus],
+    [contactFormStatus]
   );
 
   const isSuccess = useMemo(
     () => contactFormStatus === CONTACT_FORM_STATUS.SUCCESS,
-    [contactFormStatus],
+    [contactFormStatus]
   );
 
   const isError = useMemo(
     () => contactFormStatus === CONTACT_FORM_STATUS.ERROR,
-    [contactFormStatus],
+    [contactFormStatus]
   );
 
   const isOffline = useMemo(
     () => contactFormStatus === CONTACT_FORM_STATUS.OFFLINE,
-    [contactFormStatus],
+    [contactFormStatus]
   );
 
   const isReview = useMemo(
     () => contactFormStatus === CONTACT_FORM_STATUS.REVIEW,
-    [contactFormStatus],
+    [contactFormStatus]
   );
 
   const updateInput = (
     value: string | boolean,
     field: string,
-    valueId?: string,
+    valueId?: string
   ) => {
     if (valueId) {
       setFormData({
@@ -225,7 +224,7 @@ export const ContactForm = (props: IContactFormProps) => {
 
   const handleValidation = (
     value: string | Record<string, boolean>,
-    field: string,
+    field: string
   ) => {
     const validation = validateField(
       form,
@@ -233,7 +232,7 @@ export const ContactForm = (props: IContactFormProps) => {
       formValid,
       requiredFields,
       value,
-      field,
+      field
     );
     setFormError(validation.formError);
     setFormValid(validation.formValid);
@@ -304,7 +303,7 @@ export const ContactForm = (props: IContactFormProps) => {
 
   return (
     <>
-      <ModalComponent
+      <CustomModalComponent
         isOpen={displayStatus}
         className="contact-form-status-modal-content"
         shouldCloseOnOverlayClick={true}
@@ -356,7 +355,7 @@ export const ContactForm = (props: IContactFormProps) => {
             </ActionsWrap>
           )}
         </StatusWrap>
-      </ModalComponent>
+      </CustomModalComponent>
       <Form isMobile={isMobile} onSubmit={handleFormSubmit}>
         <FormHeader>{form.header}</FormHeader>
         {fields.map((field, index) => {
@@ -405,7 +404,7 @@ const Form = styled.form<{ isMobile: boolean }>`
   border-radius: 15px;
 
   @media only screen and (max-width: 767px) {
-    padding: 15px 25px;
+    padding: 15px;
   }
 `;
 

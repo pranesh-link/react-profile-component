@@ -308,9 +308,29 @@ export interface IProfileContext {
   isInstallBannerOpen: boolean;
   hasDownloadedProfile?: boolean;
   isContactFormOpen: boolean;
-  setIsContactFormOpen: Function;
+  isModalOpen: boolean;
   serverConfig: IServerConfig;
   emailJsConfig: IEmailJsConfig;
+  pwaOffset: number;
+  setIsContactFormOpen: (isContactFormOpen: boolean) => void;
+  setIsModalOpen: (isModalOpen: boolean) => void;
+}
+
+interface IProfileSections {
+  header: IHeader;
+  aboutMe: IAboutMeInfo;
+  education: IEducationInfo;
+  details: IDetailInfo;
+  experiences: IExperienceInfo;
+  openSourceProjects: IOpenSourceInfo;
+}
+export interface IProfileConfigData {
+  profileSections: IProfileSections;
+  links: ILinkInfo;
+  download: DownloadType;
+  skills: ISkillInfo;
+  contactForm: IFormInfo;
+  profileLabels: Record<string, string>;
 }
 
 export type ContactFormFields =

@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import styled from "styled-components";
 import { FlexBoxSection } from "../../common/Elements";
 import { ProfileContext } from "../../store/context";
@@ -14,13 +14,20 @@ interface IMenuBarProps {
   onMenuChange?: (section: string) => void;
 }
 const MenuBar = (props: IMenuBarProps) => {
-  const { refs, data, currentSection, isInstallBannerOpen } =
-    React.useContext(ProfileContext);
+  const {
+    refs,
+    data,
+    currentSection,
+    isInstallBannerOpen,
+    pwaOffset,
+    isMobile,
+  } = React.useContext(ProfileContext);
   const { onMenuChange } = props;
+  const initialOffset = useMemo(() => (isMobile ? 100 : 30), [isMobile]);
   const goTo = (section: string) => {
     scrollTo(
       `#${section}`,
-      props.isMobileMenu ? 90 : isInstallBannerOpen ? 110 : 20
+      isInstallBannerOpen ? pwaOffset + initialOffset : 20 + initialOffset
     );
   };
   let timeout: any;
@@ -57,12 +64,11 @@ const MenuBar = (props: IMenuBarProps) => {
         const currentRef = refs[ref as RefTypes];
         if (currentRef.current) {
           let pos = currentRef.current.getBoundingClientRect().top;
-          pos =
-            window.innerWidth < 768
-              ? pos - 95
-              : isInstallBannerOpen
-              ? pos - 120
-              : pos - 30;
+
+          pos = Math.round(
+            isInstallBannerOpen ? pos - pwaOffset - initialOffset : pos - 30
+          );
+
           if (index === 0 || (pos <= 0 && pos > result.pos)) {
             return {
               section,
@@ -72,7 +78,7 @@ const MenuBar = (props: IMenuBarProps) => {
         }
         return result;
       },
-      { section: "aboutMe", pos: isInstallBannerOpen ? 90 : 0 }
+      { section: "aboutMe", pos: isInstallBannerOpen ? pwaOffset : 0 }
     );
     if (onMenuChange) {
       onMenuChange(resultPosition.section);
@@ -93,7 +99,7 @@ const MenuBar = (props: IMenuBarProps) => {
     });
     return () => window.removeEventListener("scroll", handleScroll);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [pwaOffset, initialOffset]);
 
   return (
     <MenuWrapper

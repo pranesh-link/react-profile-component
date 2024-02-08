@@ -7,8 +7,6 @@ import { IFormField } from "../../../store/types";
 import { FIELD_TYPES } from "../../../common/constants";
 import classNames from "classnames";
 import { useContext, useMemo } from "react";
-import "react-phone-number-input/style.css";
-import "react-phone-number-input/style.css";
 import { ProfileContext } from "../../../store/context";
 import { isMobile } from "react-device-detect";
 import {
@@ -35,11 +33,11 @@ interface IFormFieldProps {
   updateInput: (
     value: string | boolean,
     field: string,
-    valueId?: string,
+    valueId?: string
   ) => void;
   validateField: (
     value: string | Record<string, boolean>,
-    field: string,
+    field: string
   ) => void;
 }
 export const FormField = (props: IFormFieldProps) => {
@@ -81,29 +79,29 @@ export const FormField = (props: IFormFieldProps) => {
 
   const errorMessage = useMemo(
     () => getErrorMessage(messages, field?.messages, fieldError),
-    [field.messages, fieldError, messages],
+    [field.messages, fieldError, messages]
   );
 
   const remainingCharacters = useMemo(
     () =>
       getRemainingCharacters(
         fieldValue as string,
-        field.maxLength || defaultMaxLength,
+        field.maxLength || defaultMaxLength
       ),
-    [field.maxLength, fieldValue, defaultMaxLength],
+    [field.maxLength, fieldValue, defaultMaxLength]
   );
 
   const showRemainingCharacters = useMemo(
     () =>
       [FIELD_TYPES.TEXT, FIELD_TYPES.TEXTAREA, FIELD_TYPES.MOBILE].some(
-        item => field.type === item,
+        (item) => field.type === item
       ),
-    [field.type],
+    [field.type]
   );
 
   const charPercentMap = useMemo(
     () => getRemainingCharPercentMap(remainingCharacters, field.maxLength),
-    [remainingCharacters, field.maxLength],
+    [remainingCharacters, field.maxLength]
   );
 
   return (

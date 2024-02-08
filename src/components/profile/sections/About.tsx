@@ -6,13 +6,13 @@ import {
   FlexBox,
   ModalBanner,
   ModalContentWrap,
+  CustomModalComponent,
 } from "../../../common/Elements";
 import { getIconUrl, getPdfUrl, getPdfBlob } from "../../../common/Utils";
 import styled from "styled-components";
 import { ProfileContext } from "../../../store/context";
 import { AboutMeDetails } from "./AboutMeDetails";
 import { ContactForm } from "../../form/contact/Form";
-import { ModalComponent } from "../../common/Component";
 import { ContactMe } from "../../common/ContactMe";
 
 interface IAboutProps {
@@ -22,6 +22,7 @@ export const About = (_props: IAboutProps) => {
   const {
     isContactFormOpen,
     setIsContactFormOpen,
+    setIsModalOpen,
     hasDownloadedProfile,
     environment,
     isExport,
@@ -78,17 +79,22 @@ export const About = (_props: IAboutProps) => {
 
   return (
     <>
-      <ModalComponent
+      <CustomModalComponent
         className="contact-modal-content"
         isOpen={isContactFormOpen}
         ariaHideApp={false}
       >
         <ModalContentWrap direction="column" className="contact-modal">
           <ModalBanner className="header" />
-          <ContactForm closeModal={() => setIsContactFormOpen(false)} />
+          <ContactForm
+            closeModal={() => {
+              setIsContactFormOpen(false);
+              setIsModalOpen(false);
+            }}
+          />
           <ModalBanner className="footer" />
         </ModalContentWrap>
-      </ModalComponent>
+      </CustomModalComponent>
       <FlexBoxSection
         className={classNames("profile-section", "about", { export: isExport })}
         justifyContent={isExport ? "normal" : "center"}

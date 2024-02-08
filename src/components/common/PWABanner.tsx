@@ -7,13 +7,14 @@ import {
   isSupportedBrowserAndOS,
   setLocalStorage,
 } from "../../common/Utils";
-import { useEffect, useMemo } from "react";
+import { ForwardedRef, forwardRef, useEffect, useMemo } from "react";
 import {
   Environment,
   IDeviceConfig,
   IPWA,
   IWebServerConfig,
 } from "../../store/types";
+import { CloseIcon } from "../svg";
 
 interface PWABannerProps {
   pwa: IPWA;
@@ -29,7 +30,10 @@ interface PWABannerProps {
   setIsInstallBannerOpen: (display: boolean) => void;
   onClickInstall: Function;
 }
-export const PWABanner = (props: PWABannerProps) => {
+export const PWABanner = forwardRef<HTMLDivElement, PWABannerProps>(function (
+  props: PWABannerProps,
+  ref: ForwardedRef<any>
+) {
   const {
     isMobile,
     hasPWAInstalled,
@@ -54,7 +58,7 @@ export const PWABanner = (props: PWABannerProps) => {
 
   const NotNowButton = (
     <button className="not-now" onClick={closeInstallBanner}>
-      {messages.no}
+      {isMobile ? <CloseIcon /> : <>{messages.no}</>}
     </button>
   );
 
@@ -109,7 +113,7 @@ export const PWABanner = (props: PWABannerProps) => {
 
   return !isStandalone && isInstallPromptSupported && isInstallBannerOpen ? (
     <>
-      {isMobile && hasPWASupport && (
+      {/* {isMobile && hasPWASupport && (
         <MobilePWAWrapper
           bottom="0"
           direction="column"
@@ -122,9 +126,14 @@ export const PWABanner = (props: PWABannerProps) => {
             {InstallButton}
           </MobilePWAControls>
         </MobilePWAWrapper>
-      )}
-      {!isMobile && (
-        <PWAWrapper top="0" alignItems="center" justifyContent="space-between">
+      )} */}
+      {hasPWASupport && (
+        <PWAWrapper
+          ref={ref}
+          top="0"
+          alignItems="center"
+          justifyContent="space-between"
+        >
           {NotNowButton}
           {PWAInstallMessage}
           {InstallButton}
@@ -132,7 +141,7 @@ export const PWABanner = (props: PWABannerProps) => {
       )}
     </>
   ) : null;
-};
+});
 
 const MobilePWAControls = styled(FlexBox)`
   margin-top: 10px;

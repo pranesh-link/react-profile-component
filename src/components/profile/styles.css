@@ -1,0 +1,4 @@
+@import "~react-phone-number-input/style.css";
+.modal-open {
+  overflow: hidden;
+}

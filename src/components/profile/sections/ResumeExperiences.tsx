@@ -7,6 +7,7 @@ import {
   ModalContentWrap,
   SectionWrapper,
   ProjectLink,
+  CustomModalComponent,
 } from "../../../common/Elements";
 import { memo, useContext, useEffect, useMemo, useState } from "react";
 import { ProfileContext } from "../../../store/context";
@@ -18,7 +19,6 @@ import {
   SECTIONS,
 } from "../../../common/constants";
 import { ProjectInfo } from "../../common/ProjectInfo";
-import { ModalComponent } from "../../common/Component";
 
 interface INames {
   projectNames: string[];
@@ -33,8 +33,10 @@ export const ResumeExperiences = memo(() => {
     isExport,
     isMobile,
     refs: { experienceRef },
+    setIsModalOpen,
   } = useContext(ProfileContext);
-  const [project, setProject] = useState<IProjectExperience | null>(null);
+  const [currentProject, setCurrentProject] =
+    useState<IProjectExperience | null>(null);
 
   const getExperienceInfo = (
     projects: IProjectExperience[],
@@ -63,14 +65,6 @@ export const ResumeExperiences = memo(() => {
     };
   };
 
-  useEffect(() => {
-    if (project) {
-      document.body.classList.add("modal-open");
-    } else {
-      document.body.classList.remove("modal-open");
-    }
-  }, [project]);
-
   const textSeparator = useMemo(
     () => <>{isMobile ? <br /> : <span>,&nbsp;</span>}</>,
     [isMobile]
@@ -78,22 +72,28 @@ export const ResumeExperiences = memo(() => {
 
   return (
     <>
-      {!isExport && project && (
-        <ModalComponent
-          isOpen={!!project}
+      {!isExport && currentProject && (
+        <CustomModalComponent
+          isOpen={!!currentProject}
           shouldCloseOnOverlayClick
           className="modal-wrap"
           ariaHideApp={false}
         >
           <ModalContentWrap direction="column">
             <ModalBanner className="header" />
-            <ProjectInfo project={project} />
-            <ActionBtn className="close" onClick={() => setProject(null)}>
+            <ProjectInfo project={currentProject} />
+            <ActionBtn
+              className="close"
+              onClick={() => {
+                setCurrentProject(null);
+                setIsModalOpen(false);
+              }}
+            >
               {LABEL_TEXT.close}
             </ActionBtn>
             <ModalBanner className="footer" />
           </ModalContentWrap>
-        </ModalComponent>
+        </CustomModalComponent>
       )}
 
       <section
@@ -105,7 +105,7 @@ export const ResumeExperiences = memo(() => {
       >
         <SecHeader
           className={classNames("page-break", { export: isExport })}
-          onClick={() => setProject(experiences.info[0].projects[0])}
+          onClick={() => setCurrentProject(experiences.info[0].projects[0])}
         >
           {experiences.title}
         </SecHeader>
@@ -146,7 +146,10 @@ export const ResumeExperiences = memo(() => {
                   {projects.map((project, index) => (
                     <ProjectLink
                       key={index}
-                      onClick={() => setProject(project)}
+                      onClick={() => {
+                        setCurrentProject(project);
+                        setIsModalOpen(true);
+                      }}
                     >
                       {project.shortTitle}
                     </ProjectLink>
@@ -154,13 +157,13 @@ export const ResumeExperiences = memo(() => {
                 </FlexBox>
                 <h4 className="responsibilities">
                   <label>{LABELS.RESPONSIBILITIES}</label>
-                  <div
-                    className="responsibilities"
-                    dangerouslySetInnerHTML={{
-                      __html: responsibilities,
-                    }}
-                  />
                 </h4>
+                <div
+                  className="responsibilities"
+                  dangerouslySetInnerHTML={{
+                    __html: responsibilities,
+                  }}
+                />
               </section>
             );
           })}

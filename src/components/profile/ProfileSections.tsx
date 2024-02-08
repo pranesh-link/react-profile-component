@@ -29,6 +29,7 @@ const ProfileSections = (props: IProfileSectionsProps) => {
     isMobile,
     isInstallBannerOpen,
     data: { header },
+    pwaOffset,
   } = React.useContext(ProfileContext);
   const { appVersion: version } = useContext(ProfileContext);
   const [displayVersionModal, setDisplayVersionModal] = useState(false);
@@ -42,7 +43,6 @@ const ProfileSections = (props: IProfileSectionsProps) => {
     OPENSOURCEPROJECTS,
   } = SECTION_ORDER_DISPLAY;
   const { isInstallPromptSupported } = usePWA();
-
   const AboutComp = useMemo(
     () => (
       <About
@@ -140,11 +140,10 @@ const ProfileSections = (props: IProfileSectionsProps) => {
         setDisplayVersionModal={setDisplayVersionModal}
       />
       <Wrapper
+        pwaOffset={pwaOffset}
         className={classNames({
           export: isExport,
-          "add-margin-top":
-            !isMobile && isInstallBannerOpen && isInstallPromptSupported,
-          "add-margin-bottom": isMobile && isInstallBannerOpen,
+          "add-margin-top": isInstallBannerOpen && isInstallPromptSupported,
         })}
       >
         {!isExport && <ShortDesc>{shortDesc}</ShortDesc>}
@@ -194,12 +193,12 @@ const ProfileSections = (props: IProfileSectionsProps) => {
 
 export default ProfileSections;
 
-const Wrapper = styled.section`
+const Wrapper = styled.section<{ pwaOffset: number }>`
   &:not(.export) {
     background-color: #f0f0f0;
     &.add-margin-top {
-      margin-top: 90px;
-      animation: ease-in-m-t 2s ease-in 1;
+      margin-top: ${(props) => props.pwaOffset || 0}px;
+      /* animation: ease-in-m-t 2s ease-in 1;
       @keyframes ease-in-m-t {
         from {
           margin-top: 0;
@@ -207,7 +206,7 @@ const Wrapper = styled.section`
         to {
           margin-top: 90px;
         }
-      }
+      } */
     }
     &.add-margin-bottom {
       margin-bottom: 90px;

@@ -10,7 +10,6 @@ import css from "rollup-plugin-import-css";
 import { dts } from "rollup-plugin-dts";
 import postcss from "rollup-plugin-postcss";
 import cssOnly from "rollup-plugin-css-only";
-import { uglify } from "rollup-plugin-uglify";
 import eslint from "@rollup/plugin-eslint";
 import pkg from "./package.json";
 
@@ -21,7 +20,7 @@ const config = [
     output: [
       {
         file: "dist/index.js",
-        format: "cjs",
+        format: "es",
       },
     ],
     plugins: [
@@ -30,28 +29,35 @@ const config = [
         exclude: "node_modules/**",
         presets: ["@babel/preset-react"],
         babelHelpers: "bundled",
+        extensions: [".tsx", ".ts", ".js"],
       }),
       external(),
       resolve(),
-      terser({
-        compress: true,
-      }),
+      // terser({
+      //   compress: true,
+      // }),
       svg(),
       image(),
-      css({
-        output: "index.css",
-      }),
+      css(),
       cssOnly(),
-      postcss({
-        extensions: [".css"],
-        extract: true,
-        minimize: true,
-      }),
       eslint({}),
-      uglify(),
       typescript({
         tsconfig: "./tsconfig.json",
         exclude: ["src/demo/ProfilePage.tsx"],
+      }),
+    ],
+  },
+  {
+    input: "./src/components/profile/styles.css",
+    output: {
+      file: "dist/index.css",
+      format: "es",
+    },
+    plugins: [
+      postcss({
+        extensions: [".css", ".scss"],
+        extract: true,
+        minimize: true,
       }),
     ],
   },

@@ -9,7 +9,7 @@ import {
   ProjectLink,
   CustomModalComponent,
 } from "../../../common/Elements";
-import { memo, useContext, useEffect, useMemo, useState } from "react";
+import { memo, useContext, useMemo, useState } from "react";
 import { ProfileContext } from "../../../store/context";
 import { IProjectExperience } from "../../../store/types";
 import {

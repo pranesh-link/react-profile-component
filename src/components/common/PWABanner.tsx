@@ -1,5 +1,4 @@
-import styled from "styled-components";
-import { FlexBox, MobilePWAWrapper, PWAWrapper } from "../../common/Elements";
+import { PWAWrapper } from "../../common/Elements";
 import {
   getLocalStorage,
   getWebUrl,
@@ -110,41 +109,17 @@ export const PWABanner = forwardRef<HTMLDivElement, PWABannerProps>(function (
     isInstallPromptSupported,
     setIsInstallBannerOpen,
   ]);
-
-  return !isStandalone && isInstallPromptSupported && isInstallBannerOpen ? (
-    <>
-      {/* {isMobile && hasPWASupport && (
-        <MobilePWAWrapper
-          bottom="0"
-          direction="column"
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          {PWAInstallMessage}
-          <MobilePWAControls justifyContent="flex-end">
-            {NotNowButton}
-            {InstallButton}
-          </MobilePWAControls>
-        </MobilePWAWrapper>
-      )} */}
-      {hasPWASupport && (
-        <PWAWrapper
-          ref={ref}
-          top="0"
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          {NotNowButton}
-          {PWAInstallMessage}
-          {InstallButton}
-        </PWAWrapper>
-      )}
-    </>
+  return (isMobile && hasPWASupport) ||
+    (!isStandalone && isInstallPromptSupported && isInstallBannerOpen) ? (
+    <PWAWrapper
+      ref={ref}
+      top="0"
+      alignItems="center"
+      justifyContent="space-between"
+    >
+      {NotNowButton}
+      {PWAInstallMessage}
+      {InstallButton}
+    </PWAWrapper>
   ) : null;
 });
-
-const MobilePWAControls = styled(FlexBox)`
-  margin-top: 10px;
-  width: 100%;
-  margin-right: 50px;
-`;

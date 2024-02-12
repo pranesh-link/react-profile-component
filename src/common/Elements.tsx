@@ -377,6 +377,10 @@ export const PWAWrapper = styled(FlexBox)<{ top?: string; bottom?: string }>`
     }
   }
 
+  &.hide {
+    display: none;
+  }
+
   @media only screen and (max-width: 767px) {
     padding: 10px 0;
     p {

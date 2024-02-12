@@ -14,6 +14,7 @@ import {
   IWebServerConfig,
 } from "../../store/types";
 import { CloseIcon } from "../svg";
+import classNames from "classnames";
 
 interface PWABannerProps {
   pwa: IPWA;
@@ -109,13 +110,13 @@ export const PWABanner = forwardRef<HTMLDivElement, PWABannerProps>(function (
     isInstallPromptSupported,
     setIsInstallBannerOpen,
   ]);
-  return (isMobile && hasPWASupport) ||
-    (!isStandalone && isInstallPromptSupported && isInstallBannerOpen) ? (
+  return !isStandalone && isInstallPromptSupported && isInstallBannerOpen ? (
     <PWAWrapper
       ref={ref}
       top="0"
       alignItems="center"
       justifyContent="space-between"
+      className={classNames({ hide: isMobile ? !hasPWASupport : false })}
     >
       {NotNowButton}
       {PWAInstallMessage}

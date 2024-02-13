@@ -3,7 +3,7 @@ import {
   getRemainingCharacters,
   isStringBooleanRecord,
 } from "../../../common/Utils";
-import { IFormField } from "../../../store/types";
+import { FormFieldValueType, IFormField } from "../../../store/types";
 import { FIELD_TYPES } from "../../../common/constants";
 import classNames from "classnames";
 import { useContext, useMemo } from "react";
@@ -26,19 +26,18 @@ interface IFormFieldProps {
   field: IFormField;
   fieldValid?: boolean;
   fieldError?: string;
-  fieldValue: string | Record<string, boolean>;
+  fieldValue: FormFieldValueType;
   isFormSubmit: boolean;
   autoFocus: boolean;
   defaultMaxLength: number;
+  showErrorOnMobileBrowsers?: boolean;
+  hideRemainingCharacters?: boolean;
   updateInput: (
-    value: string | boolean,
+    value: FormFieldValueType,
     field: string,
     valueId?: string
   ) => void;
-  validateField: (
-    value: string | Record<string, boolean>,
-    field: string
-  ) => void;
+  validateField: (value: FormFieldValueType, field: string) => void;
 }
 export const FormField = (props: IFormFieldProps) => {
   const {
@@ -49,6 +48,8 @@ export const FormField = (props: IFormFieldProps) => {
     isFormSubmit,
     autoFocus,
     defaultMaxLength,
+    showErrorOnMobileBrowsers = false,
+    hideRemainingCharacters = false,
     updateInput,
     validateField,
   } = props;
@@ -93,10 +94,11 @@ export const FormField = (props: IFormFieldProps) => {
 
   const showRemainingCharacters = useMemo(
     () =>
+      !hideRemainingCharacters &&
       [FIELD_TYPES.TEXT, FIELD_TYPES.TEXTAREA, FIELD_TYPES.MOBILE].some(
         (item) => field.type === item
       ),
-    [field.type]
+    [field.type, hideRemainingCharacters]
   );
 
   const charPercentMap = useMemo(
@@ -152,7 +154,15 @@ export const FormField = (props: IFormFieldProps) => {
         )}
       </InputWrap>
       <FlexBox justifyContent="flex-end" alignItems="center">
-        {!isMobile && fieldError && <Error>{errorMessage}</Error>}
+        {fieldError && (
+          <Error
+            className={classNames({
+              hide: isMobile && !showErrorOnMobileBrowsers,
+            })}
+          >
+            {errorMessage}
+          </Error>
+        )}
         {showRemainingCharacters && (
           <RemainingCharacters>
             <span

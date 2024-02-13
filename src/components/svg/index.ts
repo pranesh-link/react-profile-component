@@ -13,6 +13,7 @@ import WhatsAppIcon from "./WhatsAppIcon";
 import LocationIcon from "./LocationIcon";
 import MailIcon from "./MailIcon";
 import MobileIcon from "./MobileIcon";
+import ResetIcon from "./ResetIcon";
 
 export {
   GithubIcon,
@@ -30,4 +31,5 @@ export {
   LocationIcon,
   MobileIcon,
   MailIcon,
+  ResetIcon,
 };

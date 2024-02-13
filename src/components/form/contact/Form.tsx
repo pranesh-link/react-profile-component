@@ -8,12 +8,10 @@ import {
   useState,
 } from "react";
 import emailjs from "@emailjs/browser";
-import styled from "styled-components";
 import {
   ActionBtn,
   CustomModalComponent,
   FlexBox,
-  FlexBoxSection,
 } from "../../../common/Elements";
 import classNames from "classnames";
 import {
@@ -22,6 +20,7 @@ import {
   ContactFormFields,
   ContactFormValid,
   CONTACT_FORM_STATUS,
+  FormFieldValueType,
 } from "../../../store/types";
 import { FormField } from "../common/FormField";
 import { ProfileContext } from "../../../store/context";
@@ -33,6 +32,16 @@ import {
   validateField,
 } from "../Utils";
 import { isMobile } from "react-device-detect";
+import {
+  ProgressMessage,
+  StatusWrap,
+  StatusMessage,
+  Retry,
+  ActionsWrap,
+  Form,
+  FormHeader,
+  FormSubmit,
+} from "../common/Elements";
 
 interface IContactFormProps {
   closeModal: () => void;
@@ -205,7 +214,7 @@ export const ContactForm = (props: IContactFormProps) => {
   );
 
   const updateInput = (
-    value: string | boolean,
+    value: FormFieldValueType,
     field: string,
     valueId?: string
   ) => {
@@ -222,10 +231,7 @@ export const ContactForm = (props: IContactFormProps) => {
     }
   };
 
-  const handleValidation = (
-    value: string | Record<string, boolean>,
-    field: string
-  ) => {
+  const handleValidation = (value: FormFieldValueType, field: string) => {
     const validation = validateField(
       form,
       formError,
@@ -394,120 +400,3 @@ export const ContactForm = (props: IContactFormProps) => {
     </>
   );
 };
-
-const Form = styled.form<{ isMobile: boolean }>`
-  display: flex;
-  flex-direction: column;
-  background: #f0f0f0;
-  outline: none;
-  padding: 20px 30px;
-  border-radius: 15px;
-
-  @media only screen and (max-width: 767px) {
-    padding: 15px;
-  }
-`;
-
-const StatusWrap = styled(FlexBox)`
-  border-radius: min(50px, (480px - 400px + 1px) * 9999);
-  background: #f0f0f0;
-  padding: 5px 15px;
-  @media only screen and (max-width: 767px) {
-    width: 100%;
-  }
-`;
-
-const StatusMessage = styled(FlexBox)`
-  background: #f0f0f0;
-  border-radius: 15px;
-  &.error {
-    padding: 5px 15px;
-  }
-  &.high-border {
-    border-radius: 30px;
-    padding: 5px 0;
-  }
-`;
-
-const ActionsWrap = styled(FlexBoxSection)`
-  margin: 20px 0 0px;
-  &.review-status {
-    margin: 10px 0 5px;
-  }
-
-  .close,
-  .review-edit,
-  .send {
-    font-size: 15px;
-    padding: 10px 25px;
-    background: #ee4b2b;
-    opacity: 0.85;
-    border-radius: 20px;
-    color: #f0f0f0;
-    &:hover {
-      opacity: 1;
-    }
-    @media only screen and (max-width: 767px) {
-      opacity: 1;
-    }
-  }
-  .review-edit,
-  .send {
-    padding: 5px 15px;
-  }
-
-  .review-edit {
-    margin-right: 10px;
-    background: #b21807;
-  }
-
-  .send {
-    background: #3fc935;
-  }
-`;
-
-const FormSubmit = styled(ActionBtn)`
-  background: #3498db;
-  color: #f0f0f0;
-  font-size: 15px;
-  letter-spacing: 0.5px;
-  border-color: transparent;
-  border-radius: 20px;
-  padding: 10px 25px;
-  font-family: Open Sans, sans-serif !important;
-  opacity: 0.85;
-  &:not(.disabled):hover {
-    opacity: 1;
-  }
-  &.disabled {
-    background: #8a8982;
-    cursor: default;
-  }
-
-  @media only screen and (max-width: 767px) {
-    opacity: 1;
-  }
-`;
-
-const Retry = styled.a`
-  margin-left: 10px;
-  margin-top: 10px;
-  font-weight: bold;
-  color: #3fc935;
-  letter-spacing: 0.3px;
-  flex-basis: 15%;
-`;
-
-const ProgressMessage = styled.p`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-left: 10px;
-  font-weight: 600;
-`;
-
-const FormHeader = styled.h2`
-  text-align: center;
-  margin: 0px;
-  padding-bottom: 25px;
-`;

@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { isStringBooleanRecord } from "../../../common/Utils";
-import { IFormField } from "../../../store/types";
+import { FormFieldValueType, IFormField } from "../../../store/types";
 import {
   CheckboxInput,
   CheckboxInputLabel,
@@ -11,7 +11,7 @@ import TickIcon from "../../svg/TickIcon";
 
 interface ICheckboxFieldProps {
   field: IFormField;
-  fieldValue: string | Record<string, boolean>;
+  fieldValue: FormFieldValueType;
   handleCheckboxChange: (id: string) => void;
 }
 
@@ -20,7 +20,7 @@ export const CheckboxField = (props: ICheckboxFieldProps) => {
 
   return (
     <>
-      {(field?.values || []).map(item => {
+      {(field?.values || []).map((item) => {
         const isChecked = isStringBooleanRecord(fieldValue)
           ? fieldValue[item.value]
           : false;

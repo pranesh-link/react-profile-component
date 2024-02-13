@@ -16,6 +16,7 @@ import {
   ILabelValue,
   IFieldErrorMessages,
   IFormMessages,
+  FormFieldValueType,
 } from "../../store/types";
 import CryptoJS from "crypto-js";
 
@@ -24,13 +25,13 @@ export const validateLength = (value: string | number) => `${value}`.length > 0;
 export const validateRegex = (
   value: string | number,
   regex: string,
-  isValid: boolean,
+  isValid: boolean
 ) => (regex ? new RegExp(regex).test(`${value}`) : isValid);
 
 const modifyBoolToYesNo = (data: Record<string, boolean>) => {
   const keys = Object.keys(data);
   const transformedData: Record<string, string | boolean> = {};
-  keys.forEach(key => (transformedData[key] = data[key] ? YES : NO));
+  keys.forEach((key) => (transformedData[key] = data[key] ? YES : NO));
   return transformedData;
 };
 const FIELD_TRANSFORM_MAP: Record<string, Function> = {
@@ -38,7 +39,7 @@ const FIELD_TRANSFORM_MAP: Record<string, Function> = {
 };
 export const transformField = (
   fieldData: ContactFormFieldData,
-  transform: string,
+  transform: string
 ) => {
   const transformFunc = FIELD_TRANSFORM_MAP[transform];
   return transformFunc(fieldData);
@@ -46,18 +47,18 @@ export const transformField = (
 
 export const transformMailRequest = (
   formData: ContactFormData,
-  fieldsToTransform: { id: string; transform: string }[],
+  fieldsToTransform: { id: string; transform: string }[]
 ) => {
   const keys = Object.keys(formData);
-  keys.forEach(key => {
+  keys.forEach((key) => {
     const fieldData = formData[key as ContactFormFields];
     let transformedField = fieldData;
     const fieldToTransform =
-      fieldsToTransform.find(field => key === field.id) || {};
+      fieldsToTransform.find((field) => key === field.id) || {};
     if (!isEmptyObject(fieldToTransform)) {
       transformedField = transformField(
         fieldData,
-        (fieldToTransform as { id: string; transform: string }).transform,
+        (fieldToTransform as { id: string; transform: string }).transform
       );
       formData[key as ContactFormFields] = transformedField;
     }
@@ -67,8 +68,8 @@ export const transformMailRequest = (
 
 const handleSpecialValidations = (
   type: string,
-  fieldValue: string | Record<string, boolean> | Object,
-  isValid: boolean,
+  fieldValue: FormFieldValueType | Object,
+  isValid: boolean
 ) => {
   switch (type) {
     case FIELD_TYPES.MOBILE:
@@ -84,7 +85,7 @@ const handleSpecialValidations = (
 const getErrorPriority = (
   mandatoryError: boolean,
   regexError: boolean,
-  fieldError: boolean,
+  fieldError: boolean
 ) => {
   let error = "";
   switch (true) {
@@ -106,15 +107,15 @@ export const validateField = (
   formError: ContactFormError | null,
   formValid: ContactFormValid | null,
   requiredFields: IFormField[],
-  value: string | Record<string, boolean>,
-  field: string,
+  value: FormFieldValueType,
+  field: string
 ) => {
   let mandatoryError = false,
     regexError = false,
     fieldError = false,
     isValid = false;
   const { regex = "", type } = form.fields.find(
-    formField => formField.name === field,
+    (formField) => formField.name === field
   ) as IFormField;
   let fieldValue = value;
   if (isString(value)) {
@@ -134,7 +135,7 @@ export const validateField = (
 
   const fieldValidity = { ...(formValid || {}), [field]: isValid };
   const currentFormDisabled =
-    Object.values(fieldValidity).some(valid => valid === false) ||
+    Object.values(fieldValidity).some((valid) => valid === false) ||
     Object.keys(fieldValidity).length !== requiredFields.length;
   return {
     formError: { ...(formError || {}), [field]: error },
@@ -146,7 +147,7 @@ export const validateField = (
 const { decrypt } = CryptoJS.AES;
 
 export const getDecryptedConfig = (config: string[], formKey: string) =>
-  config.map(item => decrypt(item, formKey).toString(CryptoJS.enc.Utf8));
+  config.map((item) => decrypt(item, formKey).toString(CryptoJS.enc.Utf8));
 
 const FIELD_DEFAULT_VALUE_FUNC_MAP = {
   [FIELD_TYPES.TEXT]: () => "",
@@ -154,7 +155,7 @@ const FIELD_DEFAULT_VALUE_FUNC_MAP = {
   [FIELD_TYPES.TEXTAREA]: () => "",
   [FIELD_TYPES.CHECKBOX]: (values: ILabelValue[] = []) => {
     const defaultCheckboxValues: any = {};
-    values.forEach(i => {
+    values.forEach((i) => {
       defaultCheckboxValues[i.value] = false;
     });
     return defaultCheckboxValues;
@@ -164,8 +165,8 @@ const FIELD_DEFAULT_VALUE_FUNC_MAP = {
 export const getDefaultContactFormData = (formFields: IFormField[]) => {
   const defaultFormData: any = {};
   formFields.forEach(
-    i =>
-      (defaultFormData[i.id] = FIELD_DEFAULT_VALUE_FUNC_MAP[i.type](i?.values)),
+    (i) =>
+      (defaultFormData[i.id] = FIELD_DEFAULT_VALUE_FUNC_MAP[i.type](i?.values))
   );
   return defaultFormData;
 };
@@ -173,7 +174,7 @@ export const getDefaultContactFormData = (formFields: IFormField[]) => {
 export const getErrorMessage = (
   messages: IFormMessages,
   fieldErrorMessages?: IFieldErrorMessages,
-  fieldError?: string,
+  fieldError?: string
 ) => {
   let errorMessage;
   switch (fieldError) {
@@ -193,7 +194,7 @@ export const getErrorMessage = (
 
 export const getRemainingCharPercentMap = (
   remainingCharacters: number,
-  maxLength: number = 1,
+  maxLength: number = 1
 ) => {
   const remainingCharactersPercent = (remainingCharacters / maxLength) * 100;
   return {
@@ -205,5 +206,5 @@ export const getRemainingCharPercentMap = (
 
 export const isLessCharacters = (
   remainingCharacters: number,
-  maxLength: number = 1,
+  maxLength: number = 1
 ) => (remainingCharacters / maxLength) * 100 <= 10;

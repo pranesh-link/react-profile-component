@@ -1,13 +1,13 @@
 import classNames from "classnames";
 import { TextInput } from "../common/Elements";
-import { IFormField } from "../../../store/types";
+import { FormFieldValueType, IFormField } from "../../../store/types";
 
 interface ITextFieldProps {
   fieldValid?: boolean;
   autoFocus: boolean;
   field: IFormField;
   isFormSubmit: boolean;
-  fieldValue: string | Record<string, boolean>;
+  fieldValue: FormFieldValueType;
   handleTextChange: (value: string) => void;
 }
 export const TextField = (props: ITextFieldProps) => {
@@ -32,7 +32,7 @@ export const TextField = (props: ITextFieldProps) => {
       maxLength={field.maxLength}
       type={field.subType ? field.subType : "text"}
       name={field.name}
-      onChange={e => handleTextChange(e.target.value)}
+      onChange={(e) => handleTextChange(e.target.value)}
     />
   );
 };

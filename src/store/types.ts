@@ -124,6 +124,8 @@ export type MailStatusType = Record<CONTACT_FORM_STATUS, string>;
 export interface IFormInfo {
   name: string;
   header: string;
+  showErrorOnMobileBrowsers?: boolean;
+  hideRemainingCharacters?: boolean;
   key: string;
   actionButtonLabel: string;
   defaultMaxLength: number;
@@ -348,3 +350,9 @@ export type ContactFormError = Record<string, string>;
 
 export type ContactFormFieldData = string | Record<string, boolean>;
 export type Environment = "development" | "production" | "test";
+
+export type FormFieldValueType =
+  | string
+  | number
+  | boolean
+  | Record<string, boolean>;

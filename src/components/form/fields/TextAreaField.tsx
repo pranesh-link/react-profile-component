@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { IFormField } from "../../../store/types";
+import { FormFieldValueType, IFormField } from "../../../store/types";
 import { TextArea } from "../common/Elements";
 
 interface ITextAreaFieldProps {
@@ -7,7 +7,7 @@ interface ITextAreaFieldProps {
   autoFocus: boolean;
   field: IFormField;
   isFormSubmit: boolean;
-  fieldValue: string | Record<string, boolean>;
+  fieldValue: FormFieldValueType;
   handleTextChange: (value: string) => void;
 }
 export const TextAreaField = (props: ITextAreaFieldProps) => {
@@ -31,7 +31,7 @@ export const TextAreaField = (props: ITextAreaFieldProps) => {
       maxLength={field.maxLength}
       name={field.name}
       value={fieldValue as string}
-      onChange={e => handleTextChange(e.target.value)}
+      onChange={(e) => handleTextChange(e.target.value)}
     />
   );
 };

@@ -43,11 +43,15 @@ export const FlexBoxSection = styled.section<{
 
 export const Grid = styled.div<{
   gridTemplateColumns?: string;
+  gridTemplateRows?: string;
+  justifyItems?: string;
   alignItems?: string;
 }>`
   display: grid;
   grid-template-columns: ${(props) => props.gridTemplateColumns || "1fr"};
+  grid-template-rows: ${(props) => props.gridTemplateRows || "1fr"};
   align-items: ${(props) => props.alignItems || "normal"};
+  justify-items: ${(props) => props.justifyItems || "normal"};
 `;
 
 export type FLEX_WRAP =

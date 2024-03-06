@@ -16,7 +16,7 @@
     "remove-assets-types": "rm -rf dist/assets dist/types",
     "rollup": "rollup",
     "remove-sources": "rm -rf src rollup.config.js .github tsconfig.json demo",
-    "prepare": "npm i --legacy-peer-deps --ignore-scripts && npm run build-lib && npm run minify-js && npm run remove-sources",
+    "prepare": "npm i --ignore-scripts && npm run build-lib && npm run minify-js && npm run remove-sources",
     "minify-js": "jsmin -o dist/index.d.ts dist/index.d.ts"
   },
   "author": "Pranesh",

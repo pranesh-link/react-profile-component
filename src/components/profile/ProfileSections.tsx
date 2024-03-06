@@ -10,7 +10,6 @@ import classNames from "classnames";
 import { ResumeExperiences } from "./sections/ResumeExperiences";
 import { SECTION_ORDER_DISPLAY } from "../../common/constants";
 import { VersionModal } from "../common/VersionModal";
-import usePWA from "react-pwa-install-prompt";
 import { OpenSourceProjects } from "./sections/OpenSourceProjects";
 
 interface IProfileSectionsProps {
@@ -27,7 +26,6 @@ const ProfileSections = (props: IProfileSectionsProps) => {
   const {
     isExport = false,
     isMobile,
-    isInstallBannerOpen,
     data: { header },
     pwaOffset,
   } = React.useContext(ProfileContext);
@@ -42,7 +40,6 @@ const ProfileSections = (props: IProfileSectionsProps) => {
     CONTACT,
     OPENSOURCEPROJECTS,
   } = SECTION_ORDER_DISPLAY;
-  const { isInstallPromptSupported } = usePWA();
   const AboutComp = useMemo(
     () => (
       <About
@@ -143,7 +140,7 @@ const ProfileSections = (props: IProfileSectionsProps) => {
         pwaOffset={pwaOffset}
         className={classNames({
           export: isExport,
-          "add-margin-top": isInstallBannerOpen && isInstallPromptSupported,
+          "add-margin-top": false,
         })}
       >
         {!isExport && <ShortDesc>{shortDesc}</ShortDesc>}

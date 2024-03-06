@@ -11,7 +11,7 @@ import { dts } from "rollup-plugin-dts";
 import postcss from "rollup-plugin-postcss";
 import cssOnly from "rollup-plugin-css-only";
 import eslint from "@rollup/plugin-eslint";
-import pkg from "./package.json";
+import pkg from "./package.json" assert { type: "json" };
 
 const config = [
   {
